@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.aioc.sdk"
+      label="AIOC Language Plugin Feature"
+      version="1.0.7"
+      provider-name="Saverio Giallorenzo &lt;sgiallor@cs.unibo.it&gt;">
+
+   <description url="http://www.cs.unibo.it/projects/jolie/aiocj.html">
+      An Eclipse Plugin for the AIOC language. Supports project management,
+code editing, autocompletion, basic refactoring capabilities,
+and automatic endpoint generation.
+   </description>
+
+   <copyright>
+      Copyright (C) 2011-2012 Fabrizio Montesi &lt;famontesi@gmail.com&gt;
+   Copyright (C) 2013 Saverio Giallorenzo &lt;sgiallor@cs.unibo.it&gt;
+   </copyright>
+
+   <license url="http://www.gnu.org/licenses/lgpl-2.1.html">
+      GNU Library Public License v2.1
+   </license>
+
+   <requires>
+      <import plugin="org.eclipse.xtext"/>
+      <import plugin="org.eclipse.xtext.util"/>
+      <import plugin="org.eclipse.osgi"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.emf.common"/>
+      <import plugin="org.antlr.runtime"/>
+      <import plugin="org.eclipse.core.runtime" version="3.8.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtext.common.types"/>
+      <import plugin="jolie.plugin.support" version="0.1.0" match="greaterOrEqual"/>
+      <import plugin="org.apache.log4j"/>
+      <import plugin="org.eclipse.xtext.xbase.lib"/>
+      <import plugin="org.eclipse.xtext.ui"/>
+      <import plugin="org.eclipse.ui.editors" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.ide" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.xtext.ui.shared"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.xtext.builder"/>
+      <import plugin="org.eclipse.xtext.common.types.ui"/>
+      <import plugin="org.eclipse.xtext.ui.codetemplates.ui"/>
+      <import plugin="org.eclipse.compare" version="3.5.301" match="greaterOrEqual"/>
+   </requires>
+
+   <plugin
+         id="aioc"
+         download-size="0"
+         install-size="0"
+         version="1.0.7"
+         unpack="false"/>
+
+   <plugin
+         id="aioc.ui"
+         download-size="0"
+         install-size="0"
+         version="1.0.7"
+         unpack="false"/>
+
+   <plugin
+         id="jolie.plugin.support"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <data
+         id=".project"
+         download-size="0"
+         install-size="0"/>
+
+   <data
+         id="build.properties"
+         download-size="0"
+         install-size="0"/>
+
+</feature>

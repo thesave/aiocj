@@ -1,0 +1,18 @@
+INDEX VERSION 1.127+/Users/thesave/projects/aiocj/.metadata/.plugins/org.eclipse.jdt.core
+3357112224.index
+1511570354.index
+2802271970.index
+2171826273.index
+1271342938.index
+2783648097.index
+3085072714.index
+4291364629.index
+306326927.index
+2376625133.index
+1761014631.index
+3683318637.index
+1831474627.index
+4143166419.index
+1736009770.index
+1040376109.index
+1242869121.index

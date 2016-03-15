@@ -1,0 +1,233 @@
+/**
+ */
+package org.aioc.impl;
+
+import org.aioc.AiocPackage;
+import org.aioc.WhereLogicOp;
+
+import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
+/**
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Where Logic Op</b></em>'.
+ * <!-- end-user-doc -->
+ * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link org.aioc.impl.WhereLogicOpImpl#isAnd <em>And</em>}</li>
+ *   <li>{@link org.aioc.impl.WhereLogicOpImpl#isOr <em>Or</em>}</li>
+ * </ul>
+ * </p>
+ *
+ * @generated
+ */
+public class WhereLogicOpImpl extends MinimalEObjectImpl.Container implements WhereLogicOp
+{
+  /**
+   * The default value of the '{@link #isAnd() <em>And</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isAnd()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean AND_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isAnd() <em>And</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isAnd()
+   * @generated
+   * @ordered
+   */
+  protected boolean and = AND_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isOr() <em>Or</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isOr()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean OR_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isOr() <em>Or</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isOr()
+   * @generated
+   * @ordered
+   */
+  protected boolean or = OR_EDEFAULT;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected WhereLogicOpImpl()
+  {
+    super();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  protected EClass eStaticClass()
+  {
+    return AiocPackage.Literals.WHERE_LOGIC_OP;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isAnd()
+  {
+    return and;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setAnd(boolean newAnd)
+  {
+    boolean oldAnd = and;
+    and = newAnd;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, AiocPackage.WHERE_LOGIC_OP__AND, oldAnd, and));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isOr()
+  {
+    return or;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setOr(boolean newOr)
+  {
+    boolean oldOr = or;
+    or = newOr;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, AiocPackage.WHERE_LOGIC_OP__OR, oldOr, or));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    switch (featureID)
+    {
+      case AiocPackage.WHERE_LOGIC_OP__AND:
+        return isAnd();
+      case AiocPackage.WHERE_LOGIC_OP__OR:
+        return isOr();
+    }
+    return super.eGet(featureID, resolve, coreType);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void eSet(int featureID, Object newValue)
+  {
+    switch (featureID)
+    {
+      case AiocPackage.WHERE_LOGIC_OP__AND:
+        setAnd((Boolean)newValue);
+        return;
+      case AiocPackage.WHERE_LOGIC_OP__OR:
+        setOr((Boolean)newValue);
+        return;
+    }
+    super.eSet(featureID, newValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void eUnset(int featureID)
+  {
+    switch (featureID)
+    {
+      case AiocPackage.WHERE_LOGIC_OP__AND:
+        setAnd(AND_EDEFAULT);
+        return;
+      case AiocPackage.WHERE_LOGIC_OP__OR:
+        setOr(OR_EDEFAULT);
+        return;
+    }
+    super.eUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case AiocPackage.WHERE_LOGIC_OP__AND:
+        return and != AND_EDEFAULT;
+      case AiocPackage.WHERE_LOGIC_OP__OR:
+        return or != OR_EDEFAULT;
+    }
+    return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuffer result = new StringBuffer(super.toString());
+    result.append(" (and: ");
+    result.append(and);
+    result.append(", or: ");
+    result.append(or);
+    result.append(')');
+    return result.toString();
+  }
+
+} //WhereLogicOpImpl
