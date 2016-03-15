@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?metadataRepository version='1.1.0'?>
+<repository name='file:/Users/thesave/projects/aiocj/.metadata/.plugins/org.eclipse.pde.core/tempp2metadata - metadata' type='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='1.0.0'>
+  <properties size='2'>
+    <property name='p2.timestamp' value='1458071210341'/>
+    <property name='p2.compressed' value='false'/>
+  </properties>
+  <units size='6'>
+    <unit id='AIOCJ' version='1.0.0.21-cKAmvE'>
+      <properties size='2'>
+        <property name='org.eclipse.equinox.p2.name' value='AIOCJ'/>
+        <property name='org.eclipse.equinox.p2.type.category' value='true'/>
+      </properties>
+      <provides size='1'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='AIOCJ' version='1.0.0.21-cKAmvE'/>
+      </provides>
+      <requires size='1'>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.aioc.sdk.feature.group' range='[1.1.0,1.1.0]'/>
+      </requires>
+      <touchpoint id='null' version='0.0.0'/>
+    </unit>
+    <unit id='org.aioc.sdk.feature.group' version='1.1.0' singleton='false'>
+      <update id='org.aioc.sdk.feature.group' range='[0.0.0,1.1.0)' severity='0'/>
+      <properties size='5'>
+        <property name='org.eclipse.equinox.p2.name' value='AIOC Language Plugin Feature'/>
+        <property name='org.eclipse.equinox.p2.description' value='An Eclipse Plugin for the AIOC language. Supports project management,&#xA;code editing, autocompletion, basic refactoring capabilities,&#xA;and automatic endpoint generation.'/>
+        <property name='org.eclipse.equinox.p2.description.url' value='http://www.cs.unibo.it/projects/jolie/aiocj.html'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Saverio Giallorenzo &lt;sgiallor@cs.unibo.it&gt;'/>
+        <property name='org.eclipse.equinox.p2.type.group' value='true'/>
+      </properties>
+      <provides size='1'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.aioc.sdk.feature.group' version='1.1.0'/>
+      </provides>
+      <requires size='24'>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.xtext' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.xtext.util' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.osgi' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.ecore' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.emf.common' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.antlr.runtime' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.core.runtime' range='3.8.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.xtext.common.types' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='jolie.plugin.support' range='0.1.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.log4j' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.xtext.xbase.lib' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.xtext.ui' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.ui.editors' range='3.5.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.ui.ide' range='3.5.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.xtext.ui.shared' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.ui' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.xtext.builder' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.xtext.common.types.ui' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.xtext.ui.codetemplates.ui' range='0.0.0'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.compare' range='3.5.301'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='jolie.plugin.support' range='[0.1.0,0.1.0]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='aioc' range='[1.1.0,1.1.0]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='aioc.ui' range='[1.1.0,1.1.0]'/>
+        <required namespace='org.eclipse.equinox.p2.iu' name='org.aioc.sdk.feature.jar' range='[1.1.0,1.1.0]'>
+          <filter>
+            (org.eclipse.update.install.features=true)
+          </filter>
+        </required>
+      </requires>
+      <touchpoint id='null' version='0.0.0'/>
+      <licenses size='1'>
+        <license uri='http://www.gnu.org/licenses/lgpl-2.1.html' url='http://www.gnu.org/licenses/lgpl-2.1.html'>
+          GNU Library Public License v2.1
+        </license>
+      </licenses>
+      <copyright>
+        Copyright (C) 2011-2012 Fabrizio Montesi &lt;famontesi@gmail.com&gt;&#xA;   Copyright (C) 2013 Saverio Giallorenzo &lt;sgiallor@cs.unibo.it&gt;
+      </copyright>
+    </unit>
+    <unit id='jolie.plugin.support' version='0.1.0' singleton='false'>
+      <update id='jolie.plugin.support' range='[0.0.0,0.1.0)' severity='0'/>
+      <properties size='2'>
+        <property name='org.eclipse.equinox.p2.name' value='JoliePluginSupport'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Fabrizio Montesi'/>
+      </properties>
+      <provides size='13'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='jolie.plugin.support' version='0.1.0'/>
+        <provided namespace='osgi.bundle' name='jolie.plugin.support' version='0.1.0'/>
+        <provided namespace='java.package' name='jolie.lang' version='0.0.0'/>
+        <provided namespace='java.package' name='jolie.lang.parse' version='0.0.0'/>
+        <provided namespace='java.package' name='jolie.lang.parse.ast' version='0.0.0'/>
+        <provided namespace='java.package' name='jolie.lang.parse.ast.courier' version='0.0.0'/>
+        <provided namespace='java.package' name='jolie.lang.parse.ast.expression' version='0.0.0'/>
+        <provided namespace='java.package' name='jolie.lang.parse.ast.types' version='0.0.0'/>
+        <provided namespace='java.package' name='jolie.lang.parse.context' version='0.0.0'/>
+        <provided namespace='java.package' name='jolie.lang.parse.util' version='0.0.0'/>
+        <provided namespace='java.package' name='jolie.lang.parse.util.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='jolie.util' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='jolie.plugin.support' version='0.1.0'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='2'>
+          <instruction key='zipped'>
+            true
+          </instruction>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: jolie.plugin.support&#xA;Bundle-Version: 0.1
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='org.aioc.sdk.feature.jar' version='1.1.0'>
+      <properties size='4'>
+        <property name='org.eclipse.equinox.p2.name' value='AIOC Language Plugin Feature'/>
+        <property name='org.eclipse.equinox.p2.description' value='An Eclipse Plugin for the AIOC language. Supports project management,&#xA;code editing, autocompletion, basic refactoring capabilities,&#xA;and automatic endpoint generation.'/>
+        <property name='org.eclipse.equinox.p2.description.url' value='http://www.cs.unibo.it/projects/jolie/aiocj.html'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Saverio Giallorenzo &lt;sgiallor@cs.unibo.it&gt;'/>
+      </properties>
+      <provides size='3'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='org.aioc.sdk.feature.jar' version='1.1.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
+        <provided namespace='org.eclipse.update.feature' name='org.aioc.sdk' version='1.1.0'/>
+      </provides>
+      <filter>
+        (org.eclipse.update.install.features=true)
+      </filter>
+      <artifacts size='1'>
+        <artifact classifier='org.eclipse.update.feature' id='org.aioc.sdk' version='1.1.0'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='zipped'>
+            true
+          </instruction>
+        </instructions>
+      </touchpointData>
+      <licenses size='1'>
+        <license uri='http://www.gnu.org/licenses/lgpl-2.1.html' url='http://www.gnu.org/licenses/lgpl-2.1.html'>
+          GNU Library Public License v2.1
+        </license>
+      </licenses>
+      <copyright>
+        Copyright (C) 2011-2012 Fabrizio Montesi &lt;famontesi@gmail.com&gt;&#xA;   Copyright (C) 2013 Saverio Giallorenzo &lt;sgiallor@cs.unibo.it&gt;
+      </copyright>
+    </unit>
+    <unit id='aioc' version='1.1.0'>
+      <update id='aioc' range='[0.0.0,1.1.0)' severity='0'/>
+      <properties size='2'>
+        <property name='org.eclipse.equinox.p2.name' value='aioc'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Saverio Giallorenzo &lt;sgiallor@cs.unibo.it&gt;'/>
+      </properties>
+      <provides size='18'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='aioc' version='1.1.0'/>
+        <provided namespace='osgi.bundle' name='aioc' version='1.1.0'/>
+        <provided namespace='java.package' name='org' version='0.0.0'/>
+        <provided namespace='java.package' name='org.aioc' version='0.0.0'/>
+        <provided namespace='java.package' name='org.aioc.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='org.aioc.util' version='0.0.0'/>
+        <provided namespace='java.package' name='org.epp' version='0.0.0'/>
+        <provided namespace='java.package' name='org.epp.impl' version='0.0.0'/>
+        <provided namespace='java.package' name='org.epp.impl.merging' version='0.0.0'/>
+        <provided namespace='java.package' name='org.formatting' version='0.0.0'/>
+        <provided namespace='java.package' name='org.generator' version='0.0.0'/>
+        <provided namespace='java.package' name='org.parseTreeConstruction' version='0.0.0'/>
+        <provided namespace='java.package' name='org.parser.antlr' version='0.0.0'/>
+        <provided namespace='java.package' name='org.parser.antlr.internal' version='0.0.0'/>
+        <provided namespace='java.package' name='org.scoping' version='0.0.0'/>
+        <provided namespace='java.package' name='org.services' version='0.0.0'/>
+        <provided namespace='java.package' name='org.validation' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='19'>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase' range='0.0.0' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.generator' range='0.0.0' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.apache.commons.logging' range='1.0.4' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.codegen.ecore' range='0.0.0' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.mwe.utils' range='0.0.0' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.mwe2.launch' range='0.0.0' optional='true' greedy='false'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.util' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.osgi' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.ecore' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.emf.common' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.antlr.runtime' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.core.runtime' range='3.8.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.common.types' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='jolie.plugin.support' range='0.1.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.objectweb.asm' range='[5.0.1,6.0.0)' optional='true' greedy='false'/>
+        <required namespace='java.package' name='org.apache.log4j' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.xtext.xbase.lib' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='aioc' version='1.1.0'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: aioc;singleton:=true&#xA;Bundle-Version: 1.1
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+    <unit id='aioc.ui' version='1.1.0'>
+      <update id='aioc.ui' range='[0.0.0,1.1.0)' severity='0'/>
+      <properties size='2'>
+        <property name='org.eclipse.equinox.p2.name' value='aioc.ui'/>
+        <property name='org.eclipse.equinox.p2.provider' value='Saverio Giallorenzo &lt;sgiallor@cs.unibo.it'/>
+      </properties>
+      <provides size='8'>
+        <provided namespace='org.eclipse.equinox.p2.iu' name='aioc.ui' version='1.1.0'/>
+        <provided namespace='osgi.bundle' name='aioc.ui' version='1.1.0'/>
+        <provided namespace='java.package' name='org.ui.contentassist' version='0.0.0'/>
+        <provided namespace='java.package' name='org.ui.contentassist.antlr' version='0.0.0'/>
+        <provided namespace='java.package' name='org.ui.internal' version='0.0.0'/>
+        <provided namespace='java.package' name='org.ui.quickfix' version='0.0.0'/>
+        <provided namespace='java.package' name='org.ui.contentassist.antlr.internal' version='0.0.0'/>
+        <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
+      </provides>
+      <requires size='15'>
+        <required namespace='osgi.bundle' name='aioc' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.editors' range='3.5.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui.ide' range='3.5.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui.shared' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.ui' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.builder' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.antlr.runtime' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.common.types.ui' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.ui.codetemplates.ui' range='0.0.0'/>
+        <required namespace='osgi.bundle' name='jolie.plugin.support' range='0.1.0'/>
+        <required namespace='osgi.bundle' name='org.eclipse.compare' range='3.5.301'/>
+        <required namespace='osgi.bundle' name='org.eclipse.xtext.xbase.lib' range='0.0.0'/>
+        <required namespace='java.package' name='org.apache.log4j' range='0.0.0'/>
+        <required namespace='java.package' name='org.eclipse.xtext.xbase.lib' range='0.0.0'/>
+      </requires>
+      <artifacts size='1'>
+        <artifact classifier='osgi.bundle' id='aioc.ui' version='1.1.0'/>
+      </artifacts>
+      <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
+      <touchpointData size='1'>
+        <instructions size='1'>
+          <instruction key='manifest'>
+            Bundle-SymbolicName: aioc.ui; singleton:=true&#xA;Bundle-Version: 1.1
+          </instruction>
+        </instructions>
+      </touchpointData>
+    </unit>
+  </units>
+</repository>
