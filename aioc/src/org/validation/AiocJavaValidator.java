@@ -46,32 +46,49 @@ import org.validation.CausalitySafety.CSInteraction;
  */
 public class AiocJavaValidator extends org.validation.AbstractAiocJavaValidator {
 	
+//	@Check
+//	public void checkConnectednessForParallel( Choreography n ){
+//		if( n.getNext() != null ){
+//			TreeSet< CSInteraction > leftInteractions = 
+//					new CausalitySafety().getInteractions( n.getSeqBlock() );
+//			TreeSet< CSInteraction > rightInteractions =
+//					new CausalitySafety().getInteractions( n.getNext() );
+//			TreeSet< CSInteraction > intersection = 
+//					new TreeSet< CSInteraction >( rightInteractions );
+//			intersection.retainAll( leftInteractions );
+//			if( intersection.size() > 0 ){
+//				CSInteraction tmp = intersection.first();
+//				intersection.removeAll( intersection );
+//				intersection.add( tmp );
+//				leftInteractions.retainAll( intersection );
+//				error("Multiple parallel operations with the same signature",
+//						leftInteractions.first().getInteraction(),
+//						AiocPackage.Literals.INTERACTION.getEIDAttribute());
+//				rightInteractions.retainAll( intersection );
+//				error("Multiple parallel operations with the same signature",
+//						rightInteractions.first().getInteraction(),
+//						AiocPackage.Literals.INTERACTION.getEIDAttribute());
+//				}
+//			}
+//		}
+	
 	@Check
-	public void checkCausalitySafety( Choreography n ){
+	public void checkConnectednessForSequence( SeqBlock n ) {
+		Boolean isConnected = true;
 		if( n.getNext() != null ){
-			TreeSet< CSInteraction > leftInteractions = 
-					new CausalitySafety().getInteractions( n.getSeqBlock() );
-			TreeSet< CSInteraction > rightInteractions =
-					new CausalitySafety().getInteractions( n.getNext() );
-			TreeSet< CSInteraction > intersection = 
-					new TreeSet< CSInteraction >( rightInteractions );
-			intersection.retainAll( leftInteractions );
-			if( intersection.size() > 0 ){
-				CSInteraction tmp = intersection.first();
-				intersection.removeAll( intersection );
-				intersection.add( tmp );
-				leftInteractions.retainAll( intersection );
-				error("Multiple parallel operations with the same signature",
-						leftInteractions.first().getInteraction(),
-						AiocPackage.Literals.INTERACTION.getEIDAttribute());
-				rightInteractions.retainAll( intersection );
-				error("Multiple parallel operations with the same signature",
-						rightInteractions.first().getInteraction(),
-						AiocPackage.Literals.INTERACTION.getEIDAttribute());
-				}
+			TransF transF = new TransF();
+			HashSet< String > transFRoles = transF.getRoles( n );
+			TransI transI = new TransI();
+			HashSet< String > transIRoles = transI.getRoles( n.getNext() );
+			isConnected = isNonEmptyIntersect( transIRoles, transFRoles );
+			if( !isConnected ){
+				error("The sequence is not connected",
+						n.getNext(),
+						AiocPackage.Literals.SEQ_BLOCK__EVENT);
 			}
 		}
-	
+	}
+
 	@Check
 	public void checkVariableName( ExpressionBasicTerm n ){
 		if( n.getVariable() != null ){
@@ -80,17 +97,6 @@ public class AiocJavaValidator extends org.validation.AbstractAiocJavaValidator 
 				error("Variables cannot have the same name as roles",
 						n,
 						AiocPackage.Literals.EXPRESSION_BASIC_TERM__VARIABLE);
-			}
-		}
-	}
-	
-	@Check void checkInteractionReceptionAssignment( Interaction n ){
-		if( n.getReceiverVariable() != null ){
-			HashSet< String > roles = getRoles( n );
-			if( roles.contains( n.getReceiverVariable() ) ){
-				error("Variables cannot have the same name as roles",
-						n,
-						AiocPackage.Literals.INTERACTION__RECEIVER_VARIABLE);
 			}
 		}
 	}
@@ -106,7 +112,65 @@ public class AiocJavaValidator extends org.validation.AbstractAiocJavaValidator 
 			}
 		}
 	}
+
+	@Check
+	public void checkAdditionalRoles( org.aioc.Scope n ){
+		NameCollector nc = new NameCollector();
+		nc.collect( n.getChoreography(), null );
+		if( n.getRoles() != null ){
+			for( String role : n.getRoles().getRoles() ){
+				if( role.equals(n.getThread()) ){
+					error("The role \"" + role + "\" is the leader of the scope, cannot be an additional role", 
+							n.getRoles(), AiocPackage.Literals.ROLES.getEIDAttribute() );
+				}
+				else if( nc.getRoles().contains( role ) ){
+					warning("The role \"" + role + "\" inserted is already present in the scope", 
+							n.getRoles(), AiocPackage.Literals.ROLES.getEIDAttribute() );
+				}
+			}
+		}
+	}
+
+	@Check 
+	public void checkInteractionReceptionAssignment( Interaction n ){
+		if( n.getReceiverVariable() != null ){
+			HashSet< String > roles = getRoles( n );
+			if( roles.contains( n.getReceiverVariable() ) ){
+				error("Variables cannot have the same name as roles",
+						n,
+						AiocPackage.Literals.INTERACTION__RECEIVER_VARIABLE);
+			}
+		}
+	}
 	
+	@Check
+	public void checkSelfInteraction( Interaction n ){
+		if( n.getSender().equals( n.getReceiver() ) ){
+			error("Interactions are allowed only between different roles", 
+					AiocPackage.Literals.INTERACTION.getEIDAttribute() );
+		}
+	}
+
+	@Check
+	public void checkFunctionUsage( Function n ){
+		HashSet< String > fl = getFunctionList( n );
+		if( !fl.contains( n.getName() ) ){
+			error("Function \"" + n.getName() + "\" not included", 
+					n, AiocPackage.Literals.FUNCTION__NAME );
+		}
+	}
+
+	@Check
+	public void checkAdditionalRolesRules( Rule n ){
+		CheckAddRules c = new CheckAddRules();
+		HashSet< org.aioc.Scope > scopes = c.findAddRoles( n.getChoreography() );
+		for( org.aioc.Scope scope : scopes ){
+			error("New roles cannot be specified in rules", 
+					scope.getRoles(), 
+					AiocPackage.Literals.ROLES.getEIDAttribute());
+		}
+	}
+
 	private HashSet< String > getRoles( EObject n ){
 		GetRoles gRoles = new GetRoles();
 		return gRoles.getRoles( getChoreography( n ) );
@@ -126,59 +190,6 @@ public class AiocJavaValidator extends org.validation.AbstractAiocJavaValidator 
 			}
 		}
 		return c;
-	}
-	
-	@Check
-	public void checkConnectednessForSequence( SeqBlock n ) {
-		Boolean isConnected = true;
-		if( n.getNext() != null ){
-			TransF transF = new TransF();
-			HashSet< String > transFRoles = transF.getRoles( n );
-			TransI transI = new TransI();
-			HashSet< String > transIRoles = transI.getRoles( n.getNext() );
-			isConnected = isNonEmptyIntersect( transIRoles, transFRoles );
-			if( !isConnected ){
-				error("The sequence is not connected",
-						n.getNext(),
-						AiocPackage.Literals.SEQ_BLOCK__EVENT);
-			}
-		}
-	}
-	
-	@Check
-	public void checkSelfInteraction( Interaction n ){
-		if( n.getSender().equals( n.getReceiver() ) ){
-			error("Interactions are allowed only between different roles", 
-					AiocPackage.Literals.INTERACTION.getEIDAttribute() );
-		}
-	}
-
-
-	@Check
-	public void checkAdditionalRoles( org.aioc.Scope n ){
-		NameCollector nc = new NameCollector();
-		nc.collect( n.getChoreography(), null );
-		if( n.getRoles() != null ){
-			for( String role : n.getRoles().getRoles() ){
-				if( role.equals(n.getThread()) ){
-					error("The role \"" + role + "\" is the leader of the scope, cannot be an additional role", 
-							n.getRoles(), AiocPackage.Literals.ROLES.getEIDAttribute() );
-				}
-				else if( nc.getRoles().contains( role ) ){
-					warning("The role \"" + role + "\" inserted is already present in the scope", 
-							n.getRoles(), AiocPackage.Literals.ROLES.getEIDAttribute() );
-				}
-			}
-		}
-	}
-	
-	@Check
-	public void checkFunctionUsage( Function n ){
-		HashSet< String > fl = getFunctionList( n );
-		if( !fl.contains( n.getName() ) ){
-			error("Function \"" + n.getName() + "\" not included", 
-					n, AiocPackage.Literals.FUNCTION__NAME );
-		}
 	}
 	
 	private HashSet< String > getFunctionList( EObject n ){
@@ -201,17 +212,6 @@ public class AiocJavaValidator extends org.validation.AbstractAiocJavaValidator 
 		} else {
 			return getFunctionList( n.eContainer() );
 			}
-	}
-	
-	@Check
-	public void checkAdditionalRolesRules( Rule n ){
-		CheckAddRules c = new CheckAddRules();
-		HashSet< org.aioc.Scope > scopes = c.findAddRoles( n.getChoreography() );
-		for( org.aioc.Scope scope : scopes ){
-			error("New roles cannot be specified in rules", 
-					scope.getRoles(), 
-					AiocPackage.Literals.ROLES.getEIDAttribute());
-		}
 	}
 	
 	private Boolean isNonEmptyIntersect( 

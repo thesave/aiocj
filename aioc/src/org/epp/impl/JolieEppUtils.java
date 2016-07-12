@@ -136,7 +136,6 @@ public class JolieEppUtils
 	}
 
 	public final static String TID_VARNAME = "tid";
-	public final static String ROLE_VARNAME = "role";
 	public final static String CONTENT_VARNAME = "content";
 	public final static String MESSAGEHANDLER_NAME = "MH";
 	public final static String MESSAGEHANDLER_FILENAME = "mh.ol";

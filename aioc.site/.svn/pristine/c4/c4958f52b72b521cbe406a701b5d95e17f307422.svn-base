@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<site>
-   <feature url="features/org.aioc.sdk_1.1.0.jar" id="org.aioc.sdk" version="1.1">
-      <category name="AIOCJ"/>
-   </feature>
-   <category-def name="AIOCJ" label="AIOCJ"/>
-</site>

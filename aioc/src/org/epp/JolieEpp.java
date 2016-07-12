@@ -178,13 +178,13 @@ public class JolieEpp {
 		SequenceStatement s = new SequenceStatement(JolieEppUtils.PARSING_CONTEXT);
 		s.addChild(new NotificationOperationStatement(
 				JolieEppUtils.PARSING_CONTEXT, "innerstart", "Self", JolieEppUtils
-						.variableNameToJolieVariablePath("c.role")));
+						.variableNameToJolieVariablePath("c.msgID")));
 
 		s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, JolieEppUtils
 				.variableNameToJolieVariablePath("outer.name"), JolieEppUtils
 				.getSumExpression(new ConstantStringExpression(
 						JolieEppUtils.PARSING_CONTEXT, "outer"), JolieEppUtils
-						.variableNameToJolieVariablePath("c.role"))));
+						.variableNameToJolieVariablePath("c.msgID"))));
 		s.addChild(new SolicitResponseOperationStatement(
 				JolieEppUtils.PARSING_CONTEXT, "acquire", "SemaphoreUtils",
 				JolieEppUtils.variableNameToJolieVariablePath("outer"), null, null));
@@ -195,7 +195,7 @@ public class JolieEpp {
 		SequenceStatement s = new SequenceStatement(JolieEppUtils.PARSING_CONTEXT);
 
 		s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, JolieEppUtils
-				.variableNameToJolieVariablePath("csets.role"), JolieEppUtils
+				.variableNameToJolieVariablePath("csets.msgID"), JolieEppUtils
 				.variableNameToJolieVariablePath("c")));
 
 		s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, JolieEppUtils
@@ -308,7 +308,7 @@ public class JolieEpp {
 			opType = new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT,
 					"OpType", NativeType.VOID, new Range(1, 1));
 			roleSubType = new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT,
-					"role", NativeType.STRING, new Range(1, 1));
+					"msgID", NativeType.STRING, new Range(1, 1));
 			opType.putSubType(roleSubType);
 			contentSubType = new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT,
 					"content", NativeType.RAW, new Range(0, 1));
@@ -331,7 +331,7 @@ public class JolieEpp {
 			opType = new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT,
 					"OpType", NativeType.VOID, new Range(1, 1));
 			roleSubType = new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT,
-					"role", NativeType.STRING, new Range(1, 1));
+					"msgID", NativeType.STRING, new Range(1, 1));
 			opType.putSubType(roleSubType);
 			contentSubType = new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT,
 					"content", NativeType.RAW, new Range(0, 1));
@@ -439,11 +439,11 @@ public class JolieEpp {
 			List<CorrelationAliasInfo> aliases = new ArrayList<CorrelationAliasInfo>();
 
 			VariablePathNode cset_type = JolieEppUtils
-					.variableNameToJolieVariablePath("role");
+					.variableNameToJolieVariablePath("msgID");
 
 			aliases.add(new CorrelationAliasInfo("OpType", cset_type));
 			csetVars.add(new CorrelationVariableInfo(JolieEppUtils
-					.variableNameToJolieVariablePath("role"), aliases));
+					.variableNameToJolieVariablePath("msgID"), aliases));
 			CorrelationSetInfo cSetInfo = new CorrelationSetInfo(
 					JolieEppUtils.PARSING_CONTEXT, csetVars);
 
@@ -526,12 +526,6 @@ public class JolieEpp {
 		// sequence for receive
 		seq = new SequenceStatement(JolieEppUtils.PARSING_CONTEXT);
 
-		// seq.addChild( new AssignStatement(
-		// JolieEppUtils.PARSING_CONTEXT,
-		// JolieEppUtils.getCorrelationVariablePath( "role" ),
-		// c
-		// ));
-		//
 		seq.addChild(new RequestResponseOperationStatement(
 				JolieEppUtils.PARSING_CONTEXT, inputOperation, JolieEppUtils
 						.variableNameToJolieVariablePath("c1"), null,
@@ -1161,7 +1155,7 @@ public class JolieEpp {
 			// add the ack procedure
 			String v = JolieEppUtils.getFreshVariable();
 			VariablePathNode vPath = JolieEppUtils.variableNameToJolieVariablePath(v);
-			JolieEppUtils.appendSubNode(vPath, "role");
+			JolieEppUtils.appendSubNode(vPath, "msgID");
 			s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, vPath,
 					new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, thread)));
 			vPath = JolieEppUtils.variableNameToJolieVariablePath(v);
@@ -1367,7 +1361,7 @@ public class JolieEpp {
 			// add the ack procedure
 			String v = JolieEppUtils.getFreshVariable();
 			VariablePathNode vPath = JolieEppUtils.variableNameToJolieVariablePath(v);
-			JolieEppUtils.appendSubNode(vPath, "role");
+			JolieEppUtils.appendSubNode(vPath, "msgID");
 			s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, vPath,
 					new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, thread)));
 			vPath = JolieEppUtils.variableNameToJolieVariablePath(v);
@@ -1703,7 +1697,7 @@ public class JolieEpp {
 		String sStruct = JolieEppUtils.getFreshVariable();
 		seq.addChild( new AssignStatement(
 				JolieEppUtils.PARSING_CONTEXT,
-				JolieEppUtils.variableNameToJolieVariablePath( sStruct + ".role" ),
+				JolieEppUtils.variableNameToJolieVariablePath( sStruct + ".msgID" ),
 				new ConstantStringExpression(
 						JolieEppUtils.PARSING_CONTEXT, 
 						start_key))
@@ -1735,7 +1729,7 @@ public class JolieEpp {
 		String sStruct = JolieEppUtils.getFreshVariable();
 		sStructVarPath = JolieEppUtils.variableNameToJolieVariablePath(sStruct);
 		sStructVarPathRole = JolieEppUtils.variableNameToJolieVariablePath(sStruct);
-		JolieEppUtils.appendSubNode(sStructVarPathRole, JolieEppUtils.ROLE_VARNAME);
+		JolieEppUtils.appendSubNode(sStructVarPathRole, "msgID");
 		seq.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT,
 				sStructVarPathRole, new ConstantStringExpression(
 						JolieEppUtils.PARSING_CONTEXT, start_key)));
@@ -1840,7 +1834,7 @@ public class JolieEpp {
 		ifBranch.addChild(
 				new AssignStatement(
 						JolieEppUtils.PARSING_CONTEXT, 
-						JolieEppUtils.variableNameToJolieVariablePath( startCookie + ".role" ),
+						JolieEppUtils.variableNameToJolieVariablePath( startCookie + ".msgID" ),
 						new ConstantStringExpression(
 								JolieEppUtils.PARSING_CONTEXT, 
 								scope.getKey())
@@ -1896,7 +1890,7 @@ public class JolieEpp {
 				new AssignStatement(
 						JolieEppUtils.PARSING_CONTEXT,
 						JolieEppUtils.variableNameToJolieVariablePath( "adaptRequest.cookie" ),
-						JolieEppUtils.variableNameToJolieVariablePath( startCookie + ".role" )));
+						JolieEppUtils.variableNameToJolieVariablePath( startCookie + ".msgID" )));
 
 		// adaptation code send block
 		for ( String ledRole : scope.getLedRoles() ) {
@@ -2031,7 +2025,7 @@ public class JolieEpp {
 		adaptChoice.addChild(
 			new AssignStatement(
 					JolieEppUtils.PARSING_CONTEXT, 
-					JolieEppUtils.variableNameToJolieVariablePath( startCookie + ".role" ), 
+					JolieEppUtils.variableNameToJolieVariablePath( startCookie + ".msgID" ), 
 					new ConstantStringExpression(
 							JolieEppUtils.PARSING_CONTEXT, 
 							scope.getKey() )
@@ -2166,7 +2160,7 @@ public class JolieEpp {
 			SequenceStatement s = new SequenceStatement(JolieEppUtils.PARSING_CONTEXT);
 			String v = JolieEppUtils.getFreshVariable();
 			VariablePathNode vPath = JolieEppUtils.variableNameToJolieVariablePath(v);
-			JolieEppUtils.appendSubNode(vPath, "role");
+			JolieEppUtils.appendSubNode(vPath, "msgID");
 			s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, vPath,
 					new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, ledRole)));
 			vPath = JolieEppUtils.variableNameToJolieVariablePath(v);
