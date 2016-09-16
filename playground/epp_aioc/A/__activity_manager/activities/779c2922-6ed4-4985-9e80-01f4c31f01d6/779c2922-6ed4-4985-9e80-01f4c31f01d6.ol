@@ -58,9 +58,11 @@ define start
 	if (is_defined(aRes)) {
 		var3.msgID = "779c2922-6ed4-4985-9e80-01f4c31f01d6";
 		start@MH(var3)();
-		for ( 		c = 0, c < #aRes.A.code, c++ ){
-			embed_scope@ActivityManager(aRes.A.code[ c ])()
-		};
+		// for ( 		c = 0, c < #aRes.A.code, c++ ){
+			// embed_scope@ActivityManager(aRes.A.code[ c ])()
+			embed_scope@ActivityManager( aRes.A.code )()
+		// }
+		;
 		adaptRequest.cookie = var3.msgID;
 		adaptRequest.code << aRes.B.code;
 		adaptRequest.main_key = aRes.main_key;

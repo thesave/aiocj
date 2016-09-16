@@ -12,7 +12,7 @@
  *   This program is distributed in the hope that it will be useful,       		*
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        		*
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         		*
- *   GNU General Public License for more details.                     		*
+ *   GNU General Public Lictypemense for more details.                     		*
  *                                                                         		*
  *   You should have received a copy of the GNU Library General Public     		*
  *   License along with this program; if not, write to the                 		*
@@ -38,10 +38,15 @@ outputPort State {
 	Interfaces: StateInterface
 }
 
+type NewRoleConstantsType: void {
+  .Location_Folder: string
+  .Role: string
+}
+
 inputPort ClientInput {
 	Location: Location_Client
 	Protocol: sodep
-	OneWay: dummy(void)
+	OneWay: setConstants( NewRoleConstantsType )
 	Aggregates: State, ActivityManager, MH
 	Redirects:
 		Activity => ActivityManager

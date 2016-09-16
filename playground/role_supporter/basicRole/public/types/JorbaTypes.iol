@@ -1,7 +1,7 @@
 
 
- /*****************************************************************************
- *   Copyright (C) 2009-2010 by Fabrizio Montesi <famontesi@gmail.com>        *
+/***************************************************************************
+ *   Copyright (C) 2009-2010 by Fabrizio Montesi <famontesi@gmail.com>     *
  *   Copyright (C) 2013 by Saverio Giallorenzo <sgiallor@cs.unibo.it>         *
  *                                                                         		*
  *   This program is free software; you can redistribute it and/or modify  		*
@@ -12,7 +12,7 @@
  *   This program is distributed in the hope that it will be useful,       		*
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        		*
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         		*
- *   GNU General Public License for more details.                     		*
+ *   GNU General Public Lictypemense for more details.                     		*
  *                                                                         		*
  *   You should have received a copy of the GNU Library General Public     		*
  *   License along with this program; if not, write to the                 		*
@@ -22,40 +22,14 @@
  *   For details about the authors of this software, see the AUTHORS file. 		*
  ******************************************************************************/
 
-include "console.iol"
-
-include "./__activity_manager/public/interfaces/ActivityManagerInterface.iol"
-include "./__activity_manager/public/interfaces/ActivityManagerAdminInterface.iol"
-include "./public/types/JorbaTypes.iol"
-include "./__state/public/interfaces/StateInterface.iol"
-
-outputPort ActivityManager {
-	Interfaces: ActivityManagerInterface,
-				ActivityManagerAdminInterface
+type VariableNamesList:void {
+	.name[0,*]:string
 }
 
-outputPort State {
-	Interfaces: StateInterface
+type CheckForUpdateRequest:void {
+	.properties?:undefined
+	.client:string
+	.ports: undefined
 }
 
-inputPort ClientInput {
-	Location: Location_Client
-	Protocol: sodep
-	OneWay: dummy(void)
-	Aggregates: State, ActivityManager, MH
-	Redirects:
-		Activity => ActivityManager
-}
-
-embedded {
-Jolie:
-	"./__activity_manager/main_activityManager.ol" in ActivityManager,
-	"./__state/main_state.ol" in State
-}
-
-init
-{
-	client_loc.location = global.inputPorts.ClientInput.location;
-	client_loc.folder = Location_Folder;
-	setClientLocation@ActivityManager( client_loc )()
-}
+type CheckForUpdateResponse: undefined
