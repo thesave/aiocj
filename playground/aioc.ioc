@@ -1,0 +1,5 @@
+preamble { starter: A }
+aioc {
+	msg: A( "hello" ) -> B( x );
+	r@B = show( x )
+}

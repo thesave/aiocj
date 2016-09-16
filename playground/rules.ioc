@@ -1,0 +1,9 @@
+rule {
+	// location@C: "socket://localhost:9000"
+	// newRoles: C
+	on { N.scopeName == "ciao" }
+	do {
+		log: A( msg ) -> C( msg );
+		pass: C( msg ) -> B( msg )
+	}
+}
