@@ -41,10 +41,9 @@ define onRun
 	var10.msgID = "779c2922-6ed4-4985-9e80-01f4c31f01d6";
 	start_B@A(var10)();
 	[ adapt(eReq)() {
-	// for ( 	c = 0, c < #eReq.code, c++ ){
-		// embed_scope@ActivityManager(eReq.code[ c ])()
-		embed_scope@ActivityManager( eReq.code )()
-	// }
+	for ( 	c = 0, c < #eReq.code, c++ ){
+		embed_scope@ActivityManager(eReq.code[ c ])()
+	}
 } ] {
 		var9.msgID = "779c2922-6ed4-4985-9e80-01f4c31f01d6";
 		start_B@A(var9)();

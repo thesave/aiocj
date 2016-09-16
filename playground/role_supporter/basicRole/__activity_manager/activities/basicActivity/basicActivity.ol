@@ -14,7 +14,11 @@ inputPort MyInputPort {
 
 define onRun
 {
-	adapt( eReq )(){ embed_scope@ActivityManager( eReq.code )() };
+	adapt( eReq )(){ 
+		for ( c = 0, c < #eReq.code, c++ ){
+			embed_scope@ActivityManager(eReq.code[ c ])()
+		}
+	};
 	run@ActivityManager(eReq.main_key)()
 }
 
