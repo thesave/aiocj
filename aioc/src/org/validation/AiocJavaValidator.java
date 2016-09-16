@@ -22,7 +22,6 @@
 package org.validation;
 
 import java.util.HashSet;
-import java.util.TreeSet;
 
 import org.aioc.Aioc;
 import org.aioc.AiocPackage;
@@ -37,7 +36,6 @@ import org.aioc.SeqBlock;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.validation.Check;
 import org.epp.impl.NameCollector;
-import org.validation.CausalitySafety.CSInteraction;
 
 /**
  * Custom validation rules. 
