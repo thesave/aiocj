@@ -20,9 +20,7 @@ Require-Bundle: aioc;visibility:=reexport,
  org.eclipse.xtext.xbase.lib
 Import-Package: org.apache.log4j,
  org.eclipse.xtext.xbase.lib
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7,
- JavaSE-1.7,
- JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.ui.contentassist,
  org.ui.contentassist.antlr,
  org.ui.internal,

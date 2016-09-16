@@ -14,5 +14,5 @@ Export-Package: jolie.lang,
  jolie.lang.parse.util,
  jolie.lang.parse.util.impl,
  jolie.util
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Fabrizio Montesi

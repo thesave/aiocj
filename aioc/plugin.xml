@@ -6,9 +6,8 @@
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package 
        uri = "http://www.aioc.org" 
-       class = "org.aioc.AiocPackage"
-       genModel = "org/Aioc.genmodel" /> 
-	
+       class = "org.aioc.AiocPackage" />
+        
   </extension>
 
 
