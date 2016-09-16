@@ -448,7 +448,7 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getRule_FunctionLocation()
+  public EReference getRule_LocDefinition()
   {
     return (EReference)ruleEClass.getEStructuralFeatures().get(0);
   }
@@ -458,7 +458,7 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getRule_Where()
+  public EReference getRule_FunctionLocation()
   {
     return (EReference)ruleEClass.getEStructuralFeatures().get(1);
   }
@@ -468,9 +468,29 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getRule_NewRoles()
+  {
+    return (EAttribute)ruleEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getRule_Where()
+  {
+    return (EReference)ruleEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EReference getRule_Choreography()
   {
-    return (EReference)ruleEClass.getEStructuralFeatures().get(2);
+    return (EReference)ruleEClass.getEStructuralFeatures().get(4);
   }
 
   /**
@@ -1673,7 +1693,9 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
     createEReference(aiocEClass, AIOC__CHOREOGRAPHY);
 
     ruleEClass = createEClass(RULE);
+    createEReference(ruleEClass, RULE__LOC_DEFINITION);
     createEReference(ruleEClass, RULE__FUNCTION_LOCATION);
+    createEAttribute(ruleEClass, RULE__NEW_ROLES);
     createEReference(ruleEClass, RULE__WHERE);
     createEReference(ruleEClass, RULE__CHOREOGRAPHY);
 
@@ -1872,7 +1894,9 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
     initEReference(getAioc_Choreography(), this.getChoreography(), null, "choreography", null, 0, 1, Aioc.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(ruleEClass, Rule.class, "Rule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getRule_LocDefinition(), this.getLocationDefinition(), null, "locDefinition", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getRule_FunctionLocation(), this.getFunctionLocation(), null, "functionLocation", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getRule_NewRoles(), ecorePackage.getEString(), "newRoles", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getRule_Where(), this.getWhere(), null, "where", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getRule_Choreography(), this.getChoreography(), null, "choreography", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

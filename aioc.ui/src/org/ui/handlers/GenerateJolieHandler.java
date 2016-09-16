@@ -62,16 +62,11 @@ public class GenerateJolieHandler extends AbstractHandler {
 		final XtextEditor editor = (XtextEditor) e;
 		editor.getDocument().readOnly( new IUnitOfWork.Void<XtextResource>() {
 			public void process( XtextResource resource) {
-				File srcGenDirectory =
-					new File(
-						editor.getResource().getWorkspace().getRoot().getLocation().toOSString()
-						+
-						editor.getResource().getFullPath().toOSString()
-					);
+				File srcGenDirectory = new File( editor.getResource().getRawLocation().toOSString() );
 				
 				JolieEpp s = new JolieEpp( srcGenDirectory.getParentFile() );
 							
-				String message = "Projection completed successfully on " + srcGenDirectory.getName() ;
+				String message = "Projection completed successfully on " + srcGenDirectory.getAbsolutePath() ;
 				
 				try {
 					int warnings = resource.getWarnings().size();

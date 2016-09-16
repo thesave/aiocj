@@ -50,6 +50,8 @@ public class AiocParser extends AbstractContentAssistParser {
 					put(grammarAccess.getConditionOperatorAccess().getAlternatives(), "rule__ConditionOperator__Alternatives");
 					put(grammarAccess.getAiocAccess().getGroup(), "rule__Aioc__Group__0");
 					put(grammarAccess.getRuleAccess().getGroup(), "rule__Rule__Group__0");
+					put(grammarAccess.getRuleAccess().getGroup_4(), "rule__Rule__Group_4__0");
+					put(grammarAccess.getRuleAccess().getGroup_4_2(), "rule__Rule__Group_4_2__0");
 					put(grammarAccess.getWhereAccess().getGroup_1(), "rule__Where__Group_1__0");
 					put(grammarAccess.getWhereCompareConditionAccess().getGroup(), "rule__WhereCompareCondition__Group__0");
 					put(grammarAccess.getWhereCompareConditionAccess().getGroup_3(), "rule__WhereCompareCondition__Group_3__0");
@@ -99,9 +101,11 @@ public class AiocParser extends AbstractContentAssistParser {
 					put(grammarAccess.getAiocAccess().getFunctionLocationAssignment_0(), "rule__Aioc__FunctionLocationAssignment_0");
 					put(grammarAccess.getAiocAccess().getPreambleAssignment_3(), "rule__Aioc__PreambleAssignment_3");
 					put(grammarAccess.getAiocAccess().getChoreographyAssignment_7(), "rule__Aioc__ChoreographyAssignment_7");
-					put(grammarAccess.getRuleAccess().getFunctionLocationAssignment_2(), "rule__Rule__FunctionLocationAssignment_2");
-					put(grammarAccess.getRuleAccess().getWhereAssignment_5(), "rule__Rule__WhereAssignment_5");
-					put(grammarAccess.getRuleAccess().getChoreographyAssignment_9(), "rule__Rule__ChoreographyAssignment_9");
+					put(grammarAccess.getRuleAccess().getLocDefinitionAssignment_2(), "rule__Rule__LocDefinitionAssignment_2");
+					put(grammarAccess.getRuleAccess().getFunctionLocationAssignment_3(), "rule__Rule__FunctionLocationAssignment_3");
+					put(grammarAccess.getRuleAccess().getNewRolesAssignment_4_0(), "rule__Rule__NewRolesAssignment_4_0");
+					put(grammarAccess.getRuleAccess().getWhereAssignment_7(), "rule__Rule__WhereAssignment_7");
+					put(grammarAccess.getRuleAccess().getChoreographyAssignment_11(), "rule__Rule__ChoreographyAssignment_11");
 					put(grammarAccess.getWhereAccess().getWhereConditionAssignment_0(), "rule__Where__WhereConditionAssignment_0");
 					put(grammarAccess.getWhereAccess().getParenAssignment_1_0(), "rule__Where__ParenAssignment_1_0");
 					put(grammarAccess.getWhereAccess().getWhereConditionAssignment_1_1(), "rule__Where__WhereConditionAssignment_1_1");

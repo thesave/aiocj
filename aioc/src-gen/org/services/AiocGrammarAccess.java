@@ -114,30 +114,41 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cRuleKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final RuleCall cLCURLYTerminalRuleCall_1 = (RuleCall)cGroup.eContents().get(1);
-		private final Assignment cFunctionLocationAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cFunctionLocationFunctionLocationParserRuleCall_2_0 = (RuleCall)cFunctionLocationAssignment_2.eContents().get(0);
-		private final Keyword cOnKeyword_3 = (Keyword)cGroup.eContents().get(3);
-		private final RuleCall cLCURLYTerminalRuleCall_4 = (RuleCall)cGroup.eContents().get(4);
-		private final Assignment cWhereAssignment_5 = (Assignment)cGroup.eContents().get(5);
-		private final RuleCall cWhereWhereParserRuleCall_5_0 = (RuleCall)cWhereAssignment_5.eContents().get(0);
-		private final RuleCall cRCURLYTerminalRuleCall_6 = (RuleCall)cGroup.eContents().get(6);
-		private final Keyword cDoKeyword_7 = (Keyword)cGroup.eContents().get(7);
-		private final RuleCall cLCURLYTerminalRuleCall_8 = (RuleCall)cGroup.eContents().get(8);
-		private final Assignment cChoreographyAssignment_9 = (Assignment)cGroup.eContents().get(9);
-		private final RuleCall cChoreographyChoreographyParserRuleCall_9_0 = (RuleCall)cChoreographyAssignment_9.eContents().get(0);
-		private final RuleCall cRCURLYTerminalRuleCall_10 = (RuleCall)cGroup.eContents().get(10);
-		private final RuleCall cRCURLYTerminalRuleCall_11 = (RuleCall)cGroup.eContents().get(11);
+		private final Assignment cLocDefinitionAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cLocDefinitionLocationDefinitionParserRuleCall_2_0 = (RuleCall)cLocDefinitionAssignment_2.eContents().get(0);
+		private final Assignment cFunctionLocationAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final RuleCall cFunctionLocationFunctionLocationParserRuleCall_3_0 = (RuleCall)cFunctionLocationAssignment_3.eContents().get(0);
+		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
+		private final Assignment cNewRolesAssignment_4_0 = (Assignment)cGroup_4.eContents().get(0);
+		private final Keyword cNewRolesNewRolesKeyword_4_0_0 = (Keyword)cNewRolesAssignment_4_0.eContents().get(0);
+		private final RuleCall cCOLONTerminalRuleCall_4_1 = (RuleCall)cGroup_4.eContents().get(1);
+		private final Group cGroup_4_2 = (Group)cGroup_4.eContents().get(2);
+		private final RuleCall cIDTerminalRuleCall_4_2_0 = (RuleCall)cGroup_4_2.eContents().get(0);
+		private final RuleCall cCOMMATerminalRuleCall_4_2_1 = (RuleCall)cGroup_4_2.eContents().get(1);
+		private final RuleCall cIDTerminalRuleCall_4_3 = (RuleCall)cGroup_4.eContents().get(3);
+		private final Keyword cOnKeyword_5 = (Keyword)cGroup.eContents().get(5);
+		private final RuleCall cLCURLYTerminalRuleCall_6 = (RuleCall)cGroup.eContents().get(6);
+		private final Assignment cWhereAssignment_7 = (Assignment)cGroup.eContents().get(7);
+		private final RuleCall cWhereWhereParserRuleCall_7_0 = (RuleCall)cWhereAssignment_7.eContents().get(0);
+		private final RuleCall cRCURLYTerminalRuleCall_8 = (RuleCall)cGroup.eContents().get(8);
+		private final Keyword cDoKeyword_9 = (Keyword)cGroup.eContents().get(9);
+		private final RuleCall cLCURLYTerminalRuleCall_10 = (RuleCall)cGroup.eContents().get(10);
+		private final Assignment cChoreographyAssignment_11 = (Assignment)cGroup.eContents().get(11);
+		private final RuleCall cChoreographyChoreographyParserRuleCall_11_0 = (RuleCall)cChoreographyAssignment_11.eContents().get(0);
+		private final RuleCall cRCURLYTerminalRuleCall_12 = (RuleCall)cGroup.eContents().get(12);
+		private final RuleCall cRCURLYTerminalRuleCall_13 = (RuleCall)cGroup.eContents().get(13);
 		
 		//Rule:
 		//	"rule" LCURLY
-		//	functionLocation+=FunctionLocation*
+		//	locDefinition=LocationDefinition?
+		//	functionLocation+=FunctionLocation* (newRoles="newRoles" COLON (ID COMMA)* ID)?
 		//	"on" LCURLY where=Where RCURLY
 		//	"do" LCURLY choreography=Choreography RCURLY
 		//	RCURLY;
 		@Override public ParserRule getRule() { return rule; }
 
-		//"rule" LCURLY functionLocation+=FunctionLocation* "on" LCURLY where=Where RCURLY "do" LCURLY choreography=Choreography
-		//RCURLY RCURLY
+		//"rule" LCURLY locDefinition=LocationDefinition? functionLocation+=FunctionLocation* (newRoles="newRoles" COLON (ID
+		//COMMA)* ID)? "on" LCURLY where=Where RCURLY "do" LCURLY choreography=Choreography RCURLY RCURLY
 		public Group getGroup() { return cGroup; }
 
 		//"rule"
@@ -146,44 +157,74 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		//LCURLY
 		public RuleCall getLCURLYTerminalRuleCall_1() { return cLCURLYTerminalRuleCall_1; }
 
+		//locDefinition=LocationDefinition?
+		public Assignment getLocDefinitionAssignment_2() { return cLocDefinitionAssignment_2; }
+
+		//LocationDefinition
+		public RuleCall getLocDefinitionLocationDefinitionParserRuleCall_2_0() { return cLocDefinitionLocationDefinitionParserRuleCall_2_0; }
+
 		//functionLocation+=FunctionLocation*
-		public Assignment getFunctionLocationAssignment_2() { return cFunctionLocationAssignment_2; }
+		public Assignment getFunctionLocationAssignment_3() { return cFunctionLocationAssignment_3; }
 
 		//FunctionLocation
-		public RuleCall getFunctionLocationFunctionLocationParserRuleCall_2_0() { return cFunctionLocationFunctionLocationParserRuleCall_2_0; }
+		public RuleCall getFunctionLocationFunctionLocationParserRuleCall_3_0() { return cFunctionLocationFunctionLocationParserRuleCall_3_0; }
+
+		//(newRoles="newRoles" COLON (ID COMMA)* ID)?
+		public Group getGroup_4() { return cGroup_4; }
+
+		//newRoles="newRoles"
+		public Assignment getNewRolesAssignment_4_0() { return cNewRolesAssignment_4_0; }
+
+		//"newRoles"
+		public Keyword getNewRolesNewRolesKeyword_4_0_0() { return cNewRolesNewRolesKeyword_4_0_0; }
+
+		//COLON
+		public RuleCall getCOLONTerminalRuleCall_4_1() { return cCOLONTerminalRuleCall_4_1; }
+
+		//(ID COMMA)*
+		public Group getGroup_4_2() { return cGroup_4_2; }
+
+		//ID
+		public RuleCall getIDTerminalRuleCall_4_2_0() { return cIDTerminalRuleCall_4_2_0; }
+
+		//COMMA
+		public RuleCall getCOMMATerminalRuleCall_4_2_1() { return cCOMMATerminalRuleCall_4_2_1; }
+
+		//ID
+		public RuleCall getIDTerminalRuleCall_4_3() { return cIDTerminalRuleCall_4_3; }
 
 		//"on"
-		public Keyword getOnKeyword_3() { return cOnKeyword_3; }
+		public Keyword getOnKeyword_5() { return cOnKeyword_5; }
 
 		//LCURLY
-		public RuleCall getLCURLYTerminalRuleCall_4() { return cLCURLYTerminalRuleCall_4; }
+		public RuleCall getLCURLYTerminalRuleCall_6() { return cLCURLYTerminalRuleCall_6; }
 
 		//where=Where
-		public Assignment getWhereAssignment_5() { return cWhereAssignment_5; }
+		public Assignment getWhereAssignment_7() { return cWhereAssignment_7; }
 
 		//Where
-		public RuleCall getWhereWhereParserRuleCall_5_0() { return cWhereWhereParserRuleCall_5_0; }
+		public RuleCall getWhereWhereParserRuleCall_7_0() { return cWhereWhereParserRuleCall_7_0; }
 
 		//RCURLY
-		public RuleCall getRCURLYTerminalRuleCall_6() { return cRCURLYTerminalRuleCall_6; }
+		public RuleCall getRCURLYTerminalRuleCall_8() { return cRCURLYTerminalRuleCall_8; }
 
 		//"do"
-		public Keyword getDoKeyword_7() { return cDoKeyword_7; }
+		public Keyword getDoKeyword_9() { return cDoKeyword_9; }
 
 		//LCURLY
-		public RuleCall getLCURLYTerminalRuleCall_8() { return cLCURLYTerminalRuleCall_8; }
+		public RuleCall getLCURLYTerminalRuleCall_10() { return cLCURLYTerminalRuleCall_10; }
 
 		//choreography=Choreography
-		public Assignment getChoreographyAssignment_9() { return cChoreographyAssignment_9; }
+		public Assignment getChoreographyAssignment_11() { return cChoreographyAssignment_11; }
 
 		//Choreography
-		public RuleCall getChoreographyChoreographyParserRuleCall_9_0() { return cChoreographyChoreographyParserRuleCall_9_0; }
+		public RuleCall getChoreographyChoreographyParserRuleCall_11_0() { return cChoreographyChoreographyParserRuleCall_11_0; }
 
 		//RCURLY
-		public RuleCall getRCURLYTerminalRuleCall_10() { return cRCURLYTerminalRuleCall_10; }
+		public RuleCall getRCURLYTerminalRuleCall_12() { return cRCURLYTerminalRuleCall_12; }
 
 		//RCURLY
-		public RuleCall getRCURLYTerminalRuleCall_11() { return cRCURLYTerminalRuleCall_11; }
+		public RuleCall getRCURLYTerminalRuleCall_13() { return cRCURLYTerminalRuleCall_13; }
 	}
 
 	public class WhereElements extends AbstractParserRuleElementFinder {
@@ -1908,7 +1949,8 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 
 	//Rule:
 	//	"rule" LCURLY
-	//	functionLocation+=FunctionLocation*
+	//	locDefinition=LocationDefinition?
+	//	functionLocation+=FunctionLocation* (newRoles="newRoles" COLON (ID COMMA)* ID)?
 	//	"on" LCURLY where=Where RCURLY
 	//	"do" LCURLY choreography=Choreography RCURLY
 	//	RCURLY;

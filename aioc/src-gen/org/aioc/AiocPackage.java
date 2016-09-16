@@ -150,13 +150,31 @@ public interface AiocPackage extends EPackage
   int RULE = 2;
 
   /**
+   * The feature id for the '<em><b>Loc Definition</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int RULE__LOC_DEFINITION = 0;
+
+  /**
    * The feature id for the '<em><b>Function Location</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int RULE__FUNCTION_LOCATION = 0;
+  int RULE__FUNCTION_LOCATION = 1;
+
+  /**
+   * The feature id for the '<em><b>New Roles</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int RULE__NEW_ROLES = 2;
 
   /**
    * The feature id for the '<em><b>Where</b></em>' containment reference.
@@ -165,7 +183,7 @@ public interface AiocPackage extends EPackage
    * @generated
    * @ordered
    */
-  int RULE__WHERE = 1;
+  int RULE__WHERE = 3;
 
   /**
    * The feature id for the '<em><b>Choreography</b></em>' containment reference.
@@ -174,7 +192,7 @@ public interface AiocPackage extends EPackage
    * @generated
    * @ordered
    */
-  int RULE__CHOREOGRAPHY = 2;
+  int RULE__CHOREOGRAPHY = 4;
 
   /**
    * The number of structural features of the '<em>Rule</em>' class.
@@ -183,7 +201,7 @@ public interface AiocPackage extends EPackage
    * @generated
    * @ordered
    */
-  int RULE_FEATURE_COUNT = 3;
+  int RULE_FEATURE_COUNT = 5;
 
   /**
    * The meta object id for the '{@link org.aioc.impl.WhereImpl <em>Where</em>}' class.
@@ -1681,6 +1699,17 @@ public interface AiocPackage extends EPackage
   EClass getRule();
 
   /**
+   * Returns the meta object for the containment reference '{@link org.aioc.Rule#getLocDefinition <em>Loc Definition</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Loc Definition</em>'.
+   * @see org.aioc.Rule#getLocDefinition()
+   * @see #getRule()
+   * @generated
+   */
+  EReference getRule_LocDefinition();
+
+  /**
    * Returns the meta object for the containment reference list '{@link org.aioc.Rule#getFunctionLocation <em>Function Location</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1690,6 +1719,17 @@ public interface AiocPackage extends EPackage
    * @generated
    */
   EReference getRule_FunctionLocation();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.aioc.Rule#getNewRoles <em>New Roles</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>New Roles</em>'.
+   * @see org.aioc.Rule#getNewRoles()
+   * @see #getRule()
+   * @generated
+   */
+  EAttribute getRule_NewRoles();
 
   /**
    * Returns the meta object for the containment reference '{@link org.aioc.Rule#getWhere <em>Where</em>}'.
@@ -3051,12 +3091,28 @@ public interface AiocPackage extends EPackage
     EClass RULE = eINSTANCE.getRule();
 
     /**
+     * The meta object literal for the '<em><b>Loc Definition</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference RULE__LOC_DEFINITION = eINSTANCE.getRule_LocDefinition();
+
+    /**
      * The meta object literal for the '<em><b>Function Location</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
     EReference RULE__FUNCTION_LOCATION = eINSTANCE.getRule_FunctionLocation();
+
+    /**
+     * The meta object literal for the '<em><b>New Roles</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute RULE__NEW_ROLES = eINSTANCE.getRule_NewRoles();
 
     /**
      * The meta object literal for the '<em><b>Where</b></em>' containment reference feature.

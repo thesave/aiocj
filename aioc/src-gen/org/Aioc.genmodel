@@ -17,7 +17,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Aioc.ecore#//Aioc/choreography"/>
     </genClasses>
     <genClasses ecoreClass="Aioc.ecore#//Rule">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Aioc.ecore#//Rule/locDefinition"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Aioc.ecore#//Rule/functionLocation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//Rule/newRoles"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Aioc.ecore#//Rule/where"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Aioc.ecore#//Rule/choreography"/>
     </genClasses>

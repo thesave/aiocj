@@ -245,84 +245,133 @@ this_LCURLY_1=RULE_LCURLY
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getRuleAccess().getFunctionLocationFunctionLocationParserRuleCall_2_0()); 
+	        newCompositeNode(grammarAccess.getRuleAccess().getLocDefinitionLocationDefinitionParserRuleCall_2_0()); 
 	    }
-		lv_functionLocation_2_0=ruleFunctionLocation		{
+		lv_locDefinition_2_0=ruleLocationDefinition		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getRuleRule());
+	        }
+       		set(
+       			$current, 
+       			"locDefinition",
+        		lv_locDefinition_2_0, 
+        		"org.Aioc.LocationDefinition");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)?(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getRuleAccess().getFunctionLocationFunctionLocationParserRuleCall_3_0()); 
+	    }
+		lv_functionLocation_3_0=ruleFunctionLocation		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getRuleRule());
 	        }
        		add(
        			$current, 
        			"functionLocation",
-        		lv_functionLocation_2_0, 
+        		lv_functionLocation_3_0, 
         		"org.Aioc.FunctionLocation");
 	        afterParserOrEnumRuleCall();
 	    }
 
 )
-)*	otherlv_3='on' 
+)*((
+(
+		lv_newRoles_4_0=	'newRoles' 
     {
-    	newLeafNode(otherlv_3, grammarAccess.getRuleAccess().getOnKeyword_3());
+        newLeafNode(lv_newRoles_4_0, grammarAccess.getRuleAccess().getNewRolesNewRolesKeyword_4_0_0());
     }
-this_LCURLY_4=RULE_LCURLY
+ 
+	    {
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getRuleRule());
+	        }
+       		setWithLastConsumed($current, "newRoles", lv_newRoles_4_0, "newRoles");
+	    }
+
+)
+)this_COLON_5=RULE_COLON
     { 
-    newLeafNode(this_LCURLY_4, grammarAccess.getRuleAccess().getLCURLYTerminalRuleCall_4()); 
+    newLeafNode(this_COLON_5, grammarAccess.getRuleAccess().getCOLONTerminalRuleCall_4_1()); 
+    }
+(this_ID_6=RULE_ID
+    { 
+    newLeafNode(this_ID_6, grammarAccess.getRuleAccess().getIDTerminalRuleCall_4_2_0()); 
+    }
+this_COMMA_7=RULE_COMMA
+    { 
+    newLeafNode(this_COMMA_7, grammarAccess.getRuleAccess().getCOMMATerminalRuleCall_4_2_1()); 
+    }
+)*this_ID_8=RULE_ID
+    { 
+    newLeafNode(this_ID_8, grammarAccess.getRuleAccess().getIDTerminalRuleCall_4_3()); 
+    }
+)?	otherlv_9='on' 
+    {
+    	newLeafNode(otherlv_9, grammarAccess.getRuleAccess().getOnKeyword_5());
+    }
+this_LCURLY_10=RULE_LCURLY
+    { 
+    newLeafNode(this_LCURLY_10, grammarAccess.getRuleAccess().getLCURLYTerminalRuleCall_6()); 
     }
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getRuleAccess().getWhereWhereParserRuleCall_5_0()); 
+	        newCompositeNode(grammarAccess.getRuleAccess().getWhereWhereParserRuleCall_7_0()); 
 	    }
-		lv_where_5_0=ruleWhere		{
+		lv_where_11_0=ruleWhere		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getRuleRule());
 	        }
        		set(
        			$current, 
        			"where",
-        		lv_where_5_0, 
+        		lv_where_11_0, 
         		"org.Aioc.Where");
 	        afterParserOrEnumRuleCall();
 	    }
 
 )
-)this_RCURLY_6=RULE_RCURLY
+)this_RCURLY_12=RULE_RCURLY
     { 
-    newLeafNode(this_RCURLY_6, grammarAccess.getRuleAccess().getRCURLYTerminalRuleCall_6()); 
+    newLeafNode(this_RCURLY_12, grammarAccess.getRuleAccess().getRCURLYTerminalRuleCall_8()); 
     }
-	otherlv_7='do' 
+	otherlv_13='do' 
     {
-    	newLeafNode(otherlv_7, grammarAccess.getRuleAccess().getDoKeyword_7());
+    	newLeafNode(otherlv_13, grammarAccess.getRuleAccess().getDoKeyword_9());
     }
-this_LCURLY_8=RULE_LCURLY
+this_LCURLY_14=RULE_LCURLY
     { 
-    newLeafNode(this_LCURLY_8, grammarAccess.getRuleAccess().getLCURLYTerminalRuleCall_8()); 
+    newLeafNode(this_LCURLY_14, grammarAccess.getRuleAccess().getLCURLYTerminalRuleCall_10()); 
     }
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getRuleAccess().getChoreographyChoreographyParserRuleCall_9_0()); 
+	        newCompositeNode(grammarAccess.getRuleAccess().getChoreographyChoreographyParserRuleCall_11_0()); 
 	    }
-		lv_choreography_9_0=ruleChoreography		{
+		lv_choreography_15_0=ruleChoreography		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getRuleRule());
 	        }
        		set(
        			$current, 
        			"choreography",
-        		lv_choreography_9_0, 
+        		lv_choreography_15_0, 
         		"org.Aioc.Choreography");
 	        afterParserOrEnumRuleCall();
 	    }
 
 )
-)this_RCURLY_10=RULE_RCURLY
+)this_RCURLY_16=RULE_RCURLY
     { 
-    newLeafNode(this_RCURLY_10, grammarAccess.getRuleAccess().getRCURLYTerminalRuleCall_10()); 
+    newLeafNode(this_RCURLY_16, grammarAccess.getRuleAccess().getRCURLYTerminalRuleCall_12()); 
     }
-this_RCURLY_11=RULE_RCURLY
+this_RCURLY_17=RULE_RCURLY
     { 
-    newLeafNode(this_RCURLY_11, grammarAccess.getRuleAccess().getRCURLYTerminalRuleCall_11()); 
+    newLeafNode(this_RCURLY_17, grammarAccess.getRuleAccess().getRCURLYTerminalRuleCall_13()); 
     }
 )
 ;

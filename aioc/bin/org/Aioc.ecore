@@ -15,8 +15,11 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Rule">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="locDefinition" eType="#//LocationDefinition"
+        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="functionLocation" upperBound="-1"
         eType="#//FunctionLocation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="newRoles" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="where" eType="#//Where"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="choreography" eType="#//Choreography"
