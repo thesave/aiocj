@@ -1,5 +1,7 @@
 preamble { starter: A }
 aioc {
+	scope @A {
 	msg: A( "hello" ) -> B( x );
 	r@B = show( x )
+    }
 }
