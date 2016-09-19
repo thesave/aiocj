@@ -34,6 +34,8 @@ Interfaces: AdaptActivityInterface
 Aggregates: MH
 }
 
+include "console.iol"
+
 
 define onRun
 {

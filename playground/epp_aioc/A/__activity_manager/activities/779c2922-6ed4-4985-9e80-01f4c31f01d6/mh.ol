@@ -35,19 +35,21 @@ init
 	getLocalLocation@Runtime()(Self.location)
 }
 
+include "console.iol"
+
 main
 {
-	[ ack(c)() {
-	get_ack()(c	) {
-		nullProcess	
-	}
-} ] {
-		nullProcess
-	}
-	[ get_ack(c)(c1) {
-	ack(c1)(	) {
-		nullProcess	
-	}
+	[ ack()() {
+		ackSemaphore.name = "ack";
+		ackSemaphore.permits = 1;
+		release@SemaphoreUtils( ackSemaphore )() 
+} ] { 
+	nullProcess 
+}
+	[ get_ack( c )() {
+		ackSemaphore.name = "ack";
+		ackSemaphore.permits = c.content.ledRoles;
+		acquire@SemaphoreUtils( ackSemaphore )()
 } ] {
 		nullProcess
 	}
