@@ -12,7 +12,7 @@
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
+ *   GNU General Public Lictypemense for more details.                     *
  *                                                                         *
  *   You should have received a copy of the GNU Library General Public     *
  *   License along with this program; if not, write to the                 *
@@ -23,7 +23,7 @@
  ***************************************************************************/
 
 
-// include "../../../public/types/JorbaTypes.iol"
+include "../../../public/types/JorbaTypes.iol"
 
 type EvaluateConstraintRequest:undefined
 
@@ -35,7 +35,6 @@ type RuleDescription:void {
 	.properties?: VariableNamesList
 	.envVariables?: VariableNamesList
 	.subscopes?: VariableNamesList
-  .newRoles*: string
 }
 
 interface RuleInterface {

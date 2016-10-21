@@ -16,7 +16,6 @@ define onEvaluateConstraint
 define dataInit
 {
 	rule.activityDirectory = "e39cde99-5ec0-46f4-9f71-1ac52166bdf7";
-	rule.properties.name[ #rule.properties.name ] = "scopeName";
-  rule.newRoles[ 0 ] = "C"
+	rule.properties.name[ #rule.properties.name ] = "scopeName"
 }
 
