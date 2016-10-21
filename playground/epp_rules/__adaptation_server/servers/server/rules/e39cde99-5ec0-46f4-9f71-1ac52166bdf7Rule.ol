@@ -6,7 +6,7 @@ define onGetStateUpdate
 
 define onEvaluateConstraint
 {
-	if (request.properties.scopeName == "ciao") {
+	if (request.properties.scopeName == "hello_world") {
 		response = 1
 	} else {
 		response = 0
@@ -15,7 +15,8 @@ define onEvaluateConstraint
 
 define dataInit
 {
-	rule.activityDirectory = "e39cde99-5ec0-46f4-9f71-1ac52166bdf7";
-	rule.properties.name[ #rule.properties.name ] = "scopeName"
+  rule.activityDirectory = "e39cde99-5ec0-46f4-9f71-1ac52166bdf7";
+  rule.properties.name[ #rule.properties.name ] = "scopeName";
+  rule.newRoles[ 0 ] = "C"
 }
 

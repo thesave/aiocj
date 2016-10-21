@@ -1,4 +1,5 @@
 include "semaphore_utils.iol"
+include "console.iol"
 include "../AbstractActivity.iol"
 
 type OpType:void {
@@ -36,16 +37,21 @@ Aggregates: MH
 
 define onRun
 {
+	println@Console( "RUNNING" )();
 	var9.msgID = "8e725aa2-8577-4789-9252-c77acc933499";
+	println@Console( "CONTACTING THE MESSAGE-HANDLER" )();
 	get_log@MH(var9)(var9);
 	msg = var9.content;
 	var10.value = msg;
 	var10 = "msg";
+	println@Console( "SETTING THE VALUE TO THE STATE" )();
 	set@State(var10)();
 	get@State("msg")(msg);
 	var11.content = msg;
 	var11.msgID = "b0bde86a-e516-4513-bee6-4ca07b292b23";
-	pass@B(var11)()
+	println@Console( "CONTACTING B" )();
+	pass@B(var11)();
+	println@Console( "CONTACTED B" )()
 }
 
 define start

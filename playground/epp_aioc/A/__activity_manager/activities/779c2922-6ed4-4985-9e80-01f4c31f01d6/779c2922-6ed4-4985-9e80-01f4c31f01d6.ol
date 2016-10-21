@@ -52,6 +52,7 @@ define start
 	ledRoles = 1; // THIS SETS THE NUMBER OF ledRoles in the original scope
 	start@MH(var4)();
 	start_A@MH(var4)();
+	aReq.properties.scopeName.value = "hello_world";
 	startSR.name = "execute";
 	acquire@SemaphoreUtils(startSR)();
 	aReq.client = "socket://localhost:10500/";

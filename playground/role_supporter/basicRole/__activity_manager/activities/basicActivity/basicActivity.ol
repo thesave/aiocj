@@ -17,12 +17,6 @@ inputPort MyInputPort {
 define onRun
 {
 	csets.cookie = "basicActivity";
-	
-	// FOR TESTING PURPOSES
-	csets.msgID = "basicActivity";
-	hello( s )( s.content+s.content );
-	// FOR TESTING PURPOSES
-
 	adapt( eReq )(){ 
 		for ( c = 0, c < #eReq.code, c++ ){
 			embed_scope@ActivityManager(eReq.code[ c ])()

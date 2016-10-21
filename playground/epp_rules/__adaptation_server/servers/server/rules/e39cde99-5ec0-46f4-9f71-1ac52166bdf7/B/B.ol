@@ -1,5 +1,6 @@
 include "semaphore_utils.iol"
 include "../AbstractActivity.iol"
+include "console.iol"
 
 type OpType:void {
 	.msgID:string
@@ -30,9 +31,11 @@ Aggregates: MH
 define onRun
 {
 	var7.msgID = "b0bde86a-e516-4513-bee6-4ca07b292b23";
+	println@Console( "WAITING FOR THE MESSAGE FROM C" )();
 	get_pass@MH(var7)(var7);
 	msg = var7.content;
 	var8.value = msg;
+	println@Console( "RECEIVED" + msg  )();
 	var8 = "msg";
 	set@State(var8)()
 }

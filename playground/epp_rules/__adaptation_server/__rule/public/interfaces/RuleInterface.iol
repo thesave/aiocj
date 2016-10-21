@@ -35,6 +35,7 @@ type RuleDescription:void {
 	.properties?: VariableNamesList
 	.envVariables?: VariableNamesList
 	.subscopes?: VariableNamesList
+  .newRoles*: string
 }
 
 interface RuleInterface {
