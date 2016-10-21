@@ -205,7 +205,7 @@ define checkRules
 									response.( role ).code[ rci ].mh = code
 
 								} else {
-								// if it is the scope, it injects a fresh key relative to that scope
+								// if it is the scope, it injects a fresh key related to that scope
 									code.replacement = main_key;
 									code.regex = "Adapt__KPH__";
 									replaceAll@StringUtils( code )( code );
