@@ -16,7 +16,7 @@ type NewRoleConstantsType: void {
 }
 
 outputPort NewRole {
-	OneWay: setConstants( NewRoleConstantsType )
+	RequestResponse: setConstants( NewRoleConstantsType )( void )
 }
 
 execution{ concurrent }
@@ -25,17 +25,18 @@ main
 {
   createRole( roleName )( roleID ){
   	synchronized( counter ){
-  		roleID = "role_" + global.roleCounter++
+      // roleID = "role_" + global.roleCounter++
+  		roleID = "role_" + new
   		// create a new copy of basicRole and rename it roleID
   	};
-		copyDir@File( { .to = roleID, .from = "basicRole" } )(); // replace with unzip 
+		copyDir@File( { .to = roleID, .from = "basicRole" } )(); // TODO: replace with unzip 
   	// embed the new basicRole
 		loadEmbeddedService@Runtime( { .filepath = roleID + "/BasicRole.ol", .type = "Jolie" } )( roleLocation );
 		// create an outputPort
 		setOutputPort@Runtime( { .location = roleLocation, .name = roleID } )();
 		//
 		NewRole.location = roleLocation;
-		setConstants@NewRole( { .Location_Folder = roleID, .Role = roleName  } );
+		setConstants@NewRole( { .Location_Folder = roleID, .Role = roleName  } )();
 		// redirect RoleSupporter to OutputPort
 		setRedirection@Runtime( {
 	    .inputPortName = "RoleSupporter",

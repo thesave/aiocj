@@ -49,7 +49,7 @@ include "console.iol"
 define start
 {
 	var4.msgID = "779c2922-6ed4-4985-9e80-01f4c31f01d6";
-	ledRoles = 1;
+	ledRoles = 1; // THIS SETS THE NUMBER OF ledRoles in the original scope
 	start@MH(var4)();
 	start_A@MH(var4)();
 	startSR.name = "execute";
@@ -61,10 +61,9 @@ define start
 	if (is_defined(aRes)) {
 		var3.msgID = "779c2922-6ed4-4985-9e80-01f4c31f01d6";
 		start@MH(var3)();
-		for ( 		c = 0, c < #aRes.A.code, c++ ){
+		for ( c = 0, c < #aRes.A.code, c++ ){
 			embed_scope@ActivityManager(aRes.A.code[ c ])()
-		}
-		;
+		};
 		ledRoles = aRes.ledRoles; // THIS OVERWRITES ledRoles
 		adaptRequest.cookie = var3.msgID;
 		adaptRequest.code << aRes.B.code;

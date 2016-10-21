@@ -23,6 +23,7 @@
  ******************************************************************************/
 
 include "console.iol"
+include "runtime.iol"
 
 include "./__activity_manager/public/interfaces/ActivityManagerInterface.iol"
 include "./__activity_manager/public/interfaces/ActivityManagerAdminInterface.iol"
@@ -44,10 +45,10 @@ type NewRoleConstantsType: void {
 }
 
 inputPort ClientInput {
-	Location: Location_Client
+	Location: "local"
 	Protocol: sodep
-	OneWay: setConstants( NewRoleConstantsType )
-	Aggregates: State, ActivityManager, MH
+	RequestResponse: setConstants( NewRoleConstantsType )( void )
+	Aggregates: State, ActivityManager// , MH //abstract client does not need the MessageHandler
 	Redirects:
 		Activity => ActivityManager
 }
@@ -60,7 +61,10 @@ Jolie:
 
 init
 {
-	client_loc.location = global.inputPorts.ClientInput.location;
-	client_loc.folder = Location_Folder;
-	setClientLocation@ActivityManager( client_loc )()
+	setConstants( cns )(){
+		ROLE = cns.Role; // Probably must be set in STATE to be accessed by activities
+		client_loc.folder = cns.Location_Folder;
+		getLocalLocation@Runtime()( client_loc.location );
+		setClientLocation@ActivityManager( client_loc )()
+	}
 }

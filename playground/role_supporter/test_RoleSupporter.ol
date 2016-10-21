@@ -8,14 +8,21 @@ outputPort RoleSupporter {
 	Interfaces: RoleSupporterInterface
 }
 
-outputPort BasicRole {
+type OpType:void {
+  .msgID:string
+  .content?: undefined
+}
+
+outputPort ActivityAtRole {
 	Protocol: sodep
-	OneWay: hello( void )
+  RequestResponse: hello( OpType )( undefined )
 }
 
 main
 {
   createRole@RoleSupporter( "C" )( path );
-  BasicRole.location = Location_RoleSupporter + "/!/" + path;
-  hello@BasicRole()
+  // BasicRole.location = Location_RoleSupporter + "/!/" + path; // THIS IS THE PATH OF THE BASIC ROLE
+  ActivityAtRole.location = Location_RoleSupporter + "/!/" + path + "/Activity/basicActivity"; // THIS IS THE PATH OF THE BASIC ACTIVITY
+  hello@ActivityAtRole( { .msgID = "basicActivity", .content = "ciao" } )( s );
+  println@Console( s )()
 }

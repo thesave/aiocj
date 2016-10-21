@@ -9,7 +9,7 @@
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public Lictypemense for more details.                     *
+ *   GNU General Public License for more details.                          *
  *                                                                         *
  *   You should have received a copy of the GNU Library General Public     *
  *   License along with this program; if not, write to the                 *
@@ -20,10 +20,10 @@
  ***************************************************************************/
 
 include "../public/interfaces/ActivityInterface.iol"
-include "../__state/public/interfaces/StateInterface.iol"
-include "../__activity_manager/public/interfaces/ActivityManagerInterface.iol"
-include "../__adaptation_manager/public/interfaces/AdaptationManagerInterface.iol"
-include "../config/locations.iol"
+include "../public/interfaces/ActivityManagerInterface.iol"
+include "../../__state/public/interfaces/StateInterface.iol"
+include "../../__adaptation_manager/public/interfaces/AdaptationManagerInterface.iol"
+include "../../../config/locations.iol"
 
 execution { concurrent }
 
@@ -40,6 +40,7 @@ Protocol: sodep
 
 outputPort AdaptationManager {
 Location: Location_AdaptationManager
+// Location: "socket://localhost:9049"
 Protocol: sodep
 Interfaces: AdaptationManagerInterface
 }

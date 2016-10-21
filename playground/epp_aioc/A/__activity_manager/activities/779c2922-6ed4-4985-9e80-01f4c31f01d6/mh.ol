@@ -76,12 +76,12 @@ main
 				release@SemaphoreUtils(joinedRelease)()
 			}
 			|
-			start_A()(			) {
+			start_A()() {
 				release@SemaphoreUtils(joinRelease)();
 				acquire@SemaphoreUtils(joinedAcquire)()			
 			}
 			|
-			start_B()(			) {
+			start_B()() {
 				release@SemaphoreUtils(joinRelease)();
 				acquire@SemaphoreUtils(joinedAcquire)()			
 			}

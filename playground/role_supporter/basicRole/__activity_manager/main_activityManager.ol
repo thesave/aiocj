@@ -29,7 +29,7 @@ include "console.iol"
 
 include "string_utils.iol"
 
-include "./config/locations.iol"
+include "../config/locations.iol"
 
 include "./__activity_manager/public/interfaces/ActivityManagerInterface.iol"
 include "./__activity_manager/public/interfaces/ActivityManagerAdminInterface.iol"
@@ -76,15 +76,15 @@ define selectActivity
 
 define embed_scope
 {
-	mkdir@File( "./__activity_manager/activities/" + eReq.key )();
+	mkdir@File( ACTIVITIES_DIRECTORY + eReq.key )();
 
 	if( is_defined( eReq.mh ) ){
-		f.filename = "./__activity_manager/activities/" + eReq.key + "/mh.ol";
+		f.filename = ACTIVITIES_DIRECTORY + eReq.key + "/mh.ol";
 		f.content = eReq.mh;
 		writeFile@File( f )()
 	};
 
-	f.filename = "./__activity_manager/activities/" + eReq.key + "/" + eReq.key + ".ol";
+	f.filename = ACTIVITIES_DIRECTORY + eReq.key + "/" + eReq.key + ".ol";
 	f.content = eReq.code;
 	writeFile@File( f )();
 
@@ -122,8 +122,11 @@ init
 
 		getLocalLocation@Runtime()( global.myLocation );
 
+		getServiceDirectory@File()( serviceDirectory );
+		ACTIVITIES_DIRECTORY = serviceDirectory + "/activities/";
+
 		// load all default scopes
-		lReq.directory = "./__activity_manager/activities/";
+		lReq.directory = ACTIVITIES_DIRECTORY;
 		lReq.dirsOnly = true;
 		list@File( lReq )( lRes );
 		println@Console( "Activities found in " + lReq.directory + ": " + #lRes.result )();
