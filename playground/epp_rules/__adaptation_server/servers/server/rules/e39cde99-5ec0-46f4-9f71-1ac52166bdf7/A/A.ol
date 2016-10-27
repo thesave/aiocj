@@ -10,6 +10,29 @@ type OpType:void {
 outputPort MH {
 }
 
+type CoordType: void {
+  .sid: string
+  .rolesNum: int
+  .hasAck?: bool
+}
+
+type JoinType: void {
+  .sid: string
+}
+
+interface LeaderInterface {
+OneWay:
+  initStartProcedure( CoordType )
+RequestResponse:
+  joinStart( JoinType )( void ), joinAck( JoinType )( void )
+}
+
+outputPort Leader {
+  Location: "socket://localhost:15000" // THIS MUST BE REPLACED WITH A PLACEHOLDER FOR THE LEADER
+  Protocol: sodep
+  Interfaces: LeaderInterface
+}
+
 outputPort C {
 Location: "RPH__C!/Activity/Adapt__KPH__"
 Protocol: sodep
@@ -17,14 +40,17 @@ RequestResponse:
 	log(OpType)(undefined)
 }
 
-
 define onRun
 {
-	get@State("msg")(msg);
-	var6.content = msg;
-	var6.msgID = "8e725aa2-8577-4789-9252-c77acc933499";
+  var1.sid = "Adapt__KPH__";
+  joinStart@Leader( var1 )();
+  get@State("msg")(msg);
+  var6.content = msg;
+  var6.msgID = "8e725aa2-8577-4789-9252-c77acc933499";
   println@Console( "CONTACTING C" )();
-	log@C(var6)()
+  log@C(var6)();
+  var7.sid = "Adapt__KPH__";
+  joinAck@Leader( var7 )()
 }
 
 define start

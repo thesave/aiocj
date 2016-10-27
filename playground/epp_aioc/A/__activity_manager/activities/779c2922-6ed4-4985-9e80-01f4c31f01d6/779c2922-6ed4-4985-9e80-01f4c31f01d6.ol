@@ -6,19 +6,27 @@ type OpType:void {
 	.content?:undefined
 }
 
-interface MHInterface {
+type CoordType: void {
+  .sid: string
+  .rolesNum: int
+  .hasAck?: bool
+}
+
+type JoinType: void {
+  .sid: string
+}
+
+interface LeaderInterface {
 OneWay:
-	innerstart(string)
+	initStartProcedure( CoordType )
 RequestResponse:
-	start(OpType)(undefined), ack(OpType)(undefined), get_ack(OpType)(undefined), start_B(OpType)(undefined), start_A(OpType)(undefined)
+	joinStart( JoinType )( void ), joinAck( JoinType )( void )
 }
 
-outputPort MH {
-Interfaces: MHInterface
-}
-
-embedded {
-Jolie : "__activity_manager/activities/779c2922-6ed4-4985-9e80-01f4c31f01d6/mh.ol" in MH
+outputPort A {
+	Location: "socket://localhost:10500"
+	Protocol: sodep
+	Interfaces: LeaderInterface
 }
 
 outputPort B {
@@ -29,12 +37,12 @@ RequestResponse:
 	msg(OpType)(undefined)
 }
 
-inputPort MyInputPort {
-Location: "local"
-Protocol: sodep
-Aggregates: MH
-}
-
+// UNNECESSARY FOR THIS CASE <---
+// inputPort MyInputPort {
+// Location: "local"
+// Protocol: sodep
+// Aggregates: MH
+// }
 
 define onRun
 {
@@ -48,10 +56,13 @@ include "console.iol"
 
 define start
 {
-	var4.msgID = "779c2922-6ed4-4985-9e80-01f4c31f01d6";
-	ledRoles = 1; // THIS SETS THE NUMBER OF ledRoles in the original scope
-	start@MH(var4)();
-	start_A@MH(var4)();
+	var4.sid = "779c2922-6ed4-4985-9e80-01f4c31f01d6";
+	var4.rolesNum = 2;
+	var4.hasAck = true;
+	initStartProcedure@A( var4 );
+	undef( var4.rolesNum );
+	undef( var4.hasAck );
+	joinStart@A(var4)();
 	aReq.properties.scopeName.value = "hello_world";
 	startSR.name = "execute";
 	acquire@SemaphoreUtils(startSR)();
@@ -61,16 +72,17 @@ define start
 	checkForUpdate@AdaptationManager(aReq)(aRes);
 	if (is_defined(aRes)) {
 		var3.msgID = "779c2922-6ed4-4985-9e80-01f4c31f01d6";
-		start@MH(var3)();
 		for ( c = 0, c < #aRes.A.code, c++ ){
 			embed_scope@ActivityManager(aRes.A.code[ c ])()
 		};
-		ledRoles = aRes.ledRoles; // THIS OVERWRITES ledRoles
 		adaptRequest.cookie = var3.msgID;
-		adaptRequest.code << aRes.B.code;
-		adaptRequest.main_key = aRes.main_key;
+		adaptRequest.code << aRes.B.code;				// THIS SHALL BE CHANGED TO COMPRISE ALSO NEW ROLES
+		var6.sid = adaptRequest.main_key = aRes.main_key;
+		println@Console( "initiating procedure for: " + var6.sid )();
+		var6.rolesNum = 3; // THIS MUST BE A PARAMETER WITHIN aRes
+		var6.hasAck = true;
+		initStartProcedure@A( var6 ); // LAUNCHES THE INITSTARTPROCEDURE FOR THE NEW RULE
 		adapt@B(adaptRequest)();
-		start_A@MH(var3)();
 		run@ActivityManager(aRes.main_key)()
 	} else {
 		eReq.cookie = "779c2922-6ed4-4985-9e80-01f4c31f01d6";
@@ -81,10 +93,8 @@ define start
 		msg@B(var2)()
 	};
 	{
-		var5.msgID = "A";
-		var5.content.ledRoles = ledRoles;  // COMMUNICATES NUMBER OF LED ROLES TO MH
-		println@Console( "ledRoles contains: " + var5.content.ledRoles )();
-		get_ack@MH(var5)()
+		var5.sid = "779c2922-6ed4-4985-9e80-01f4c31f01d6";
+		joinAck@A(var5)()
 	};
 	startActivity@ActivityManager("779c2922-6ed4-4985-9e80-01f4c31f01d6");
 	startSR.name = "done";

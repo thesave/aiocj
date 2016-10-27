@@ -8,6 +8,29 @@ type OpType:void {
 	.content?:undefined
 }
 
+type CoordType: void {
+  .sid: string
+  .rolesNum: int
+  .hasAck?: bool
+}
+
+type JoinType: void {
+  .sid: string
+}
+
+interface LeaderInterface {
+OneWay:
+  initStartProcedure( CoordType )
+RequestResponse:
+  joinStart( JoinType )( void ), joinAck( JoinType )( void )
+}
+
+outputPort Leader {
+  Location: "socket://localhost:15000" // THIS MUST BE REPLACED WITH A PLACEHOLDER FOR THE LEADER
+  Protocol: sodep
+  Interfaces: LeaderInterface
+}
+
 interface MHInterface {
 RequestResponse:
 	get_log(OpType)(undefined), log(OpType)(undefined)
@@ -37,7 +60,9 @@ Aggregates: MH
 
 define onRun
 {
-	println@Console( "RUNNING" )();
+	println@Console( "RUNNING JOINSTART" )();
+  var1.sid = "Adapt__KPH__";
+  joinStart@Leader( var1 )();
 	var9.msgID = "8e725aa2-8577-4789-9252-c77acc933499";
 	println@Console( "CONTACTING THE MESSAGE-HANDLER" )();
 	get_log@MH(var9)(var9);
@@ -53,7 +78,9 @@ define onRun
 	println@Console( "CONTACTING B" )();
 	println@Console( "at port " + B.location )();
 	pass@B(var11)();
-	println@Console( "CONTACTED B" )()
+	println@Console( "CONTACTED B" )();
+	var12.sid = "Adapt__KPH__";
+  joinAck@Leader( var12 )()
 }
 
 define start
