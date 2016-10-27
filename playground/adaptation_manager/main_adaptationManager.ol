@@ -1,5 +1,3 @@
-
-
 /******************************************************************************
  *   Copyright (C) 2009-2010 by Fabrizio Montesi <famontesi@gmail.com>        *
  *   Copyright (C) 2013 by Claudio Guidi <guidiclaudio@gmail.com>             *

@@ -1,9 +1,9 @@
-
 constants {
 	Location_Client = "socket://localhost:10500/",
 	Location_Folder = "A",
 	ROLE = "A"
 }
+
 execution { single }
 
 type OpType:void {
@@ -16,6 +16,7 @@ OneWay:
 	innerstart(string)
 RequestResponse:
 	start(OpType)(undefined), ack(OpType)(undefined), get_ack(OpType)(undefined), start_B(OpType)(undefined), start_A(OpType)(undefined)
+	
 }
 
 outputPort MH {
@@ -34,4 +35,3 @@ main
 	start_A@MH(var0)();
 	run@ActivityManager("779c2922-6ed4-4985-9e80-01f4c31f01d6")()
 }
-

@@ -1,4 +1,5 @@
 include "semaphore_utils.iol"
+include "console.iol"
 include "../AbstractActivity.iol"
 
 type OpType:void {
@@ -22,6 +23,7 @@ define onRun
 	get@State("msg")(msg);
 	var6.content = msg;
 	var6.msgID = "8e725aa2-8577-4789-9252-c77acc933499";
+  println@Console( "CONTACTING C" )();
 	log@C(var6)()
 }
 

@@ -1,5 +1,6 @@
 include "semaphore_utils.iol"
 include "console.iol"
+include "time.iol"
 include "../AbstractActivity.iol"
 
 type OpType:void {
@@ -34,7 +35,6 @@ Interfaces: AdaptActivityInterface
 Aggregates: MH
 }
 
-
 define onRun
 {
 	println@Console( "RUNNING" )();
@@ -49,7 +49,9 @@ define onRun
 	get@State("msg")(msg);
 	var11.content = msg;
 	var11.msgID = "b0bde86a-e516-4513-bee6-4ca07b292b23";
+
 	println@Console( "CONTACTING B" )();
+	println@Console( "at port " + B.location )();
 	pass@B(var11)();
 	println@Console( "CONTACTED B" )()
 }

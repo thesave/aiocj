@@ -1,24 +1,23 @@
-
 constants {
 	Location_Client = "socket://localhost:10501/",
 	Location_Folder = "B",
 	ROLE = "B"
 }
+
 execution { single }
 
-type OpType:void {
-	.msgID:string
-	.content?:undefined
-}
+outputPort MH {}
 
-outputPort MH {
+type OpType:void {
+  .msgID:string
+  .content?:undefined
 }
 
 outputPort A {
 Location: "socket://localhost:10500/"
 Protocol: sodep
 RequestResponse:
-	start_B(OpType)(undefined)
+	start_B( OpType )(undefined)
 }
 
 include "AbstractClient.iol"

@@ -1,5 +1,6 @@
 include "runtime.iol"
 include "semaphore_utils.iol"
+include "console.iol"
 
 execution { concurrent }
 
@@ -36,7 +37,8 @@ init
 main
 {
 	[ pass(c)() {
-	get_pass()(c	) {
+		println@Console( "received message from C" )();
+		get_pass()(c) {
 		nullProcess	
 	}
 } ] {
