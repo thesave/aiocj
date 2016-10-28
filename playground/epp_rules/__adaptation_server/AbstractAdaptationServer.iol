@@ -226,15 +226,20 @@ define sendRule {
       readFile.filename = sf.directory + fileSeparator + file;
       readFile@File( readFile )( code );
 
-      adaptReq.main_key = adaptReq.code[ rci ].key = main_key;
+      response.roles.( newRole ).code[ rci ].key = main_key;    
 
       if( file == "mh.ol" ){
-        adaptReq.code[ rci ].mh = code
+        response.roles.( newRole ).code[ rci ].mh = code
       } else {
         // if it is the scope, it injects a fresh key related to that scope
         code.replacement = main_key;
         code.regex = "Adapt__KPH__";
         replaceAll@StringUtils( code )( code );
+        // replaces the address of the scope leader
+        code.replacement = request.client;
+        code.regex = "RPH__ADAPTATION_LEADER";
+        replaceAll@StringUtils( code )( code );
+        
         // replaces the addresses of existing roles
         foreach ( p : request.ports ){
           code.replacement = request.ports.( p ).address;
@@ -254,7 +259,7 @@ define sendRule {
           code.regex = staticScopeUUID;
           replaceAll@StringUtils( code )( code )
         };
-        adaptReq.code[ rci ].code = code
+        response.roles.( newRole ).code[ rci ].code = code
       }
     };
 
@@ -277,10 +282,10 @@ define sendRule {
         readFile.filename = sf.directory + fileSeparator + file;
         readFile@File( readFile )( code );
 
-        adaptReq.code[ rci ].key = subscopesMap.( ssFolder );
+        response.roles.( newRole ).code[ rci ].key = subscopesMap.( ssFolder );
 
         if( file == "mh.ol" ){
-          adaptReq.code[ rci ].mh = code
+          response.roles.( newRole ).code[ rci ].mh = code
         } else {
           // replaces the static UUID key with the fresh one
           foreach( staticScopeUUID : subscopesMap ){
@@ -304,21 +309,21 @@ define sendRule {
           };
           
 
-          adaptReq.code[ rci ].code = code
+          response.roles.( newRole ).code[ rci ].code = code
         }
       }
     };
 
-    NewRole.location = newRolesLocations.( newRole ) + "/Activity/basicActivity"; // THIS IS THE PATH OF THE BASIC ACTIVITY
-    adaptReq.cookie = "basicActivity";
-    adapt@NewRole( adaptReq )( s );
-    undef( adaptReq )
+    response.roles.( newRole ).location = newRolesLocations.( newRole ) + "/Activity/basicActivity";
+    response.roles.( newRole ).cookie = "basicActivity"
   };
 
   // checks if the rule has the code for the considered role
   foreach( role : request.ports ) {
     rci = 0; // role code counter
-      
+    response.roles.( role ).location = request.ports.( role ).address;
+    // WE DO NOT SET THE COOKIE FOR THE ALREADY-PRESENT ROLES BECAUSE THE LEADER HAS THAT COOKIE
+
     // if it has the code for that role
     if( is_defined( pRoles.( role ) ) ){
 
@@ -333,14 +338,18 @@ define sendRule {
         readFile.filename = sf.directory + fileSeparator + file;
         readFile@File( readFile )( code );
 
-        response.( role ).code[ rci ].key = main_key;
+        response.roles.( role ).code[ rci ].key = main_key;
 
         if( file == "mh.ol" ){
-          response.( role ).code[ rci ].mh = code
+          response.roles.( role ).code[ rci ].mh = code
         } else {
           // if it is the scope, it injects a fresh key related to that scope
           code.replacement = main_key;
           code.regex = "Adapt__KPH__";
+          replaceAll@StringUtils( code )( code );
+          // replaces the address of the scope leader
+          code.replacement = request.client;
+          code.regex = "RPH__ADAPTATION_LEADER";
           replaceAll@StringUtils( code )( code );
           // replaces the addresses of the existing roles
           foreach ( p : request.ports ){
@@ -360,7 +369,7 @@ define sendRule {
             code.regex = staticScopeUUID;
             replaceAll@StringUtils( code )( code )
           };
-          response.( role ).code[ rci ].code = code
+          response.roles.( role ).code[ rci ].code = code
         }
       };
 
@@ -383,10 +392,10 @@ define sendRule {
           readFile.filename = sf.directory + fileSeparator + file;
           readFile@File( readFile )( code );
 
-          response.( role ).code[ rci ].key = subscopesMap.( ssFolder );
+          response.roles.( role ).code[ rci ].key = subscopesMap.( ssFolder );
 
           if( file == "mh.ol" ){
-            response.( role ).code[ rci ].mh = code
+            response.roles.( role ).code[ rci ].mh = code
           } else {
             // replaces the static UUID key with the fresh one
             foreach( staticScopeUUID : subscopesMap ){
@@ -409,7 +418,7 @@ define sendRule {
               replaceAll@StringUtils( code )( code )
             };
 
-            response.( role ).code[ rci ].code = code
+            response.roles.( role ).code[ rci ].code = code
           }
         }
       }
@@ -417,8 +426,11 @@ define sendRule {
     // if there are no projected processes for that role
     } else {
       // loads the empty scope
-      response.( role ).code[ rci ].key = main_key;
+      response.roles.( role ).code[ rci ].key = main_key;
       code = emptyProcess;
+      code.replacement = request.client;
+      code.regex = "RPH__ADAPTATION_LEADER";
+      replaceAll@StringUtils( code )( code );
       code.replacement = main_key;
       code.regex = "Adapt__KPH__";
       replaceAll@StringUtils( code )( code );
@@ -430,7 +442,7 @@ define sendRule {
         code.regex = "RPH__" + p;
         replaceAll@StringUtils( code )( code )
       };
-      response.( role ).code[ rci ].code = code
+      response.roles.( role ).code[ rci ].code = code
     }
   }
 }

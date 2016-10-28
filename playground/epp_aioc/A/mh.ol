@@ -46,27 +46,28 @@ init
 
 define joinStart {
   joinStart()(){
-  	if( --joinStartCounter > 0 ){
-  		joinStart
-  	}
+    if( --joinStartCounter > 0 ){
+      joinStart
+    }
   }
 }
 
 define joinAck {
-	joinAck()(){
+  joinAck()(){
 		if( --joinAckCounter > 0 ) {
-		  joinAck()()
+		  joinAck
 		}
 	}
 }
 
 main
 {
-	initStartProcedure( startRequest );
-	joinStartCounter = joinAckCounter = startRequest.rolesNum;
-	joinStart;
-  if ( startRequest.hasAck ){
-	 joinAck
+	[ initStartProcedure( startRequest ) ]{
+    joinStartCounter = joinAckCounter = startRequest.rolesNum;
+    joinStart;
+    if ( startRequest.hasAck ){
+     joinAck
+    }
   }
 }
 

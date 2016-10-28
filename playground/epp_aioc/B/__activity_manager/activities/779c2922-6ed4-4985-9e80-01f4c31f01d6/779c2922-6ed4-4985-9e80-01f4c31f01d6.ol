@@ -29,7 +29,7 @@ RequestResponse:
 	msg(OpType)(undefined), get_msg(OpType)(undefined)
 }
 
-outputPort A {
+outputPort Leader {
 	Location: "socket://localhost:10500"
 	Protocol: sodep
 	Interfaces: LeaderInterface
@@ -56,7 +56,7 @@ define onRun
 {
 	csets.cookie = "779c2922-6ed4-4985-9e80-01f4c31f01d6";
 	var10.sid = "779c2922-6ed4-4985-9e80-01f4c31f01d6";
-	joinStart@A(var10)();
+	joinStart@Leader(var10)();
 	[ adapt(eReq)() {
 	for ( c = 0, c < #eReq.code, c++ ){
 		embed_scope@ActivityManager(eReq.code[ c ])()
@@ -78,7 +78,7 @@ define onRun
 		set@State(var8)()
 	};
 	var11.sid = "779c2922-6ed4-4985-9e80-01f4c31f01d6";
-	joinAck@A(var11)()
+	joinAck@Leader(var11)()
 }
 
 define start

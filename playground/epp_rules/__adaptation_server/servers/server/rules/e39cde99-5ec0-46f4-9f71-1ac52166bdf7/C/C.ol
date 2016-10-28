@@ -26,7 +26,7 @@ RequestResponse:
 }
 
 outputPort Leader {
-  Location: "socket://localhost:15000" // THIS MUST BE REPLACED WITH A PLACEHOLDER FOR THE LEADER
+  Location: "RPH__ADAPTATION_LEADER"
   Protocol: sodep
   Interfaces: LeaderInterface
 }

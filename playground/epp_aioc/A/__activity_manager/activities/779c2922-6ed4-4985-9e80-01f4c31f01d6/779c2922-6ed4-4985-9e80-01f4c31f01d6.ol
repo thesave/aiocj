@@ -23,10 +23,15 @@ RequestResponse:
 	joinStart( JoinType )( void ), joinAck( JoinType )( void )
 }
 
-outputPort A {
+outputPort Leader {
 	Location: "socket://localhost:10500"
 	Protocol: sodep
 	Interfaces: LeaderInterface
+}
+
+outputPort LedRole {
+  Protocol: sodep
+  Interfaces: AdaptActivityInterface
 }
 
 outputPort B {
@@ -59,34 +64,52 @@ define start
 	var4.sid = "779c2922-6ed4-4985-9e80-01f4c31f01d6";
 	var4.rolesNum = 2;
 	var4.hasAck = true;
-	initStartProcedure@A( var4 );
+  // THIS GOES HERE TO WAIT FOR OTHER ROLES
+	initStartProcedure@Leader( var4 );
 	undef( var4.rolesNum );
 	undef( var4.hasAck );
-	joinStart@A(var4)();
-	aReq.properties.scopeName.value = "hello_world";
-	startSR.name = "execute";
-	acquire@SemaphoreUtils(startSR)();
+  startSR.name = "execute";
+  acquire@SemaphoreUtils(startSR)();
+	joinStart@Leader(var4)();
+  aReq.properties.scopeName.value = "hello_world";
 	aReq.client = "socket://localhost:10500/";
 	aReq.ports.A.address = "socket://localhost:10500/";
 	aReq.ports.B.address = "socket://localhost:10501/";
 	checkForUpdate@AdaptationManager(aReq)(aRes);
 	if (is_defined(aRes)) {
 		var3.msgID = "779c2922-6ed4-4985-9e80-01f4c31f01d6";
-		for ( c = 0, c < #aRes.A.code, c++ ){
-			embed_scope@ActivityManager(aRes.A.code[ c ])()
+		for ( c = 0, c < #aRes.roles.A.code, c++ ){
+			embed_scope@ActivityManager(aRes.roles.A.code[ c ])()
 		};
-		adaptRequest.cookie = var3.msgID;
-		adaptRequest.code << aRes.B.code;				// THIS SHALL BE CHANGED TO COMPRISE ALSO NEW ROLES
 		var6.sid = adaptRequest.main_key = aRes.main_key;
-		println@Console( "initiating procedure for: " + var6.sid )();
 		var6.rolesNum = 3; // THIS MUST BE A PARAMETER WITHIN aRes
 		var6.hasAck = true;
-		initStartProcedure@A( var6 ); // LAUNCHES THE INITSTARTPROCEDURE FOR THE NEW RULE
-		adapt@B(adaptRequest)();
+    // REMOVES OWN CODE FROM aRes
+    undef( aRes.roles.A );
+    // LAUNCHES THE INITSTARTPROCEDURE FOR THE NEW RULE
+    println@Console( "initiating procedure for: " + var6.sid )();
+    initStartProcedure@Leader( var6 ); 
+    // ADAPTS ALL LED ROLES ( ALREADY-PRESENT AND NEW ONES )
+    foreach ( roleName : aRes.roles ) {
+      if( is_defined( aRes.roles.( roleName ).cookie ) ){
+        adaptRequest.cookie = aRes.roles.( roleName ).cookie;
+        LedRole.location = aRes.roles.( roleName ).location
+      } else {
+        adaptRequest.cookie = var3.msgID;
+        LedRole.location = aRes.roles.( roleName ).location + "!/Activity/779c2922-6ed4-4985-9e80-01f4c31f01d6"
+      };
+      adaptRequest.code << aRes.roles.( roleName ).code;
+      println@Console( "SENDING ADAPTATION TO ROLE: " + roleName )();
+      adapt@LedRole( adaptRequest )();
+      undef( adaptRequest.code )
+    };
+
+    // EVERYONE ELSE IS ADAPTED, NOW THE LEADER CAN START TOO
 		run@ActivityManager(aRes.main_key)()
 	} else {
 		eReq.cookie = "779c2922-6ed4-4985-9e80-01f4c31f01d6";
-		noAdapt@B(eReq);
+    // THIS REMAINS STATICALLY SPECIFIED
+    noAdapt@B(eReq);
 		_tmp = "hello";
 		var2.content = _tmp;
 		var2.msgID = "58fb25ca-8677-4423-9d31-2830128bb94a";
@@ -94,7 +117,7 @@ define start
 	};
 	{
 		var5.sid = "779c2922-6ed4-4985-9e80-01f4c31f01d6";
-		joinAck@A(var5)()
+		joinAck@Leader(var5)()
 	};
 	startActivity@ActivityManager("779c2922-6ed4-4985-9e80-01f4c31f01d6");
 	startSR.name = "done";
