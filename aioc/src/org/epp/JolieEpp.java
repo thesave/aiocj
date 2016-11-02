@@ -22,29 +22,20 @@
 
 package org.epp;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-
 import jolie.lang.Constants.EmbeddedServiceType;
 import jolie.lang.Constants.ExecutionMode;
 import jolie.lang.NativeType;
@@ -76,6 +67,7 @@ import jolie.lang.parse.ast.RequestResponseOperationDeclaration;
 import jolie.lang.parse.ast.RequestResponseOperationStatement;
 import jolie.lang.parse.ast.SequenceStatement;
 import jolie.lang.parse.ast.SolicitResponseOperationStatement;
+import jolie.lang.parse.ast.UndefStatement;
 import jolie.lang.parse.ast.VariablePathNode;
 import jolie.lang.parse.ast.expression.ConstantIntegerExpression;
 import jolie.lang.parse.ast.expression.ConstantStringExpression;
@@ -91,9 +83,6 @@ import org.aioc.AssignmentSet;
 import org.aioc.Choreography;
 import org.aioc.LocationDefinition;
 import org.aioc.Rule;
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.epp.impl.ExpressionProjector;
 import org.epp.impl.FileUtils;
 import org.epp.impl.JolieEppUtils;
@@ -106,7 +95,6 @@ import org.epp.impl.ThreadProjectionResult;
 import org.epp.impl.ThreadProjector;
 import org.epp.impl.WhereConditionProjector;
 import org.epp.impl.merging.MergingException;
-import org.osgi.framework.Bundle;
 
 public class JolieEpp {
 	private final File srcGenDirectory;
@@ -291,29 +279,15 @@ public class JolieEpp {
 				JolieEppUtils.PARSING_CONTEXT);
 		if (starter) {
 			// add also ack and get_Ack
-			additionalOperations.add("ack");
-			additionalOperations.add("get_ack");
-
-			for (String role : collector.getRoles()) {
-				additionalOperations.add(JolieEppUtils.START_OPERATION + "_" + role);
-			}
-			innerstartBlock = getInnerStartBlock(thread, collector);
+			additionalOperations.add( JolieEppUtils.START_OPERATION );
+			additionalOperations.add( JolieEppUtils.ACK_OPERATION );
+			innerstartBlock = getInnerStartBlock( thread, collector );
 			startBlock = getStartBlock();
 		}
 
-		if (result.uncorrelatedInputOperations().isEmpty()
-				&& additionalOperations.isEmpty()) {
+		if ( result.uncorrelatedInputOperations().isEmpty() && additionalOperations.isEmpty() ) {
 			// adds type definition
-			TypeInlineDefinition opType, roleSubType, contentSubType;
-			opType = new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT,
-					"OpType", NativeType.VOID, new Range(1, 1));
-			roleSubType = new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT,
-					"msgID", NativeType.STRING, new Range(1, 1));
-			opType.putSubType(roleSubType);
-			contentSubType = new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT,
-					"content", NativeType.RAW, new Range(0, 1));
-			opType.putSubType(contentSubType);
-			jolieProgram.addChild(opType);
+			jolieProgram.addChild( JolieEppUtils.TYPE_OpType );
 			OutputPortInfo embedderOutputPort = new OutputPortInfo(
 					JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.MESSAGEHANDLER_NAME);
 			jolieProgram.addChild(embedderOutputPort);
@@ -327,17 +301,9 @@ public class JolieEpp {
 					ExecutionMode.CONCURRENT));
 
 			// adds OpType definition
-			TypeInlineDefinition opType, roleSubType, contentSubType;
-			opType = new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT,
-					"OpType", NativeType.VOID, new Range(1, 1));
-			roleSubType = new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT,
-					"msgID", NativeType.STRING, new Range(1, 1));
-			opType.putSubType(roleSubType);
-			contentSubType = new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT,
-					"content", NativeType.RAW, new Range(0, 1));
-			opType.putSubType(contentSubType);
-
-			mh.addChild(opType);
+			mh.addChild( JolieEppUtils.TYPE_OpType );
+			mh.addChild( JolieEppUtils.TYPE_CoordType );
+			mh.addChild( JolieEppUtils.TYPE_JoinType );
 
 			// adds inputPort
 			InputPortInfo mhInputPort = new InputPortInfo(
@@ -354,7 +320,7 @@ public class JolieEpp {
 					JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.MESSAGEHANDLER_NAME
 							+ "Interface");
 			RequestResponseOperationDeclaration decl;
-			for (String operation : result.uncorrelatedInputOperations()) {
+			for ( String operation : result.uncorrelatedInputOperations() ) {
 				decl = new RequestResponseOperationDeclaration(
 						JolieEppUtils.PARSING_CONTEXT, operation, new TypeInlineDefinition(
 								JolieEppUtils.PARSING_CONTEXT, "OpType", NativeType.ANY,
@@ -373,37 +339,49 @@ public class JolieEpp {
 				mh_interface.addOperation(decl);
 			}
 
+			decl = new RequestResponseOperationDeclaration(
+					JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.ACK_OPERATION,
+					new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT, "JoinType",
+							NativeType.ANY, new Range(1, 1)), new TypeInlineDefinition(
+							JolieEppUtils.PARSING_CONTEXT, "void", NativeType.VOID,
+							new Range(1, 1)), null);
+			mh_interface.addOperation(decl);
+
+			decl = new RequestResponseOperationDeclaration(
+					JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.START_OPERATION,
+					new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT, "JoinType",
+							NativeType.ANY, new Range(1, 1)), new TypeInlineDefinition(
+							JolieEppUtils.PARSING_CONTEXT, "void", NativeType.VOID,
+							new Range(1, 1)), null);
+			mh_interface.addOperation(decl);
+			
+			OneWayOperationDeclaration OwDecl = new OneWayOperationDeclaration( JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.INITSTART_OPERATION );
+			OwDecl.setRequestType(new TypeInlineDefinition(	JolieEppUtils.PARSING_CONTEXT, "CoordType", NativeType.ANY,	new Range(1, 1) ) );
+			mh_interface.addOperation(OwDecl);
+
 			// add start operation in interface
-			if (starter) {
-
-				decl = new RequestResponseOperationDeclaration(
-						JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.START_OPERATION,
-						new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT, "OpType",
-								NativeType.ANY, new Range(1, 1)), new TypeInlineDefinition(
-								JolieEppUtils.PARSING_CONTEXT, "undefined", NativeType.ANY,
-								new Range(1, 1)), null);
-				mh_interface.addOperation(decl);
-
+//			if ( starter ) {
+				
 				// innerstart( string )
-				OneWayOperationDeclaration OwDecl = new OneWayOperationDeclaration(
-						JolieEppUtils.PARSING_CONTEXT, "inner"
-								+ JolieEppUtils.START_OPERATION);
-				OwDecl.setRequestType(new TypeInlineDefinition(
-						JolieEppUtils.PARSING_CONTEXT, "string", NativeType.STRING,
-						new Range(1, 1)));
-				mh_interface.addOperation(OwDecl);
+//				OneWayOperationDeclaration OwDecl = new OneWayOperationDeclaration(
+//						JolieEppUtils.PARSING_CONTEXT, "inner"
+//								+ JolieEppUtils.START_OPERATION);
+//				OwDecl.setRequestType(new TypeInlineDefinition(
+//						JolieEppUtils.PARSING_CONTEXT, "string", NativeType.STRING,
+//						new Range(1, 1)));
+//				mh_interface.addOperation(OwDecl);
 
 				// add start_p1, ..., start_pn operations
-				for (String opName : additionalOperations) {
-					decl = new RequestResponseOperationDeclaration(
-							JolieEppUtils.PARSING_CONTEXT, opName, new TypeInlineDefinition(
-									JolieEppUtils.PARSING_CONTEXT, "OpType", NativeType.ANY,
-									new Range(1, 1)), new TypeInlineDefinition(
-									JolieEppUtils.PARSING_CONTEXT, "undefined", NativeType.ANY,
-									new Range(1, 1)), null);
-					mh_interface.addOperation(decl);
-				}
-			}
+//				for (String opName : additionalOperations) {
+//					decl = new RequestResponseOperationDeclaration(
+//							JolieEppUtils.PARSING_CONTEXT, opName, new TypeInlineDefinition(
+//									JolieEppUtils.PARSING_CONTEXT, "OpType", NativeType.ANY,
+//									new Range(1, 1)), new TypeInlineDefinition(
+//									JolieEppUtils.PARSING_CONTEXT, "undefined", NativeType.ANY,
+//									new Range(1, 1)), null);
+//					mh_interface.addOperation(decl);
+//				}
+//			}
 
 			mhInputPort.addInterface(mh_interface);
 			mhOutputPort.addInterface(mh_interface);
@@ -414,8 +392,10 @@ public class JolieEpp {
 
 			// embed message handler, set outputPort, and add Aggregation to inputPort
 			// type and interface must be integrated into the embedding thread
-			jolieProgram.addChild(opType);
-			jolieProgram.addChild(mh_interface);
+			jolieProgram.addChild( JolieEppUtils.TYPE_OpType );
+			jolieProgram.addChild( JolieEppUtils.TYPE_CoordType );
+			jolieProgram.addChild( JolieEppUtils.TYPE_JoinType );
+			jolieProgram.addChild( mh_interface );
 
 			OutputPortInfo embedderOutputPort = new OutputPortInfo(
 					JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.MESSAGEHANDLER_NAME);
@@ -559,7 +539,7 @@ public class JolieEpp {
 						+ "Interface");
 
 		RequestResponseOperationDeclaration decl;
-		for (String operation : result.uncorrelatedInputOperations()) {
+		for ( String operation : result.uncorrelatedInputOperations() ) {
 			decl = new RequestResponseOperationDeclaration(
 					JolieEppUtils.PARSING_CONTEXT, operation, new TypeInlineDefinition(
 							JolieEppUtils.PARSING_CONTEXT, "OpType", NativeType.ANY,
@@ -688,19 +668,19 @@ public class JolieEpp {
 			throw new EndpointProjectionException( 
 					"EPP exception on Adaptation Manager and Environment deployment: " + e );
 		}
-		if (aiocJ.getAioc() != null) {
+		if ( aiocJ.getAioc() != null ) {
 			targetDirectory = new File(targetDirectory + File.separator + "epp_aioc");
 			FileUtils.deleteDirectory(targetDirectory);
 			targetDirectory.mkdir();
 
 			try {
-				collectLocations(aiocJ.getAioc().getPreamble().getLocDefinition());
-				projectThreads(aiocJ.getAioc());
-				ls.writeAIOCLaunchScript(aiocJ.getAioc(), targetDirectory);
+				collectLocations( aiocJ.getAioc().getPreamble().getLocDefinition() );
+				projectThreads( aiocJ.getAioc() );
+				ls.writeAIOCLaunchScript( aiocJ.getAioc(), targetDirectory );
 			} catch (MergingException e) {
 				throw new EndpointProjectionException(e);
 			}
-		} else if (aiocJ.getRuleSet() != null) {
+		} else if ( aiocJ.getRuleSet() != null ) {
 			System.out.println( "Found rule set, projecting...");
 			targetDirectory = new File(targetDirectory + File.separator + "epp_rules");
 			FileUtils.deleteDirectory(targetDirectory);
@@ -779,11 +759,11 @@ public class JolieEpp {
 	private void projectThreads(Aioc aioc) throws EndpointProjectionException,
 			IOException, MergingException {
 		NameCollector nameCollector = new NameCollector();
-		nameCollector.collect(aioc.getChoreography(), aioc);
+		nameCollector.collect( aioc.getChoreography(), aioc );
 
 		String start_key = JolieEppUtils.getCookie();
-		for (String thread : nameCollector.getRoles()) {
-			projectThread(thread, aioc, nameCollector, start_key);
+		for ( String thread : nameCollector.getRoles( )) {
+			projectThread( thread, aioc, nameCollector, start_key );
 		}
 
 		for (ScopeStructure scope : nameCollector.getScopes()) {
@@ -1138,11 +1118,12 @@ public class JolieEpp {
 							jolieMainNode
 					),
 					scope.getKey(), 
-					thread
+					thread,
+					nc.getRoles().size()
 			);
 		} else {
 			String threadStartOperation = 
-					JolieEppUtils.START_OPERATION + "_"	+ thread;
+					JolieEppUtils.START_OPERATION;
 			result.addRRToOutputPort(scope.getLeader(), threadStartOperation);
 			jolieMainNode = getLedStartProcedure(
 					getLedAdaptProcedure( jolieMainNode, thread, scope ),
@@ -1340,10 +1321,10 @@ public class JolieEpp {
 			jolieMainNode = getStarterProcedure(
 					getLeaderAdaptProcedure( scope, result, jolieMainNode ),
 					scope.getKey(), 
-					thread );
+					thread,
+					nc.getRoles().size() );
 		} else {
-			String threadStartOperation = JolieEppUtils.START_OPERATION + "_"
-					+ thread;
+			String threadStartOperation = JolieEppUtils.START_OPERATION;
 			result.addRRToOutputPort( scope.getLeader(), 
 					threadStartOperation );
 			jolieMainNode = getLedStartProcedure(
@@ -1499,16 +1480,35 @@ public class JolieEpp {
 	private OLSyntaxNode getStarterProcedure(
 			OLSyntaxNode jolieNode,
 			String start_key, 
-			String role) {
+			String role,
+			int rolesNumber) {
 		SequenceStatement seq = new SequenceStatement(JolieEppUtils.PARSING_CONTEXT);
 		String sStruct = JolieEppUtils.getFreshVariable();
 		seq.addChild( new AssignStatement(
 				JolieEppUtils.PARSING_CONTEXT,
-				JolieEppUtils.variableNameToJolieVariablePath( sStruct + ".msgID" ),
+				JolieEppUtils.variableNameToJolieVariablePath( sStruct + ".sid" ),
 				new ConstantStringExpression(
 						JolieEppUtils.PARSING_CONTEXT, 
 						start_key))
 		);
+		seq.addChild( new AssignStatement(
+				JolieEppUtils.PARSING_CONTEXT,
+				JolieEppUtils.variableNameToJolieVariablePath( sStruct + ".rolesNum" ),
+				new ConstantIntegerExpression(
+						JolieEppUtils.PARSING_CONTEXT, 
+						rolesNumber))
+		);
+		seq.addChild( new SolicitResponseOperationStatement(
+				JolieEppUtils.PARSING_CONTEXT, 
+				JolieEppUtils.INITSTART_OPERATION,
+				JolieEppUtils.MESSAGEHANDLER_NAME, 
+				JolieEppUtils.variableNameToJolieVariablePath( sStruct ), 
+				null, null)
+		);
+		seq.addChild( new UndefStatement(
+				JolieEppUtils.PARSING_CONTEXT,
+				JolieEppUtils.variableNameToJolieVariablePath( sStruct + ".rolesNum" )
+				) ); 
 		seq.addChild( new SolicitResponseOperationStatement(
 				JolieEppUtils.PARSING_CONTEXT, 
 				JolieEppUtils.START_OPERATION,
@@ -1516,12 +1516,6 @@ public class JolieEpp {
 				JolieEppUtils.variableNameToJolieVariablePath( sStruct ), 
 				null, null)
 		);
-		seq.addChild( new SolicitResponseOperationStatement(
-				JolieEppUtils.PARSING_CONTEXT, 
-				JolieEppUtils.START_OPERATION + "_" + role, 
-				JolieEppUtils.MESSAGEHANDLER_NAME, 
-				JolieEppUtils.variableNameToJolieVariablePath( sStruct ), 
-				null,	null));
 		if (jolieNode != null) {
 			seq.addChild(jolieNode);
 		}
@@ -1536,7 +1530,7 @@ public class JolieEpp {
 		String sStruct = JolieEppUtils.getFreshVariable();
 		sStructVarPath = JolieEppUtils.variableNameToJolieVariablePath(sStruct);
 		sStructVarPathRole = JolieEppUtils.variableNameToJolieVariablePath(sStruct);
-		JolieEppUtils.appendSubNode(sStructVarPathRole, "msgID");
+		JolieEppUtils.appendSubNode(sStructVarPathRole, "sid");
 		seq.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT,
 				sStructVarPathRole, new ConstantStringExpression(
 						JolieEppUtils.PARSING_CONTEXT, start_key)));
@@ -1841,7 +1835,7 @@ public class JolieEpp {
 		adaptChoice.addChild(
 				new SolicitResponseOperationStatement(
 						JolieEppUtils.PARSING_CONTEXT, 
-						JolieEppUtils.START_OPERATION + "_" + thread, 
+						JolieEppUtils.START_OPERATION, 
 						scope.getLeader(), 
 						JolieEppUtils.variableNameToJolieVariablePath( startCookie ), 
 						null, null)
@@ -1891,25 +1885,19 @@ public class JolieEpp {
 	 * @throws IOException
 	 * @throws MergingException
 	 */
-	private void projectThread(String thread, Aioc aioc, NameCollector collector,
-			String start_key) throws EndpointProjectionException, IOException,
-			MergingException {
-		jolie.lang.parse.ast.Program jolieProgram = new jolie.lang.parse.ast.Program(
-				JolieEppUtils.PARSING_CONTEXT);
-		jolieProgram.addChild(new ExecutionInfo(JolieEppUtils.PARSING_CONTEXT,
-				ExecutionMode.SINGLE));
+	private void projectThread( String thread, Aioc aioc, NameCollector collector, String start_key ) 
+			throws EndpointProjectionException, IOException, MergingException {
+		jolie.lang.parse.ast.Program jolieProgram = new jolie.lang.parse.ast.Program( JolieEppUtils.PARSING_CONTEXT );
+		jolieProgram.addChild( new ExecutionInfo( JolieEppUtils.PARSING_CONTEXT, ExecutionMode.SINGLE ) );
 
-		ThreadProjectionResult result = ThreadProjector.projectThread(thread,
-				aioc.getChoreography(), collector);
+		ThreadProjectionResult result = ThreadProjector.projectThread( thread, aioc.getChoreography(), collector );
 
 		String starter = aioc.getPreamble().getStarter();
 
-		if (starter.equals(thread)) {
-			result.setJolieNode(getStarterProcedure(result.jolieNode(), start_key,
-					thread));
+		if ( starter.equals( thread ) ) {
+			result.setJolieNode( getStarterProcedure( result.jolieNode(), start_key, thread, collector.getRoles().size() ) );
 		} else {
-			String threadStartOperation = JolieEppUtils.START_OPERATION + "_"
-					+ thread;
+			String threadStartOperation = JolieEppUtils.START_OPERATION;
 			result.addRRToOutputPort(starter, threadStartOperation);
 			result.setJolieNode(getLedStartProcedure(result.jolieNode(), thread,
 					start_key, starter, threadStartOperation));

@@ -37,6 +37,7 @@ import java.util.UUID;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import jolie.lang.NativeType;
 import jolie.lang.parse.OLParseTreeOptimizer;
 import jolie.lang.parse.ast.DefinitionNode;
 import jolie.lang.parse.ast.OLSyntaxNode;
@@ -44,9 +45,11 @@ import jolie.lang.parse.ast.VariablePathNode;
 import jolie.lang.parse.ast.expression.ConstantIntegerExpression;
 import jolie.lang.parse.ast.expression.ConstantStringExpression;
 import jolie.lang.parse.ast.expression.SumExpressionNode;
+import jolie.lang.parse.ast.types.TypeInlineDefinition;
 import jolie.lang.parse.context.ParsingContext;
 import jolie.lang.parse.context.URIParsingContext;
 import jolie.util.Pair;
+import jolie.util.Range;
 
 import org.aioc.Expression;
 import org.aioc.ExpressionBasicTerm;
@@ -333,7 +336,9 @@ public class JolieEppUtils
 	public final static String SELF_INPUT_PORT_NAME = "MyInputPort";
 	public final static String DEFAULT_MESSAGE_TYPE = "AiocType";
 	public final static String MAIN_SCOPE = "MAIN_SCOPE";
-	public final static String START_OPERATION = "start";
+	public final static String INITSTART_OPERATION = "initStartProcedure";
+	public final static String START_OPERATION = "joinStart";
+	public final static String ACK_OPERATION = "joinAck";
 	public final static String SESSION_DESCRIPTOR = "_sessionDescriptor";
 	public final static VariablePathNode SELFREF_VARPATH = variableNameToJolieVariablePath( "_myRef" );
 	public final static VariablePathNode SELFREF_TID_VARPATH = variableNameToJolieVariablePath( "_myRef" );
@@ -355,6 +360,32 @@ public class JolieEppUtils
 		JolieEppUtils.appendSubNode( JolieEppUtils.SELF_INPUT_PORT, SELF_INPUT_PORT_NAME );
 	
 		JolieEppUtils.appendSubNode( JolieEppUtils.EXPRESSION_TID_VARPATH, TID_VARNAME );
+	}
+	
+
+	public final static TypeInlineDefinition TYPE_OpType = 
+			new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT,	"OpType", NativeType.VOID, new Range(1, 1));
+	
+	static {
+		TYPE_OpType.putSubType( new TypeInlineDefinition( JolieEppUtils.PARSING_CONTEXT, "msgID", NativeType.STRING, new Range(1, 1) ) );
+		TYPE_OpType.putSubType( new TypeInlineDefinition( JolieEppUtils.PARSING_CONTEXT, "content", NativeType.RAW, new Range(0, 1) ) );
+	}
+	
+	public final static TypeInlineDefinition TYPE_JoinType = 
+			new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT,	"JoinType", NativeType.VOID, new Range(1, 1));
+	
+	static {
+		TYPE_JoinType.putSubType( new TypeInlineDefinition( JolieEppUtils.PARSING_CONTEXT, "sid", NativeType.STRING, new Range(1, 1) ) );
+	}
+	
+
+	public final static TypeInlineDefinition TYPE_CoordType = 
+			new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT,	"CoordType", NativeType.VOID, new Range(1, 1));
+	
+	static {
+		TYPE_CoordType.putSubType( new TypeInlineDefinition( JolieEppUtils.PARSING_CONTEXT, "sid", NativeType.STRING, new Range(1, 1) ) );
+		TYPE_CoordType.putSubType( new TypeInlineDefinition( JolieEppUtils.PARSING_CONTEXT, "rolesNum", NativeType.INT, new Range(1, 1) ) );
+		TYPE_CoordType.putSubType( new TypeInlineDefinition( JolieEppUtils.PARSING_CONTEXT, "hasAck", NativeType.BOOL, new Range(0, 1) ) );
 	}
 	
 }
