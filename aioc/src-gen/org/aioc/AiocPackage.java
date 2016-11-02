@@ -168,7 +168,7 @@ public interface AiocPackage extends EPackage
   int RULE__FUNCTION_LOCATION = 1;
 
   /**
-   * The feature id for the '<em><b>New Roles</b></em>' attribute.
+   * The feature id for the '<em><b>New Roles</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1721,10 +1721,10 @@ public interface AiocPackage extends EPackage
   EReference getRule_FunctionLocation();
 
   /**
-   * Returns the meta object for the attribute '{@link org.aioc.Rule#getNewRoles <em>New Roles</em>}'.
+   * Returns the meta object for the attribute list '{@link org.aioc.Rule#getNewRoles <em>New Roles</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>New Roles</em>'.
+   * @return the meta object for the attribute list '<em>New Roles</em>'.
    * @see org.aioc.Rule#getNewRoles()
    * @see #getRule()
    * @generated
@@ -3107,7 +3107,7 @@ public interface AiocPackage extends EPackage
     EReference RULE__FUNCTION_LOCATION = eINSTANCE.getRule_FunctionLocation();
 
     /**
-     * The meta object literal for the '<em><b>New Roles</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>New Roles</b></em>' attribute list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated

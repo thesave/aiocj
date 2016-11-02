@@ -896,7 +896,17 @@ public class JolieEpp {
 						new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, v)
 			));
 		}
-
+		// newRoles
+		for ( String newRole : rule.getNewRoles() ){
+			dataInitSequence.addChild(
+					new AssignStatement(
+						JolieEppUtils.PARSING_CONTEXT,
+						JolieEppUtils.variableNameToJolieVariablePath(
+								"rule.newRoles[ #rule.newRoles ]"
+						),
+						new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, newRole)
+			));
+		}
 		// scope keys
 		for ( ScopeStructure scope : scopes ){
 			dataInitSequence.addChild(
@@ -983,8 +993,8 @@ public class JolieEpp {
 		nc.collect( rule.getChoreography(), null );
 		String mh = embedMessageHandler(
 				thread, 
-				jolieProgram, 
-				result, 
+				jolieProgram,
+				result,
 				false,
 				nc,
 				JolieEppUtils.RULE_KEYPLACEHOLDER

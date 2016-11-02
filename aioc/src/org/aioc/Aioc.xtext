@@ -41,7 +41,7 @@ Rule:
 	"rule" LCURLY
 		( locDefinition = LocationDefinition )?
 		( functionLocation += FunctionLocation )*
-		(newRoles="newRoles" COLON (ID COMMA)* ID)?
+		( "newRoles" COLON (newRoles+=ID COMMA)* newRoles+=ID )?
 		"on" LCURLY where = Where RCURLY
 		"do" LCURLY choreography=Choreography RCURLY 
 	RCURLY

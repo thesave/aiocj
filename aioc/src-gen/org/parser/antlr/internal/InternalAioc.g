@@ -278,38 +278,55 @@ this_LCURLY_1=RULE_LCURLY
 	    }
 
 )
-)*((
-(
-		lv_newRoles_4_0=	'newRoles' 
+)*(	otherlv_4='newRoles' 
     {
-        newLeafNode(lv_newRoles_4_0, grammarAccess.getRuleAccess().getNewRolesNewRolesKeyword_4_0_0());
+    	newLeafNode(otherlv_4, grammarAccess.getRuleAccess().getNewRolesKeyword_4_0());
     }
- 
-	    {
-	        if ($current==null) {
-	            $current = createModelElement(grammarAccess.getRuleRule());
-	        }
-       		setWithLastConsumed($current, "newRoles", lv_newRoles_4_0, "newRoles");
-	    }
-
-)
-)this_COLON_5=RULE_COLON
+this_COLON_5=RULE_COLON
     { 
     newLeafNode(this_COLON_5, grammarAccess.getRuleAccess().getCOLONTerminalRuleCall_4_1()); 
     }
-(this_ID_6=RULE_ID
-    { 
-    newLeafNode(this_ID_6, grammarAccess.getRuleAccess().getIDTerminalRuleCall_4_2_0()); 
-    }
-this_COMMA_7=RULE_COMMA
+((
+(
+		lv_newRoles_6_0=RULE_ID
+		{
+			newLeafNode(lv_newRoles_6_0, grammarAccess.getRuleAccess().getNewRolesIDTerminalRuleCall_4_2_0_0()); 
+		}
+		{
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getRuleRule());
+	        }
+       		addWithLastConsumed(
+       			$current, 
+       			"newRoles",
+        		lv_newRoles_6_0, 
+        		"org.eclipse.xtext.common.Terminals.ID");
+	    }
+
+)
+)this_COMMA_7=RULE_COMMA
     { 
     newLeafNode(this_COMMA_7, grammarAccess.getRuleAccess().getCOMMATerminalRuleCall_4_2_1()); 
     }
-)*this_ID_8=RULE_ID
-    { 
-    newLeafNode(this_ID_8, grammarAccess.getRuleAccess().getIDTerminalRuleCall_4_3()); 
-    }
-)?	otherlv_9='on' 
+)*(
+(
+		lv_newRoles_8_0=RULE_ID
+		{
+			newLeafNode(lv_newRoles_8_0, grammarAccess.getRuleAccess().getNewRolesIDTerminalRuleCall_4_3_0()); 
+		}
+		{
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getRuleRule());
+	        }
+       		addWithLastConsumed(
+       			$current, 
+       			"newRoles",
+        		lv_newRoles_8_0, 
+        		"org.eclipse.xtext.common.Terminals.ID");
+	    }
+
+)
+))?	otherlv_9='on' 
     {
     	newLeafNode(otherlv_9, grammarAccess.getRuleAccess().getOnKeyword_5());
     }

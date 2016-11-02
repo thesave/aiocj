@@ -516,15 +516,15 @@ protected class Aioc_RCURLYTerminalRuleCall_8 extends UnassignedTextToken {
  * Rule:
  * 	"rule" LCURLY
  * 	locDefinition=LocationDefinition?
- * 	functionLocation+=FunctionLocation* (newRoles="newRoles" COLON (ID COMMA)* ID)?
+ * 	functionLocation+=FunctionLocation* ("newRoles" COLON (newRoles+=ID COMMA)* newRoles+=ID)?
  * 	"on" LCURLY where=Where RCURLY
  * 	"do" LCURLY choreography=Choreography RCURLY
  * 	RCURLY;
  *
  **/
 
-// "rule" LCURLY locDefinition=LocationDefinition? functionLocation+=FunctionLocation* (newRoles="newRoles" COLON (ID
-// COMMA)* ID)? "on" LCURLY where=Where RCURLY "do" LCURLY choreography=Choreography RCURLY RCURLY
+// "rule" LCURLY locDefinition=LocationDefinition? functionLocation+=FunctionLocation* ("newRoles" COLON (newRoles+=ID
+// COMMA)* newRoles+=ID)? "on" LCURLY where=Where RCURLY "do" LCURLY choreography=Choreography RCURLY RCURLY
 protected class Rule_Group extends GroupToken {
 	
 	public Rule_Group(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -690,7 +690,7 @@ protected class Rule_FunctionLocationAssignment_3 extends AssignmentToken  {
 	}	
 }
 
-// (newRoles="newRoles" COLON (ID COMMA)* ID)?
+// ("newRoles" COLON (newRoles+=ID COMMA)* newRoles+=ID)?
 protected class Rule_Group_4 extends GroupToken {
 	
 	public Rule_Group_4(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -705,23 +705,23 @@ protected class Rule_Group_4 extends GroupToken {
     @Override
 	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
 		switch(index) {
-			case 0: return new Rule_IDTerminalRuleCall_4_3(lastRuleCallOrigin, this, 0, inst);
+			case 0: return new Rule_NewRolesAssignment_4_3(lastRuleCallOrigin, this, 0, inst);
 			default: return null;
 		}	
 	}
 
 }
 
-// newRoles="newRoles"
-protected class Rule_NewRolesAssignment_4_0 extends AssignmentToken  {
+// "newRoles"
+protected class Rule_NewRolesKeyword_4_0 extends KeywordToken  {
 	
-	public Rule_NewRolesAssignment_4_0(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+	public Rule_NewRolesKeyword_4_0(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
 		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
 	}
 	
 	@Override
-	public Assignment getGrammarElement() {
-		return grammarAccess.getRuleAccess().getNewRolesAssignment_4_0();
+	public Keyword getGrammarElement() {
+		return grammarAccess.getRuleAccess().getNewRolesKeyword_4_0();
 	}
 
     @Override
@@ -732,18 +732,6 @@ protected class Rule_NewRolesAssignment_4_0 extends AssignmentToken  {
 			case 2: return new Rule_LCURLYTerminalRuleCall_1(lastRuleCallOrigin, this, 2, inst);
 			default: return null;
 		}	
-	}
-
-    @Override	
-	public IEObjectConsumer tryConsume() {
-		if((value = eObjectConsumer.getConsumable("newRoles",false)) == null) return null;
-		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("newRoles");
-		if(keywordSerializer.isValid(obj.getEObject(), grammarAccess.getRuleAccess().getNewRolesNewRolesKeyword_4_0_0(), value, null)) {
-			type = AssignmentType.KEYWORD;
-			element = grammarAccess.getRuleAccess().getNewRolesNewRolesKeyword_4_0_0();
-			return obj;
-		}
-		return null;
 	}
 
 }
@@ -763,31 +751,124 @@ protected class Rule_COLONTerminalRuleCall_4_1 extends UnassignedTextToken {
     @Override
 	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
 		switch(index) {
-			case 0: return new Rule_NewRolesAssignment_4_0(lastRuleCallOrigin, this, 0, inst);
+			case 0: return new Rule_NewRolesKeyword_4_0(lastRuleCallOrigin, this, 0, inst);
 			default: return null;
 		}	
 	}
 
 }
 
-// ID
-protected class Rule_IDTerminalRuleCall_4_3 extends UnassignedTextToken {
-
-	public Rule_IDTerminalRuleCall_4_3(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+// (newRoles+=ID COMMA)*
+protected class Rule_Group_4_2 extends GroupToken {
+	
+	public Rule_Group_4_2(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
 		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
 	}
 	
 	@Override
-	public RuleCall getGrammarElement() {
-		return grammarAccess.getRuleAccess().getIDTerminalRuleCall_4_3();
+	public Group getGrammarElement() {
+		return grammarAccess.getRuleAccess().getGroup_4_2();
 	}
 
     @Override
 	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
 		switch(index) {
-			case 0: return new Rule_COLONTerminalRuleCall_4_1(lastRuleCallOrigin, this, 0, inst);
+			case 0: return new Rule_COMMATerminalRuleCall_4_2_1(lastRuleCallOrigin, this, 0, inst);
 			default: return null;
 		}	
+	}
+
+}
+
+// newRoles+=ID
+protected class Rule_NewRolesAssignment_4_2_0 extends AssignmentToken  {
+	
+	public Rule_NewRolesAssignment_4_2_0(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
+	}
+	
+	@Override
+	public Assignment getGrammarElement() {
+		return grammarAccess.getRuleAccess().getNewRolesAssignment_4_2_0();
+	}
+
+    @Override
+	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
+		switch(index) {
+			case 0: return new Rule_Group_4_2(lastRuleCallOrigin, this, 0, inst);
+			case 1: return new Rule_COLONTerminalRuleCall_4_1(lastRuleCallOrigin, this, 1, inst);
+			default: return null;
+		}	
+	}
+
+    @Override	
+	public IEObjectConsumer tryConsume() {
+		if((value = eObjectConsumer.getConsumable("newRoles",false)) == null) return null;
+		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("newRoles");
+		if(valueSerializer.isValid(obj.getEObject(), grammarAccess.getRuleAccess().getNewRolesIDTerminalRuleCall_4_2_0_0(), value, null)) {
+			type = AssignmentType.TERMINAL_RULE_CALL;
+			element = grammarAccess.getRuleAccess().getNewRolesIDTerminalRuleCall_4_2_0_0();
+			return obj;
+		}
+		return null;
+	}
+
+}
+
+// COMMA
+protected class Rule_COMMATerminalRuleCall_4_2_1 extends UnassignedTextToken {
+
+	public Rule_COMMATerminalRuleCall_4_2_1(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
+	}
+	
+	@Override
+	public RuleCall getGrammarElement() {
+		return grammarAccess.getRuleAccess().getCOMMATerminalRuleCall_4_2_1();
+	}
+
+    @Override
+	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
+		switch(index) {
+			case 0: return new Rule_NewRolesAssignment_4_2_0(lastRuleCallOrigin, this, 0, inst);
+			default: return null;
+		}	
+	}
+
+}
+
+
+// newRoles+=ID
+protected class Rule_NewRolesAssignment_4_3 extends AssignmentToken  {
+	
+	public Rule_NewRolesAssignment_4_3(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
+	}
+	
+	@Override
+	public Assignment getGrammarElement() {
+		return grammarAccess.getRuleAccess().getNewRolesAssignment_4_3();
+	}
+
+    @Override
+	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
+		switch(index) {
+			case 0: return new Rule_Group_4_2(lastRuleCallOrigin, this, 0, inst);
+			case 1: return new Rule_COLONTerminalRuleCall_4_1(lastRuleCallOrigin, this, 1, inst);
+			default: return null;
+		}	
+	}
+
+    @Override	
+	public IEObjectConsumer tryConsume() {
+		if((value = eObjectConsumer.getConsumable("newRoles",true)) == null) return null;
+		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("newRoles");
+		if(valueSerializer.isValid(obj.getEObject(), grammarAccess.getRuleAccess().getNewRolesIDTerminalRuleCall_4_3_0(), value, null)) {
+			type = AssignmentType.TERMINAL_RULE_CALL;
+			element = grammarAccess.getRuleAccess().getNewRolesIDTerminalRuleCall_4_3_0();
+			return obj;
+		}
+		return null;
 	}
 
 }

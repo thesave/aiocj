@@ -71,30 +71,20 @@ public interface Rule extends EObject
   EList<FunctionLocation> getFunctionLocation();
 
   /**
-   * Returns the value of the '<em><b>New Roles</b></em>' attribute.
+   * Returns the value of the '<em><b>New Roles</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.String}.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>New Roles</em>' attribute isn't clear,
+   * If the meaning of the '<em>New Roles</em>' attribute list isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>New Roles</em>' attribute.
-   * @see #setNewRoles(String)
+   * @return the value of the '<em>New Roles</em>' attribute list.
    * @see org.aioc.AiocPackage#getRule_NewRoles()
-   * @model
+   * @model unique="false"
    * @generated
    */
-  String getNewRoles();
-
-  /**
-   * Sets the value of the '{@link org.aioc.Rule#getNewRoles <em>New Roles</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>New Roles</em>' attribute.
-   * @see #getNewRoles()
-   * @generated
-   */
-  void setNewRoles(String value);
+  EList<String> getNewRoles();
 
   /**
    * Returns the value of the '<em><b>Where</b></em>' containment reference.

@@ -119,13 +119,14 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cFunctionLocationAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cFunctionLocationFunctionLocationParserRuleCall_3_0 = (RuleCall)cFunctionLocationAssignment_3.eContents().get(0);
 		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
-		private final Assignment cNewRolesAssignment_4_0 = (Assignment)cGroup_4.eContents().get(0);
-		private final Keyword cNewRolesNewRolesKeyword_4_0_0 = (Keyword)cNewRolesAssignment_4_0.eContents().get(0);
+		private final Keyword cNewRolesKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
 		private final RuleCall cCOLONTerminalRuleCall_4_1 = (RuleCall)cGroup_4.eContents().get(1);
 		private final Group cGroup_4_2 = (Group)cGroup_4.eContents().get(2);
-		private final RuleCall cIDTerminalRuleCall_4_2_0 = (RuleCall)cGroup_4_2.eContents().get(0);
+		private final Assignment cNewRolesAssignment_4_2_0 = (Assignment)cGroup_4_2.eContents().get(0);
+		private final RuleCall cNewRolesIDTerminalRuleCall_4_2_0_0 = (RuleCall)cNewRolesAssignment_4_2_0.eContents().get(0);
 		private final RuleCall cCOMMATerminalRuleCall_4_2_1 = (RuleCall)cGroup_4_2.eContents().get(1);
-		private final RuleCall cIDTerminalRuleCall_4_3 = (RuleCall)cGroup_4.eContents().get(3);
+		private final Assignment cNewRolesAssignment_4_3 = (Assignment)cGroup_4.eContents().get(3);
+		private final RuleCall cNewRolesIDTerminalRuleCall_4_3_0 = (RuleCall)cNewRolesAssignment_4_3.eContents().get(0);
 		private final Keyword cOnKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		private final RuleCall cLCURLYTerminalRuleCall_6 = (RuleCall)cGroup.eContents().get(6);
 		private final Assignment cWhereAssignment_7 = (Assignment)cGroup.eContents().get(7);
@@ -141,14 +142,14 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		//Rule:
 		//	"rule" LCURLY
 		//	locDefinition=LocationDefinition?
-		//	functionLocation+=FunctionLocation* (newRoles="newRoles" COLON (ID COMMA)* ID)?
+		//	functionLocation+=FunctionLocation* ("newRoles" COLON (newRoles+=ID COMMA)* newRoles+=ID)?
 		//	"on" LCURLY where=Where RCURLY
 		//	"do" LCURLY choreography=Choreography RCURLY
 		//	RCURLY;
 		@Override public ParserRule getRule() { return rule; }
 
-		//"rule" LCURLY locDefinition=LocationDefinition? functionLocation+=FunctionLocation* (newRoles="newRoles" COLON (ID
-		//COMMA)* ID)? "on" LCURLY where=Where RCURLY "do" LCURLY choreography=Choreography RCURLY RCURLY
+		//"rule" LCURLY locDefinition=LocationDefinition? functionLocation+=FunctionLocation* ("newRoles" COLON (newRoles+=ID
+		//COMMA)* newRoles+=ID)? "on" LCURLY where=Where RCURLY "do" LCURLY choreography=Choreography RCURLY RCURLY
 		public Group getGroup() { return cGroup; }
 
 		//"rule"
@@ -169,29 +170,32 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		//FunctionLocation
 		public RuleCall getFunctionLocationFunctionLocationParserRuleCall_3_0() { return cFunctionLocationFunctionLocationParserRuleCall_3_0; }
 
-		//(newRoles="newRoles" COLON (ID COMMA)* ID)?
+		//("newRoles" COLON (newRoles+=ID COMMA)* newRoles+=ID)?
 		public Group getGroup_4() { return cGroup_4; }
 
-		//newRoles="newRoles"
-		public Assignment getNewRolesAssignment_4_0() { return cNewRolesAssignment_4_0; }
-
 		//"newRoles"
-		public Keyword getNewRolesNewRolesKeyword_4_0_0() { return cNewRolesNewRolesKeyword_4_0_0; }
+		public Keyword getNewRolesKeyword_4_0() { return cNewRolesKeyword_4_0; }
 
 		//COLON
 		public RuleCall getCOLONTerminalRuleCall_4_1() { return cCOLONTerminalRuleCall_4_1; }
 
-		//(ID COMMA)*
+		//(newRoles+=ID COMMA)*
 		public Group getGroup_4_2() { return cGroup_4_2; }
 
+		//newRoles+=ID
+		public Assignment getNewRolesAssignment_4_2_0() { return cNewRolesAssignment_4_2_0; }
+
 		//ID
-		public RuleCall getIDTerminalRuleCall_4_2_0() { return cIDTerminalRuleCall_4_2_0; }
+		public RuleCall getNewRolesIDTerminalRuleCall_4_2_0_0() { return cNewRolesIDTerminalRuleCall_4_2_0_0; }
 
 		//COMMA
 		public RuleCall getCOMMATerminalRuleCall_4_2_1() { return cCOMMATerminalRuleCall_4_2_1; }
 
+		//newRoles+=ID
+		public Assignment getNewRolesAssignment_4_3() { return cNewRolesAssignment_4_3; }
+
 		//ID
-		public RuleCall getIDTerminalRuleCall_4_3() { return cIDTerminalRuleCall_4_3; }
+		public RuleCall getNewRolesIDTerminalRuleCall_4_3_0() { return cNewRolesIDTerminalRuleCall_4_3_0; }
 
 		//"on"
 		public Keyword getOnKeyword_5() { return cOnKeyword_5; }
@@ -1950,7 +1954,7 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 	//Rule:
 	//	"rule" LCURLY
 	//	locDefinition=LocationDefinition?
-	//	functionLocation+=FunctionLocation* (newRoles="newRoles" COLON (ID COMMA)* ID)?
+	//	functionLocation+=FunctionLocation* ("newRoles" COLON (newRoles+=ID COMMA)* newRoles+=ID)?
 	//	"on" LCURLY where=Where RCURLY
 	//	"do" LCURLY choreography=Choreography RCURLY
 	//	RCURLY;

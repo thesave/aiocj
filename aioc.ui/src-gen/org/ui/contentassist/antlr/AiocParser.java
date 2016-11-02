@@ -103,7 +103,8 @@ public class AiocParser extends AbstractContentAssistParser {
 					put(grammarAccess.getAiocAccess().getChoreographyAssignment_7(), "rule__Aioc__ChoreographyAssignment_7");
 					put(grammarAccess.getRuleAccess().getLocDefinitionAssignment_2(), "rule__Rule__LocDefinitionAssignment_2");
 					put(grammarAccess.getRuleAccess().getFunctionLocationAssignment_3(), "rule__Rule__FunctionLocationAssignment_3");
-					put(grammarAccess.getRuleAccess().getNewRolesAssignment_4_0(), "rule__Rule__NewRolesAssignment_4_0");
+					put(grammarAccess.getRuleAccess().getNewRolesAssignment_4_2_0(), "rule__Rule__NewRolesAssignment_4_2_0");
+					put(grammarAccess.getRuleAccess().getNewRolesAssignment_4_3(), "rule__Rule__NewRolesAssignment_4_3");
 					put(grammarAccess.getRuleAccess().getWhereAssignment_7(), "rule__Rule__WhereAssignment_7");
 					put(grammarAccess.getRuleAccess().getChoreographyAssignment_11(), "rule__Rule__ChoreographyAssignment_11");
 					put(grammarAccess.getWhereAccess().getWhereConditionAssignment_0(), "rule__Where__WhereConditionAssignment_0");

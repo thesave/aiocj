@@ -1989,9 +1989,11 @@ rule__Rule__Group_4__0__Impl
     }
 :
 (
-{ before(grammarAccess.getRuleAccess().getNewRolesAssignment_4_0()); }
-(rule__Rule__NewRolesAssignment_4_0)
-{ after(grammarAccess.getRuleAccess().getNewRolesAssignment_4_0()); }
+{ before(grammarAccess.getRuleAccess().getNewRolesKeyword_4_0()); }
+
+	'newRoles' 
+
+{ after(grammarAccess.getRuleAccess().getNewRolesKeyword_4_0()); }
 )
 
 ;
@@ -2075,9 +2077,9 @@ rule__Rule__Group_4__3__Impl
     }
 :
 (
-{ before(grammarAccess.getRuleAccess().getIDTerminalRuleCall_4_3()); }
-	RULE_ID
-{ after(grammarAccess.getRuleAccess().getIDTerminalRuleCall_4_3()); }
+{ before(grammarAccess.getRuleAccess().getNewRolesAssignment_4_3()); }
+(rule__Rule__NewRolesAssignment_4_3)
+{ after(grammarAccess.getRuleAccess().getNewRolesAssignment_4_3()); }
 )
 
 ;
@@ -2112,9 +2114,9 @@ rule__Rule__Group_4_2__0__Impl
     }
 :
 (
-{ before(grammarAccess.getRuleAccess().getIDTerminalRuleCall_4_2_0()); }
-	RULE_ID
-{ after(grammarAccess.getRuleAccess().getIDTerminalRuleCall_4_2_0()); }
+{ before(grammarAccess.getRuleAccess().getNewRolesAssignment_4_2_0()); }
+(rule__Rule__NewRolesAssignment_4_2_0)
+{ after(grammarAccess.getRuleAccess().getNewRolesAssignment_4_2_0()); }
 )
 
 ;
@@ -7405,22 +7407,29 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Rule__NewRolesAssignment_4_0
+rule__Rule__NewRolesAssignment_4_2_0
     @init {
 		int stackSize = keepStackSize();
     }
 :
 (
-{ before(grammarAccess.getRuleAccess().getNewRolesNewRolesKeyword_4_0_0()); }
-(
-{ before(grammarAccess.getRuleAccess().getNewRolesNewRolesKeyword_4_0_0()); }
-
-	'newRoles' 
-
-{ after(grammarAccess.getRuleAccess().getNewRolesNewRolesKeyword_4_0_0()); }
+{ before(grammarAccess.getRuleAccess().getNewRolesIDTerminalRuleCall_4_2_0_0()); }
+	RULE_ID{ after(grammarAccess.getRuleAccess().getNewRolesIDTerminalRuleCall_4_2_0_0()); }
 )
 
-{ after(grammarAccess.getRuleAccess().getNewRolesNewRolesKeyword_4_0_0()); }
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__Rule__NewRolesAssignment_4_3
+    @init {
+		int stackSize = keepStackSize();
+    }
+:
+(
+{ before(grammarAccess.getRuleAccess().getNewRolesIDTerminalRuleCall_4_3_0()); }
+	RULE_ID{ after(grammarAccess.getRuleAccess().getNewRolesIDTerminalRuleCall_4_3_0()); }
 )
 
 ;
