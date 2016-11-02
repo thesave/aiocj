@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="src/org/epp/adaptation_manager.jar"/>
 	<classpathentry kind="lib" path="src/org/epp/environment.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="src/org/epp/role_supporter.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

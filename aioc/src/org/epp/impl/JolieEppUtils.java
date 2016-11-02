@@ -1,30 +1,41 @@
-/***************************************************************************
- *   Copyright (C) 2011-2012 by Fabrizio Montesi <famontesi@gmail.com>     *
- *   Copyright (C) 2013-2014 by Saverio Giallorenzo <sgiallor@cs.unibo.it> *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU Library General Public License as       *
- *   published by the Free Software Foundation; either version 2 of the    *
- *   License, or (at your option) any later version.                       *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU Library General Public     *
- *   License along with this program; if not, write to the                 *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- *                                                                         *
- *   For details about the authors of this software, see the AUTHORS file. *
- ***************************************************************************/
+/***********************************************************************************
+ *   Copyright (C) 2009-2010 by Fabrizio Montesi <famontesi@gmail.com>             *
+ *   Copyright (C) 2013-2016 by Saverio Giallorenzo <saverio.giallorenzo@gmail.com>*
+ *                                                                                 *
+ *   This program is free software; you can redistribute it and/or modify          *
+ *   it under the terms of the GNU Library General Public License as               *
+ *   published by the Free Software Foundation; either version 2 of the            *
+ *   License, or (at your option) any later version.                               *
+ *                                                                                 *
+ *   This program is distributed in the hope that it will be useful,               *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                 *
+ *   GNU General Public License for more details.                                  *
+ *                                                                                 *
+ *   You should have received a copy of the GNU Library General Public             *
+ *   License along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                               *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.                     *
+ *                                                                                 *
+ *   For details about the authors of this software, see the AUTHORS file.         *
+ ***********************************************************************************/
 
 package org.epp.impl;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.URI;
+import java.net.URL;
+import java.util.Enumeration;
 import java.util.UUID;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import jolie.lang.parse.OLParseTreeOptimizer;
 import jolie.lang.parse.ast.DefinitionNode;
@@ -39,8 +50,12 @@ import jolie.util.Pair;
 
 import org.aioc.Expression;
 import org.aioc.ExpressionBasicTerm;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.osgi.framework.Bundle;
 
 public class JolieEppUtils
 {
@@ -68,6 +83,168 @@ public class JolieEppUtils
 		return VARIABLE_NAME + variableCounter++;
 	}
 	
+	public static void deployEnvironment( String targetDirectory ) throws IOException {
+		deployJFWElement( targetDirectory, "environment", JolieEppUtils.JFW_ENVIRONMENT );
+	}
+	
+	public static void deployAdaptationManager( String targetDirectory ) throws IOException {
+		deployJFWElement( targetDirectory, "adaptation_manager", JolieEppUtils.JFW_ADAPTATIONMANAGER );
+	}
+	
+	public static void deployRoleSupporter( String targetDirectory ) throws IOException {
+		deployJFWElement( targetDirectory, "role_supporter", JolieEppUtils.JFW_ROLESUPPORTER );
+	}
+	
+	public static void deployJFWElement(String targetDirectory, String folderName, String JFW_Element) throws IOException {
+		Bundle bundle = Platform.getBundle("aioc");
+		File destFolder = new File(targetDirectory + File.separator + folderName);
+		if (!destFolder.exists()) {
+			destFolder.mkdir();
+		}
+		Path path = new Path("src/org/epp/" + JFW_Element);
+		URL fileUrl = FileLocator.find(bundle, path, null);
+		InputStream jar_is = fileUrl.openStream();
+		File jar_f = new File(destFolder + File.separator
+				+ JFW_Element);
+
+		byte[] b = new byte[4096];
+		OutputStream jar_os = new FileOutputStream(jar_f);
+		for (int rB = jar_is.read(b); rB > 0; rB = jar_is.read(b)) {
+			jar_os.write(b, 0, rB);
+		}
+		jar_is.close();
+		jar_os.close();
+		JarFile jarFile = new JarFile(jar_f.getAbsolutePath());
+		Enumeration<JarEntry> files = jarFile.entries();
+		while (files.hasMoreElements()) {
+			JarEntry e = files.nextElement();
+			if (e.isDirectory()) {
+				File dir = new File(destFolder + File.separator + e.getName());
+				if (!dir.exists())
+					dir.mkdirs();
+			} else if (!e.equals(null) && !e.getName().contains(".MF")) {
+				File file = new File(destFolder + File.separator + e.getName());
+				file.createNewFile();
+				InputStream in = jarFile.getInputStream(e);
+				InputStreamReader isr = new InputStreamReader(in);
+				BufferedReader r = new BufferedReader(isr);
+				PrintWriter w = new PrintWriter(file);
+				for (String line = ""; line != null; line = r.readLine()) {
+					w.println(line);
+				}
+				w.close();
+				r.close();
+				isr.close();
+				in.close();
+			}
+		}
+		jarFile.close();
+		File meta = new File(destFolder + File.separator + "META-INF");
+		if (meta.exists()) {
+			meta.delete();
+		}
+		if (jar_f.exists()) {
+			jar_f.delete();
+		}
+	}
+
+	public static void deployJorbaServerFramework( File destFolder ) throws IOException {
+		Bundle bundle = Platform.getBundle("aioc");
+		Path path = new Path("src/org/epp/" + JolieEppUtils.JFW_server);
+		URL fileUrl = FileLocator.find(bundle, path, null);
+		InputStream jar_is = fileUrl.openStream();
+		File jar_f = new File( destFolder.toString() + File.separator + JolieEppUtils.JFW_server);
+
+		byte[] b = new byte[4096];
+		OutputStream jar_os = new FileOutputStream(jar_f);
+		for (int rB = jar_is.read(b); rB > 0; rB = jar_is.read(b)) {
+			jar_os.write(b, 0, rB);
+		}
+		jar_is.close();
+		jar_os.close();
+		JarFile jarFile = new JarFile(jar_f.getAbsolutePath());
+		Enumeration<JarEntry> files = jarFile.entries();
+		while (files.hasMoreElements()) {
+			JarEntry e = files.nextElement();
+			if (e.isDirectory()) {
+				File dir = new File(destFolder + File.separator + e.getName());
+				if (!dir.exists())
+					dir.mkdirs();
+			} else if (!e.equals(null) && !e.getName().contains(".MF")) {
+				File file = new File(destFolder + File.separator + e.getName());
+				file.createNewFile();
+				InputStream in = jarFile.getInputStream(e);
+				InputStreamReader isr = new InputStreamReader(in);
+				BufferedReader r = new BufferedReader(isr);
+				PrintWriter w = new PrintWriter(file);
+				for (String line = ""; line != null; line = r.readLine()) {
+					w.println(line);
+				}
+				w.close();
+				r.close();
+				isr.close();
+				in.close();
+			}
+		}
+		jarFile.close();
+		File meta = new File(destFolder + File.separator + "META-INF");
+		if (meta.exists()) {
+			meta.delete();
+		}
+		if (jar_f.exists()) {
+			jar_f.delete();
+		}
+	}
+	
+	
+	public static void deployJorbaFramework( String targetDirectory, File destFolder ) throws IOException {
+		Bundle bundle = Platform.getBundle("aioc");
+		Path path = new Path("src/org/epp/" + JolieEppUtils.JFW);
+		URL fileUrl = FileLocator.find(bundle, path, null);
+		InputStream jar_is = fileUrl.openStream();
+		File jar_f = new File( targetDirectory + File.separator + JolieEppUtils.JFW );
+
+		byte[] b = new byte[4096];
+		OutputStream jar_os = new FileOutputStream(jar_f);
+		for (int rB = jar_is.read(b); rB > 0; rB = jar_is.read(b)) {
+			jar_os.write(b, 0, rB);
+		}
+		jar_is.close();
+		jar_os.close();
+		JarFile jarFile = new JarFile(jar_f.getAbsolutePath());
+		Enumeration<JarEntry> files = jarFile.entries();
+		while (files.hasMoreElements()) {
+			JarEntry e = files.nextElement();
+			if (e.isDirectory()) {
+				File dir = new File(destFolder + File.separator + e.getName());
+				if (!dir.exists())
+					dir.mkdirs();
+			} else if (!e.equals(null) && !e.getName().contains(".MF")) {
+				File file = new File(destFolder + File.separator + e.getName());
+				file.createNewFile();
+				InputStream in = jarFile.getInputStream(e);
+				InputStreamReader isr = new InputStreamReader(in);
+				BufferedReader r = new BufferedReader(isr);
+				PrintWriter w = new PrintWriter(file);
+				for (String line = ""; line != null; line = r.readLine()) {
+					w.println(line);
+				}
+				w.close();
+				r.close();
+				isr.close();
+				in.close();
+			}
+		}
+		jarFile.close();
+		File meta = new File(destFolder + File.separator + "META-INF");
+		if (meta.exists()) {
+			meta.delete();
+		}
+		if (jar_f.exists()) {
+			jar_f.delete();
+		}
+	}
+
 	private static int variableCounter = 0;
 	private static final String VARIABLE_NAME = "var";
 	
@@ -147,6 +324,7 @@ public class JolieEppUtils
 	public final static String JFW_server = "Server_JFW.jar";
 	public final static String JFW_ADAPTATIONMANAGER = "adaptation_manager.jar";
 	public final static String JFW_ENVIRONMENT = "environment.jar";
+	public final static String JFW_ROLESUPPORTER = "role_supporter.jar";
 	public final static String TMP_VARNAME = "_tmp";
 	public final static String DELEGATION_TMP_VARNAME = "_delegation_tmp";
 	public final static String CALL_TMP_VARNAME = "_call_tmp";

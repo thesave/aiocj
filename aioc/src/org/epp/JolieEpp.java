@@ -679,8 +679,8 @@ public class JolieEpp {
 		LaunchScripts ls = new LaunchScripts();
 		targetDirectory = new File(srcGenDirectory.getAbsolutePath());
 		try {
-			deployAdaptationManager();
-			deployEnvironment();
+			JolieEppUtils.deployAdaptationManager( targetDirectory.getAbsolutePath() );
+			JolieEppUtils.deployEnvironment( targetDirectory.getAbsolutePath() );
 			ls.writeMidLaunchScript(targetDirectory);
 			ls.writeServiceLauncherScript(targetDirectory);
 			ls.writeChoreographyLauncherScript(targetDirectory);
@@ -705,8 +705,9 @@ public class JolieEpp {
 			targetDirectory = new File(targetDirectory + File.separator + "epp_rules");
 			FileUtils.deleteDirectory(targetDirectory);
 			targetDirectory.mkdir();
-			deployJorbaServerFramework(targetDirectory);
-			ls.writeRulesLaunchScript(targetDirectory);
+			JolieEppUtils.deployJorbaServerFramework( targetDirectory );
+			JolieEppUtils.deployRoleSupporter( targetDirectory.getAbsolutePath() );
+			ls.writeRulesLaunchScript( targetDirectory );
 			targetDirectory = new File(srcGenDirectory.getAbsolutePath()
 					+ File.separator + "epp_rules" + File.separator
 					+ "__adaptation_server" + File.separator + "servers" + File.separator
@@ -1485,210 +1486,6 @@ public class JolieEpp {
 		}
 	}
 
-	private void deployAdaptationManager() throws IOException {
-		Bundle bundle = Platform.getBundle("aioc");
-		File destFolder = new File(targetDirectory + File.separator
-				+ "adaptation_manager");
-		if (!destFolder.exists()) {
-			destFolder.mkdir();
-		}
-		Path path = new Path("src/org/epp/" + JolieEppUtils.JFW_ADAPTATIONMANAGER);
-		URL fileUrl = FileLocator.find(bundle, path, null);
-		InputStream jar_is = fileUrl.openStream();
-		File jar_f = new File(destFolder + File.separator
-				+ JolieEppUtils.JFW_ADAPTATIONMANAGER);
-
-		byte[] b = new byte[4096];
-		OutputStream jar_os = new FileOutputStream(jar_f);
-		for (int rB = jar_is.read(b); rB > 0; rB = jar_is.read(b)) {
-			jar_os.write(b, 0, rB);
-		}
-		jar_is.close();
-		jar_os.close();
-		JarFile jarFile = new JarFile(jar_f.getAbsolutePath());
-		Enumeration<JarEntry> files = jarFile.entries();
-		while (files.hasMoreElements()) {
-			JarEntry e = files.nextElement();
-			if (e.isDirectory()) {
-				File dir = new File(destFolder + File.separator + e.getName());
-				if (!dir.exists())
-					dir.mkdirs();
-			} else if (!e.equals(null) && !e.getName().contains(".MF")) {
-				File file = new File(destFolder + File.separator + e.getName());
-				file.createNewFile();
-				InputStream in = jarFile.getInputStream(e);
-				InputStreamReader isr = new InputStreamReader(in);
-				BufferedReader r = new BufferedReader(isr);
-				PrintWriter w = new PrintWriter(file);
-				for (String line = ""; line != null; line = r.readLine()) {
-					w.println(line);
-				}
-				w.close();
-				r.close();
-				isr.close();
-				in.close();
-			}
-		}
-		jarFile.close();
-		File meta = new File(destFolder + File.separator + "META-INF");
-		if (meta.exists()) {
-			meta.delete();
-		}
-		if (jar_f.exists()) {
-			jar_f.delete();
-		}
-	}
-
-	private void deployEnvironment() throws IOException {
-		Bundle bundle = Platform.getBundle("aioc");
-		File destFolder = new File(targetDirectory + File.separator + "environment");
-		if (!destFolder.exists()) {
-			destFolder.mkdir();
-		}
-		Path path = new Path("src/org/epp/" + JolieEppUtils.JFW_ENVIRONMENT);
-		URL fileUrl = FileLocator.find(bundle, path, null);
-		InputStream jar_is = fileUrl.openStream();
-		File jar_f = new File(destFolder + File.separator
-				+ JolieEppUtils.JFW_ENVIRONMENT);
-
-		byte[] b = new byte[4096];
-		OutputStream jar_os = new FileOutputStream(jar_f);
-		for (int rB = jar_is.read(b); rB > 0; rB = jar_is.read(b)) {
-			jar_os.write(b, 0, rB);
-		}
-		jar_is.close();
-		jar_os.close();
-		JarFile jarFile = new JarFile(jar_f.getAbsolutePath());
-		Enumeration<JarEntry> files = jarFile.entries();
-		while (files.hasMoreElements()) {
-			JarEntry e = files.nextElement();
-			if (e.isDirectory()) {
-				File dir = new File(destFolder + File.separator + e.getName());
-				if (!dir.exists())
-					dir.mkdirs();
-			} else if (!e.equals(null) && !e.getName().contains(".MF")) {
-				File file = new File(destFolder + File.separator + e.getName());
-				file.createNewFile();
-				InputStream in = jarFile.getInputStream(e);
-				InputStreamReader isr = new InputStreamReader(in);
-				BufferedReader r = new BufferedReader(isr);
-				PrintWriter w = new PrintWriter(file);
-				for (String line = ""; line != null; line = r.readLine()) {
-					w.println(line);
-				}
-				w.close();
-				r.close();
-				isr.close();
-				in.close();
-			}
-		}
-		jarFile.close();
-		File meta = new File(destFolder + File.separator + "META-INF");
-		if (meta.exists()) {
-			meta.delete();
-		}
-		if (jar_f.exists()) {
-			jar_f.delete();
-		}
-	}
-
-	private void deployJorbaServerFramework(File destFolder) throws IOException {
-		Bundle bundle = Platform.getBundle("aioc");
-		Path path = new Path("src/org/epp/" + JolieEppUtils.JFW_server);
-		URL fileUrl = FileLocator.find(bundle, path, null);
-		InputStream jar_is = fileUrl.openStream();
-		File jar_f = new File(targetDirectory + File.separator
-				+ JolieEppUtils.JFW_server);
-
-		byte[] b = new byte[4096];
-		OutputStream jar_os = new FileOutputStream(jar_f);
-		for (int rB = jar_is.read(b); rB > 0; rB = jar_is.read(b)) {
-			jar_os.write(b, 0, rB);
-		}
-		jar_is.close();
-		jar_os.close();
-		JarFile jarFile = new JarFile(jar_f.getAbsolutePath());
-		Enumeration<JarEntry> files = jarFile.entries();
-		while (files.hasMoreElements()) {
-			JarEntry e = files.nextElement();
-			if (e.isDirectory()) {
-				File dir = new File(destFolder + File.separator + e.getName());
-				if (!dir.exists())
-					dir.mkdirs();
-			} else if (!e.equals(null) && !e.getName().contains(".MF")) {
-				File file = new File(destFolder + File.separator + e.getName());
-				file.createNewFile();
-				InputStream in = jarFile.getInputStream(e);
-				InputStreamReader isr = new InputStreamReader(in);
-				BufferedReader r = new BufferedReader(isr);
-				PrintWriter w = new PrintWriter(file);
-				for (String line = ""; line != null; line = r.readLine()) {
-					w.println(line);
-				}
-				w.close();
-				r.close();
-				isr.close();
-				in.close();
-			}
-		}
-		jarFile.close();
-		File meta = new File(destFolder + File.separator + "META-INF");
-		if (meta.exists()) {
-			meta.delete();
-		}
-		if (jar_f.exists()) {
-			jar_f.delete();
-		}
-	}
-
-	private void deployJorbaFramework(File destFolder) throws IOException {
-		Bundle bundle = Platform.getBundle("aioc");
-		Path path = new Path("src/org/epp/" + JolieEppUtils.JFW);
-		URL fileUrl = FileLocator.find(bundle, path, null);
-		InputStream jar_is = fileUrl.openStream();
-		File jar_f = new File(targetDirectory + File.separator + JolieEppUtils.JFW);
-
-		byte[] b = new byte[4096];
-		OutputStream jar_os = new FileOutputStream(jar_f);
-		for (int rB = jar_is.read(b); rB > 0; rB = jar_is.read(b)) {
-			jar_os.write(b, 0, rB);
-		}
-		jar_is.close();
-		jar_os.close();
-		JarFile jarFile = new JarFile(jar_f.getAbsolutePath());
-		Enumeration<JarEntry> files = jarFile.entries();
-		while (files.hasMoreElements()) {
-			JarEntry e = files.nextElement();
-			if (e.isDirectory()) {
-				File dir = new File(destFolder + File.separator + e.getName());
-				if (!dir.exists())
-					dir.mkdirs();
-			} else if (!e.equals(null) && !e.getName().contains(".MF")) {
-				File file = new File(destFolder + File.separator + e.getName());
-				file.createNewFile();
-				InputStream in = jarFile.getInputStream(e);
-				InputStreamReader isr = new InputStreamReader(in);
-				BufferedReader r = new BufferedReader(isr);
-				PrintWriter w = new PrintWriter(file);
-				for (String line = ""; line != null; line = r.readLine()) {
-					w.println(line);
-				}
-				w.close();
-				r.close();
-				isr.close();
-				in.close();
-			}
-		}
-		jarFile.close();
-		File meta = new File(destFolder + File.separator + "META-INF");
-		if (meta.exists()) {
-			meta.delete();
-		}
-		if (jar_f.exists()) {
-			jar_f.delete();
-		}
-	}
-
 	private OLSyntaxNode getStarterProcedure(
 			OLSyntaxNode jolieNode,
 			String start_key, 
@@ -2113,7 +1910,7 @@ public class JolieEpp {
 				+ File.separator + thread);
 		if (roleFolder.exists() == false) {
 			roleFolder.mkdirs();
-			deployJorbaFramework(roleFolder);
+			JolieEppUtils.deployJorbaFramework( targetDirectory.getAbsolutePath(), roleFolder );
 		}
 
 		String mh = embedMessageHandler(thread, jolieProgram, result,
