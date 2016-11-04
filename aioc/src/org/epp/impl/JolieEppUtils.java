@@ -39,8 +39,17 @@ import java.util.jar.JarFile;
 
 import jolie.lang.NativeType;
 import jolie.lang.parse.OLParseTreeOptimizer;
+import jolie.lang.parse.ast.AssignStatement;
+import jolie.lang.parse.ast.CompareConditionNode;
+import jolie.lang.parse.ast.DefinitionCallStatement;
 import jolie.lang.parse.ast.DefinitionNode;
+import jolie.lang.parse.ast.IfStatement;
 import jolie.lang.parse.ast.OLSyntaxNode;
+import jolie.lang.parse.ast.OneWayOperationStatement;
+import jolie.lang.parse.ast.PreDecrementStatement;
+import jolie.lang.parse.ast.PreIncrementStatement;
+import jolie.lang.parse.ast.RequestResponseOperationStatement;
+import jolie.lang.parse.ast.SequenceStatement;
 import jolie.lang.parse.ast.VariablePathNode;
 import jolie.lang.parse.ast.expression.ConstantIntegerExpression;
 import jolie.lang.parse.ast.expression.ConstantStringExpression;
@@ -266,7 +275,7 @@ public class JolieEppUtils
 		return "_" + s.replace("-", "");
 	}
 	
-	public static VariablePathNode variableNameToJolieVariablePath( String variable )
+	public static VariablePathNode toPath( String variable ) 
 	{
 		if ( variable == null ) {
 			return null;
@@ -279,7 +288,7 @@ public class JolieEppUtils
 		return ret;
 	}
 	
-	public static VariablePathNode variableNameToGlobalJolieVariablePath( String variable )
+	public static VariablePathNode toGlobalPath( String variable )
 	{
 		if ( variable == null ) {
 			return null;
@@ -337,15 +346,16 @@ public class JolieEppUtils
 	public final static String DEFAULT_MESSAGE_TYPE = "AiocType";
 	public final static String MAIN_SCOPE = "MAIN_SCOPE";
 	public final static String INITSTART_OPERATION = "initStartProcedure";
+	public final static String INITSTART_OPERATION_PATH = "startRequest";
 	public final static String START_OPERATION = "joinStart";
 	public final static String ACK_OPERATION = "joinAck";
 	public final static String SESSION_DESCRIPTOR = "_sessionDescriptor";
-	public final static VariablePathNode SELFREF_VARPATH = variableNameToJolieVariablePath( "_myRef" );
-	public final static VariablePathNode SELFREF_TID_VARPATH = variableNameToJolieVariablePath( "_myRef" );
-	public final static VariablePathNode SELFREF_BINDING_VARPATH = variableNameToJolieVariablePath( "_myRef" );
+	public final static VariablePathNode SELFREF_VARPATH = toPath( "_myRef" );
+	public final static VariablePathNode SELFREF_TID_VARPATH = toPath( "_myRef" );
+	public final static VariablePathNode SELFREF_BINDING_VARPATH = toPath( "_myRef" );
 	public final static VariablePathNode SELF_INPUT_PORT = new VariablePathNode( PARSING_CONTEXT, VariablePathNode.Type.GLOBAL );
-	public final static VariablePathNode EXPRESSION_VARPATH = variableNameToJolieVariablePath( TMP_VARNAME );
-	public final static VariablePathNode EXPRESSION_TID_VARPATH = variableNameToJolieVariablePath( TMP_VARNAME );
+	public final static VariablePathNode EXPRESSION_VARPATH = toPath( TMP_VARNAME );
+	public final static VariablePathNode EXPRESSION_TID_VARPATH = toPath( TMP_VARNAME );
 	
 	public final static String SEMICOLON = ";";
 	public final static String PIPE = "|";
@@ -387,5 +397,65 @@ public class JolieEppUtils
 		TYPE_CoordType.putSubType( new TypeInlineDefinition( JolieEppUtils.PARSING_CONTEXT, "rolesNum", NativeType.INT, new Range(1, 1) ) );
 		TYPE_CoordType.putSubType( new TypeInlineDefinition( JolieEppUtils.PARSING_CONTEXT, "hasAck", NativeType.BOOL, new Range(0, 1) ) );
 	}
+	
+	private final static String JOINSTARTCOUNTER= "joinStartCounter";
+	private final static IfStatement startBehaviour = new IfStatement( PARSING_CONTEXT );
+	static {
+		startBehaviour.addChild( 
+           new Pair<OLSyntaxNode, OLSyntaxNode>( 
+		     new CompareConditionNode(PARSING_CONTEXT, 
+			   new PreDecrementStatement( PARSING_CONTEXT, toPath( JOINSTARTCOUNTER )), 
+			   new ConstantIntegerExpression( PARSING_CONTEXT, 0), jolie.lang.parse.Scanner.TokenType.RANGLE
+		     ), 
+		     new DefinitionCallStatement( PARSING_CONTEXT, START_OPERATION )));
+	}
+
+	public final static DefinitionNode JoinStartDefinition = new DefinitionNode( PARSING_CONTEXT, START_OPERATION, 
+			new RequestResponseOperationStatement( PARSING_CONTEXT, START_OPERATION, null, null, startBehaviour	)
+	);
+
+	
+	private final static String JOINACKCOUNTER= "joinAckCounter";
+	private final static IfStatement ackBehaviour = new IfStatement( PARSING_CONTEXT );
+	static {
+		ackBehaviour.addChild( 
+           new Pair<OLSyntaxNode, OLSyntaxNode>( 
+		     new CompareConditionNode(PARSING_CONTEXT, 
+			   new PreDecrementStatement( PARSING_CONTEXT, toPath( JOINACKCOUNTER )), 
+			   new ConstantIntegerExpression( PARSING_CONTEXT, 0), jolie.lang.parse.Scanner.TokenType.RANGLE
+		     ), 
+		     new DefinitionCallStatement( PARSING_CONTEXT, ACK_OPERATION )));
+	}
+	
+	public final static DefinitionNode JoinAckDefinition = new DefinitionNode( PARSING_CONTEXT, ACK_OPERATION, 
+			new RequestResponseOperationStatement( PARSING_CONTEXT, ACK_OPERATION, null, null, ackBehaviour	)
+	);
+	
+	
+	private final static SequenceStatement initStartProcedureBody = new SequenceStatement( JolieEppUtils.PARSING_CONTEXT );
+	
+	static {
+		initStartProcedureBody.addChild( 
+          new AssignStatement( PARSING_CONTEXT, toPath( JOINSTARTCOUNTER ), 
+			new AssignStatement( PARSING_CONTEXT, toPath( JOINACKCOUNTER ), toPath( INITSTART_OPERATION_PATH + ".rolesNum" ))));
+		initStartProcedureBody.addChild( new DefinitionCallStatement( PARSING_CONTEXT, START_OPERATION ));
+		
+		IfStatement ifStm = new IfStatement( PARSING_CONTEXT );
+		ifStm.addChild(new Pair<OLSyntaxNode, OLSyntaxNode>(
+				toPath( INITSTART_OPERATION_PATH + ".hasAck"),
+				new DefinitionCallStatement( PARSING_CONTEXT, ACK_OPERATION  )
+				) 
+		);
+		initStartProcedureBody.addChild( ifStm );
+	}
+	
+	public final static Pair<OLSyntaxNode, OLSyntaxNode> initStartProcedureND = new Pair<OLSyntaxNode, OLSyntaxNode>(
+		new OneWayOperationStatement( 
+				JolieEppUtils.PARSING_CONTEXT, 
+				JolieEppUtils.INITSTART_OPERATION, 
+				JolieEppUtils.toPath( JolieEppUtils.INITSTART_OPERATION_PATH )), 
+		initStartProcedureBody	
+	);
+	
 	
 }

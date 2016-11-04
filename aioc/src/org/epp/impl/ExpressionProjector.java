@@ -70,7 +70,7 @@ public class ExpressionProjector extends AiocSwitch< OLSyntaxNode >
 					jolieSumExpression.add( jolieTerm );					
 				} else if ( castToInt ){
 					jolieSumExpression.add( 
-							JolieEppUtils.variableNameToJolieVariablePath(
+							JolieEppUtils.toPath(
 									"int(" + ((ExpressionBasicTerm) term).getVariable() + ")" ));						
 					}	else {
 						jolieSumExpression.add( jolieTerm );
@@ -92,7 +92,7 @@ public class ExpressionProjector extends AiocSwitch< OLSyntaxNode >
 		if ( n.getVariable() != null ) {
 			String v = n.getVariable();
 			if( n.isNot() ){ v = "!" + v; }
-			return JolieEppUtils.variableNameToJolieVariablePath( v );
+			return JolieEppUtils.toPath( v );
 		} else if ( n.getConstant() != null ) {
 			return doSwitch( n.getConstant() );
 		} 

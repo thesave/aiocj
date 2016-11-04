@@ -29,6 +29,7 @@ outputPort Leader {
 	Interfaces: LeaderInterface
 }
 
+// ADD IF LEADER, USED TO PARAMETRICALLY OVER LED ROLES
 outputPort LedRole {
   Protocol: sodep
   Interfaces: AdaptActivityInterface
@@ -42,7 +43,7 @@ RequestResponse:
 	msg(OpType)(undefined)
 }
 
-// UNNECESSARY FOR THIS CASE <---
+// NOT NEEDED UNLESS THE SCOPE HAS TO RECEIVE FROM OTHER ROLES
 // inputPort MyInputPort {
 // Location: "local"
 // Protocol: sodep

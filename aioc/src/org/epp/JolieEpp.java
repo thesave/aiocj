@@ -74,6 +74,7 @@ import jolie.lang.parse.ast.expression.ConstantStringExpression;
 import jolie.lang.parse.ast.expression.IsTypeExpressionNode;
 import jolie.lang.parse.ast.expression.IsTypeExpressionNode.CheckType;
 import jolie.lang.parse.ast.types.TypeInlineDefinition;
+import jolie.lang.parse.context.ParsingContext;
 import jolie.util.Pair;
 import jolie.util.Range;
 
@@ -95,6 +96,8 @@ import org.epp.impl.ThreadProjectionResult;
 import org.epp.impl.ThreadProjector;
 import org.epp.impl.WhereConditionProjector;
 import org.epp.impl.merging.MergingException;
+
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public class JolieEpp {
 	private final File srcGenDirectory;
@@ -162,107 +165,6 @@ public class JolieEpp {
 		return URI.create("socket://localhost:" + threadTcpPort++ + "/");
 	}
 
-	private OLSyntaxNode getStartBlock() {
-		SequenceStatement s = new SequenceStatement(JolieEppUtils.PARSING_CONTEXT);
-		s.addChild(new NotificationOperationStatement(
-				JolieEppUtils.PARSING_CONTEXT, "innerstart", "Self", JolieEppUtils
-						.variableNameToJolieVariablePath("c.msgID")));
-
-		s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, JolieEppUtils
-				.variableNameToJolieVariablePath("outer.name"), JolieEppUtils
-				.getSumExpression(new ConstantStringExpression(
-						JolieEppUtils.PARSING_CONTEXT, "outer"), JolieEppUtils
-						.variableNameToJolieVariablePath("c.msgID"))));
-		s.addChild(new SolicitResponseOperationStatement(
-				JolieEppUtils.PARSING_CONTEXT, "acquire", "SemaphoreUtils",
-				JolieEppUtils.variableNameToJolieVariablePath("outer"), null, null));
-		return s;
-	}
-
-	private OLSyntaxNode getInnerStartBlock(String leader, NameCollector collector) {
-		SequenceStatement s = new SequenceStatement(JolieEppUtils.PARSING_CONTEXT);
-
-		s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, JolieEppUtils
-				.variableNameToJolieVariablePath("csets.msgID"), JolieEppUtils
-				.variableNameToJolieVariablePath("c")));
-
-		s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, JolieEppUtils
-				.variableNameToJolieVariablePath("outer.name"), JolieEppUtils
-				.getSumExpression(new ConstantStringExpression(
-						JolieEppUtils.PARSING_CONTEXT, "outer"), JolieEppUtils
-						.variableNameToJolieVariablePath("c"))));
-		s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, JolieEppUtils
-				.variableNameToJolieVariablePath("joinRelease.name"), JolieEppUtils
-				.getSumExpression(new ConstantStringExpression(
-						JolieEppUtils.PARSING_CONTEXT, "join"), JolieEppUtils
-						.variableNameToJolieVariablePath("c"))));
-		s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, JolieEppUtils
-				.variableNameToJolieVariablePath("joinAcquire.name"), JolieEppUtils
-				.getSumExpression(new ConstantStringExpression(
-						JolieEppUtils.PARSING_CONTEXT, "join"), JolieEppUtils
-						.variableNameToJolieVariablePath("c"))));
-		s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, JolieEppUtils
-				.variableNameToJolieVariablePath("joinedRelease.name"), JolieEppUtils
-				.getSumExpression(new ConstantStringExpression(
-						JolieEppUtils.PARSING_CONTEXT, "joined"), JolieEppUtils
-						.variableNameToJolieVariablePath("c"))));
-		s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, JolieEppUtils
-				.variableNameToJolieVariablePath("joinedAcquire.name"), JolieEppUtils
-				.getSumExpression(new ConstantStringExpression(
-						JolieEppUtils.PARSING_CONTEXT, "joined"), JolieEppUtils
-						.variableNameToJolieVariablePath("c"))));
-		s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, JolieEppUtils
-				.variableNameToJolieVariablePath("joinAcquire.permits"),
-				new ConstantIntegerExpression(JolieEppUtils.PARSING_CONTEXT, collector
-						.getRoles().size())));
-		s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, JolieEppUtils
-				.variableNameToJolieVariablePath("joinedRelease.permits"),
-				new ConstantIntegerExpression(JolieEppUtils.PARSING_CONTEXT, collector
-						.getRoles().size())));
-
-		s.addChild(new SolicitResponseOperationStatement(
-				JolieEppUtils.PARSING_CONTEXT, "release", "SemaphoreUtils",
-				JolieEppUtils.variableNameToJolieVariablePath("outer"), null, null));
-
-		// Collector block -> acquire + release
-		SequenceStatement collectorBlock = new SequenceStatement(
-				JolieEppUtils.PARSING_CONTEXT);
-		collectorBlock.addChild(new SolicitResponseOperationStatement(
-				JolieEppUtils.PARSING_CONTEXT, "acquire", "SemaphoreUtils",
-				JolieEppUtils.variableNameToJolieVariablePath("joinAcquire"), null,
-				null));
-		collectorBlock.addChild(new SolicitResponseOperationStatement(
-				JolieEppUtils.PARSING_CONTEXT, "release", "SemaphoreUtils",
-				JolieEppUtils.variableNameToJolieVariablePath("joinedRelease"), null,
-				null));
-
-		// start_r1()() | ... | start_rn()()
-		ParallelStatement joinBlock = new ParallelStatement(
-				JolieEppUtils.PARSING_CONTEXT);
-		joinBlock.addChild(new jolie.lang.parse.ast.Scope(
-				JolieEppUtils.PARSING_CONTEXT, null, collectorBlock));
-
-		for (String role : collector.getRoles()) {
-			SequenceStatement roleJoin = new SequenceStatement(
-					JolieEppUtils.PARSING_CONTEXT);
-			roleJoin.addChild(new SolicitResponseOperationStatement(
-					JolieEppUtils.PARSING_CONTEXT, "release", "SemaphoreUtils",
-					JolieEppUtils.variableNameToJolieVariablePath("joinRelease"), null,
-					null));
-			roleJoin.addChild(new SolicitResponseOperationStatement(
-					JolieEppUtils.PARSING_CONTEXT, "acquire", "SemaphoreUtils",
-					JolieEppUtils.variableNameToJolieVariablePath("joinedAcquire"), null,
-					null));
-			joinBlock
-					.addChild(new RequestResponseOperationStatement(
-							JolieEppUtils.PARSING_CONTEXT, "start_" + role, null, null,
-							roleJoin));
-		}
-
-		s.addChild(joinBlock);
-		return s;
-	}
-
 	private String embedMessageHandler(
 			String thread,
 			jolie.lang.parse.ast.Program jolieProgram, 
@@ -281,8 +183,8 @@ public class JolieEpp {
 			// add also ack and get_Ack
 			additionalOperations.add( JolieEppUtils.START_OPERATION );
 			additionalOperations.add( JolieEppUtils.ACK_OPERATION );
-			innerstartBlock = getInnerStartBlock( thread, collector );
-			startBlock = getStartBlock();
+//			innerstartBlock = getInnerStartBlock( thread, collector );
+//			startBlock = getStartBlock();
 		}
 
 		if ( result.uncorrelatedInputOperations().isEmpty() && additionalOperations.isEmpty() ) {
@@ -310,9 +212,9 @@ public class JolieEpp {
 					JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.SELF_INPUT_PORT_NAME,
 					URI.create("local"), null, null, null, null);
 
-			OutputPortInfo mhOutputPort = new OutputPortInfo(
-					JolieEppUtils.PARSING_CONTEXT, "Self");
-			mhOutputPort.setLocation(URI.create("local"));
+//			OutputPortInfo mhOutputPort = new OutputPortInfo(
+//					JolieEppUtils.PARSING_CONTEXT, "Self");
+//			mhOutputPort.setLocation(URI.create("local"));
 			// mhOutputPort.addInterface(iface);
 
 			// adds interface definition
@@ -359,39 +261,13 @@ public class JolieEpp {
 			OwDecl.setRequestType(new TypeInlineDefinition(	JolieEppUtils.PARSING_CONTEXT, "CoordType", NativeType.ANY,	new Range(1, 1) ) );
 			mh_interface.addOperation(OwDecl);
 
-			// add start operation in interface
-//			if ( starter ) {
-				
-				// innerstart( string )
-//				OneWayOperationDeclaration OwDecl = new OneWayOperationDeclaration(
-//						JolieEppUtils.PARSING_CONTEXT, "inner"
-//								+ JolieEppUtils.START_OPERATION);
-//				OwDecl.setRequestType(new TypeInlineDefinition(
-//						JolieEppUtils.PARSING_CONTEXT, "string", NativeType.STRING,
-//						new Range(1, 1)));
-//				mh_interface.addOperation(OwDecl);
-
-				// add start_p1, ..., start_pn operations
-//				for (String opName : additionalOperations) {
-//					decl = new RequestResponseOperationDeclaration(
-//							JolieEppUtils.PARSING_CONTEXT, opName, new TypeInlineDefinition(
-//									JolieEppUtils.PARSING_CONTEXT, "OpType", NativeType.ANY,
-//									new Range(1, 1)), new TypeInlineDefinition(
-//									JolieEppUtils.PARSING_CONTEXT, "undefined", NativeType.ANY,
-//									new Range(1, 1)), null);
-//					mh_interface.addOperation(decl);
-//				}
-//			}
-
 			mhInputPort.addInterface(mh_interface);
-			mhOutputPort.addInterface(mh_interface);
 
 			mh.addChild(mh_interface);
 			mh.addChild(mhInputPort);
-			mh.addChild(mhOutputPort);
 
 			// embed message handler, set outputPort, and add Aggregation to inputPort
-			// type and interface must be integrated into the embedding thread
+			// type and interface must be integrated into the embedding thread (i.e., the role)
 			jolieProgram.addChild( JolieEppUtils.TYPE_OpType );
 			jolieProgram.addChild( JolieEppUtils.TYPE_CoordType );
 			jolieProgram.addChild( JolieEppUtils.TYPE_JoinType );
@@ -419,56 +295,32 @@ public class JolieEpp {
 			List<CorrelationAliasInfo> aliases = new ArrayList<CorrelationAliasInfo>();
 
 			VariablePathNode cset_type = JolieEppUtils
-					.variableNameToJolieVariablePath("msgID");
+					.toPath("msgID");
 
 			aliases.add(new CorrelationAliasInfo("OpType", cset_type));
 			csetVars.add(new CorrelationVariableInfo(JolieEppUtils
-					.variableNameToJolieVariablePath("msgID"), aliases));
+					.toPath("msgID"), aliases));
 			CorrelationSetInfo cSetInfo = new CorrelationSetInfo(
 					JolieEppUtils.PARSING_CONTEXT, csetVars);
 
 			mh.addChild(cSetInfo);
 
-			// adds initialisation of Self.location
-			SequenceStatement initSeq = new SequenceStatement(
-					JolieEppUtils.PARSING_CONTEXT);
-			initSeq
-					.addChild(new SolicitResponseOperationStatement(
-							JolieEppUtils.PARSING_CONTEXT, "getLocalLocation", "Runtime",
-							null, JolieEppUtils
-									.variableNameToJolieVariablePath("Self.location"), null));
-			OLSyntaxNode init = new DefinitionNode(JolieEppUtils.PARSING_CONTEXT,
-					"init", initSeq);
-			mh.addChild(init);
+			// adds the definition of joinStart and joinAck procedures
+			mh.addChild( JolieEppUtils.JoinStartDefinition );
+			mh.addChild( JolieEppUtils.JoinAckDefinition );
 
 			// adds main body
 			// for each incoming operation there is a synchronising non-deterministic
 			// block
-			NDChoiceStatement choiceBlock = new NDChoiceStatement(
-					JolieEppUtils.PARSING_CONTEXT);
+			NDChoiceStatement choiceBlock = new NDChoiceStatement( JolieEppUtils.PARSING_CONTEXT );
+			
+			// adds initStartProcedure operation
+			choiceBlock.addChild( JolieEppUtils.initStartProcedureND );
+
 			for (String inputOperation : result.uncorrelatedInputOperations()) {
 				choiceBlock = buildSyncBlock(choiceBlock, inputOperation);
 			}
-			// add ack and get_ack operations
-			if (additionalOperations.contains("ack")) {
-				choiceBlock = buildSyncBlock(choiceBlock, "ack");
-			}
-			// if is the starter adds the start operation procedure
-			if (starter) {
-
-				// ADD THE START OPERATION (RR)
-				choiceBlock.addChild(new Pair<OLSyntaxNode, OLSyntaxNode>(
-						new RequestResponseOperationStatement(
-								JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.START_OPERATION,
-								JolieEppUtils.variableNameToJolieVariablePath("c"), null,
-								startBlock), new NullProcessStatement(
-								JolieEppUtils.PARSING_CONTEXT)));
-
-				choiceBlock.addChild(new Pair<OLSyntaxNode, OLSyntaxNode>(
-						new OneWayOperationStatement(JolieEppUtils.PARSING_CONTEXT, "inner"
-								+ JolieEppUtils.START_OPERATION, JolieEppUtils
-								.variableNameToJolieVariablePath("c")), innerstartBlock));
-			}
+			
 
 			// adds syncBlock to the main procedure
 			OLSyntaxNode jolieMainNode = new DefinitionNode(
@@ -477,9 +329,9 @@ public class JolieEpp {
 
 			// deployMessageHandler
 			StringWriter w = new StringWriter();
-			w.write("include \"runtime.iol\"\n");
-			w.write("include \"semaphore_utils.iol\"\n");
-			w.write('\n');
+//			w.write("include \"runtime.iol\"\n");
+//			w.write("include \"semaphore_utils.iol\"\n");
+//			w.write('\n');
 			JolieProcessPrettyPrinter printer = new JolieProcessPrettyPrinter(w, mh);
 			printer.run();
 			return w.toString();
@@ -494,28 +346,28 @@ public class JolieEpp {
 		seq.addChild(new RequestResponseOperationStatement(
 				JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.GET_PREFIX
 						+ inputOperation, null, JolieEppUtils
-						.variableNameToJolieVariablePath("c"), new NullProcessStatement(
+						.toPath("c"), new NullProcessStatement(
 						JolieEppUtils.PARSING_CONTEXT)));
 
 		choice
 				.addChild(new Pair<OLSyntaxNode, OLSyntaxNode>(
 						new RequestResponseOperationStatement(
 								JolieEppUtils.PARSING_CONTEXT, inputOperation, JolieEppUtils
-										.variableNameToJolieVariablePath("c"), null, seq),
+										.toPath("c"), null, seq),
 						new NullProcessStatement(JolieEppUtils.PARSING_CONTEXT)));
 		// sequence for receive
 		seq = new SequenceStatement(JolieEppUtils.PARSING_CONTEXT);
 
 		seq.addChild(new RequestResponseOperationStatement(
 				JolieEppUtils.PARSING_CONTEXT, inputOperation, JolieEppUtils
-						.variableNameToJolieVariablePath("c1"), null,
+						.toPath("c1"), null,
 				new NullProcessStatement(JolieEppUtils.PARSING_CONTEXT)));
 
 		choice.addChild(new Pair<OLSyntaxNode, OLSyntaxNode>(
 				new RequestResponseOperationStatement(JolieEppUtils.PARSING_CONTEXT,
 						JolieEppUtils.GET_PREFIX + inputOperation, JolieEppUtils
-								.variableNameToJolieVariablePath("c"), JolieEppUtils
-								.variableNameToJolieVariablePath("c1"), seq),
+								.toPath("c"), JolieEppUtils
+								.toPath("c1"), seq),
 				new NullProcessStatement(JolieEppUtils.PARSING_CONTEXT)));
 
 		return choice;
@@ -802,14 +654,14 @@ public class JolieEpp {
 						WhereConditionProjector.project( rule.getWhere() ),
 				new AssignStatement(
 						JolieEppUtils.PARSING_CONTEXT, 
-						JolieEppUtils.variableNameToJolieVariablePath( "response" ),
+						JolieEppUtils.toPath( "response" ),
 						new ConstantIntegerExpression( JolieEppUtils.PARSING_CONTEXT, 1 ))
 				));
 
 		ifS.setElseProcess(
 				new AssignStatement( 
 						JolieEppUtils.PARSING_CONTEXT,
-						JolieEppUtils.variableNameToJolieVariablePath( "response" ),
+						JolieEppUtils.toPath( "response" ),
 						new ConstantIntegerExpression( JolieEppUtils.PARSING_CONTEXT, 0 )
 		));
 
@@ -835,7 +687,7 @@ public class JolieEpp {
 		dataInitSequence.addChild(
 				new AssignStatement(
 						JolieEppUtils.PARSING_CONTEXT,
-						JolieEppUtils.variableNameToJolieVariablePath( "rule.activityDirectory" ),
+						JolieEppUtils.toPath( "rule.activityDirectory" ),
 						new ConstantStringExpression( 
 								JolieEppUtils.PARSING_CONTEXT,
 								ruleStructure.getKey())
@@ -848,7 +700,7 @@ public class JolieEpp {
 			dataInitSequence.addChild(
 					new AssignStatement(
 							JolieEppUtils.PARSING_CONTEXT,
-							JolieEppUtils.variableNameToJolieVariablePath(
+							JolieEppUtils.toPath(
 									"rule.stateVariables.name[ #rule.stateVariables.name ]"
 							),
 					new ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, v )
@@ -859,7 +711,7 @@ public class JolieEpp {
 			dataInitSequence.addChild(
 					new AssignStatement(
 						JolieEppUtils.PARSING_CONTEXT,
-						JolieEppUtils.variableNameToJolieVariablePath(
+						JolieEppUtils.toPath(
 								"rule.properties.name[ #rule.properties.name ]"
 						),
 						new ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, v )
@@ -870,7 +722,7 @@ public class JolieEpp {
 			dataInitSequence.addChild(
 					new AssignStatement(
 						JolieEppUtils.PARSING_CONTEXT,
-						JolieEppUtils.variableNameToJolieVariablePath(
+						JolieEppUtils.toPath(
 								"rule.envVariables.name[ #rule.envVariables.name ]"
 						),
 						new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, v)
@@ -881,7 +733,7 @@ public class JolieEpp {
 			dataInitSequence.addChild(
 					new AssignStatement(
 						JolieEppUtils.PARSING_CONTEXT,
-						JolieEppUtils.variableNameToJolieVariablePath(
+						JolieEppUtils.toPath(
 								"rule.newRoles[ #rule.newRoles ]"
 						),
 						new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, newRole)
@@ -892,7 +744,7 @@ public class JolieEpp {
 			dataInitSequence.addChild(
 				new AssignStatement(
 					JolieEppUtils.PARSING_CONTEXT,
-					JolieEppUtils.variableNameToJolieVariablePath(
+					JolieEppUtils.toPath(
 							"rule.subscopes.name[ #rule.subscopes.name ]"
 					),
 					new ConstantStringExpression(
@@ -1136,7 +988,7 @@ public class JolieEpp {
 			s.addChild(
 					new AssignStatement(
 							JolieEppUtils.PARSING_CONTEXT, 
-							JolieEppUtils.variableNameToJolieVariablePath( "csets.cookie" ),
+							JolieEppUtils.toPath( "csets.cookie" ),
 					new ConstantStringExpression(
 							JolieEppUtils.PARSING_CONTEXT, 
 							scope.getKey())
@@ -1146,11 +998,11 @@ public class JolieEpp {
 
 			// add the ack procedure
 			String v = JolieEppUtils.getFreshVariable();
-			VariablePathNode vPath = JolieEppUtils.variableNameToJolieVariablePath(v);
+			VariablePathNode vPath = JolieEppUtils.toPath(v);
 			JolieEppUtils.appendSubNode(vPath, "msgID");
 			s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, vPath,
 					new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, thread)));
-			vPath = JolieEppUtils.variableNameToJolieVariablePath(v);
+			vPath = JolieEppUtils.toPath(v);
 			s.addChild(new SolicitResponseOperationStatement(
 					JolieEppUtils.PARSING_CONTEXT, "ack", scope.getLeader(), vPath, null,
 					null));
@@ -1176,23 +1028,23 @@ public class JolieEpp {
 					JolieEppUtils.PARSING_CONTEXT);
 			onRunProc.addChild( new AssignStatement( 
 					JolieEppUtils.PARSING_CONTEXT, 
-					JolieEppUtils.variableNameToJolieVariablePath( "onRunSR.name" ), 
+					JolieEppUtils.toPath( "onRunSR.name" ), 
 					new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, "execute" )));
 			onRunProc.addChild( new SolicitResponseOperationStatement(
 					JolieEppUtils.PARSING_CONTEXT, 
 					"release",
 					"SemaphoreUtils", 
-					JolieEppUtils.variableNameToJolieVariablePath( "onRunSR" ), 
+					JolieEppUtils.toPath( "onRunSR" ), 
 					null, null ));
 			onRunProc.addChild( new AssignStatement( 
 					JolieEppUtils.PARSING_CONTEXT, 
-					JolieEppUtils.variableNameToJolieVariablePath( "onRunSR.name" ), 
+					JolieEppUtils.toPath( "onRunSR.name" ), 
 					new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, "done" )));
 			onRunProc.addChild( new SolicitResponseOperationStatement(
 					JolieEppUtils.PARSING_CONTEXT, 
 					"acquire",
 					"SemaphoreUtils", 
-					JolieEppUtils.variableNameToJolieVariablePath( "onRunSR" ), 
+					JolieEppUtils.toPath( "onRunSR" ), 
 					null, null ));
 			jolieProgram.addChild(new DefinitionNode(JolieEppUtils.PARSING_CONTEXT,
 					"onRun", onRunProc));
@@ -1217,13 +1069,13 @@ public class JolieEpp {
 			));
 			s.addChild( new AssignStatement( 
 					JolieEppUtils.PARSING_CONTEXT, 
-					JolieEppUtils.variableNameToJolieVariablePath( "startSR.name" ), 
+					JolieEppUtils.toPath( "startSR.name" ), 
 					new ConstantStringExpression(	JolieEppUtils.PARSING_CONTEXT, "done" )));
 			s.addChild( new SolicitResponseOperationStatement(
 					JolieEppUtils.PARSING_CONTEXT, 
 					"release", 
 					"SemaphoreUtils", 
-					JolieEppUtils.variableNameToJolieVariablePath( "startSR" ), 
+					JolieEppUtils.toPath( "startSR" ), 
 					null, null ));
 			jolieMainNode = new DefinitionNode(JolieEppUtils.PARSING_CONTEXT,
 					"start", s);
@@ -1344,7 +1196,7 @@ public class JolieEpp {
 			// "csets.cookie" );
 			// JolieEppUtils.appendSubNode( csets, "cookie" );
 			s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT,
-					JolieEppUtils.variableNameToJolieVariablePath("csets.cookie"),
+					JolieEppUtils.toPath("csets.cookie"),
 					new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, scope
 							.getKey())));
 
@@ -1352,11 +1204,11 @@ public class JolieEpp {
 
 			// add the ack procedure
 			String v = JolieEppUtils.getFreshVariable();
-			VariablePathNode vPath = JolieEppUtils.variableNameToJolieVariablePath(v);
+			VariablePathNode vPath = JolieEppUtils.toPath(v);
 			JolieEppUtils.appendSubNode(vPath, "msgID");
 			s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, vPath,
 					new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, thread)));
-			vPath = JolieEppUtils.variableNameToJolieVariablePath(v);
+			vPath = JolieEppUtils.toPath(v);
 			s.addChild(new SolicitResponseOperationStatement(
 					JolieEppUtils.PARSING_CONTEXT, "ack", scope.getLeader(), vPath, null,
 					null));
@@ -1380,23 +1232,23 @@ public class JolieEpp {
 					JolieEppUtils.PARSING_CONTEXT);
 			onRunProc.addChild( new AssignStatement( 
 					JolieEppUtils.PARSING_CONTEXT, 
-					JolieEppUtils.variableNameToJolieVariablePath( "onRunSR.name" ), 
+					JolieEppUtils.toPath( "onRunSR.name" ), 
 					new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, "execute" )));
 			onRunProc.addChild( new SolicitResponseOperationStatement(
 					JolieEppUtils.PARSING_CONTEXT, 
 					"release",
 					"SemaphoreUtils", 
-					JolieEppUtils.variableNameToJolieVariablePath( "onRunSR" ), 
+					JolieEppUtils.toPath( "onRunSR" ), 
 					null, null ));
 			onRunProc.addChild( new AssignStatement( 
 					JolieEppUtils.PARSING_CONTEXT, 
-					JolieEppUtils.variableNameToJolieVariablePath( "onRunSR.name" ), 
+					JolieEppUtils.toPath( "onRunSR.name" ), 
 					new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, "done" )));
 			onRunProc.addChild( new SolicitResponseOperationStatement(
 					JolieEppUtils.PARSING_CONTEXT, 
 					"acquire",
 					"SemaphoreUtils", 
-					JolieEppUtils.variableNameToJolieVariablePath( "onRunSR" ), 
+					JolieEppUtils.toPath( "onRunSR" ), 
 					null, null ));
 			jolieProgram.addChild(new DefinitionNode(JolieEppUtils.PARSING_CONTEXT,
 					"onRun", onRunProc));
@@ -1421,13 +1273,13 @@ public class JolieEpp {
 			));
 			s.addChild( new AssignStatement( 
 					JolieEppUtils.PARSING_CONTEXT, 
-					JolieEppUtils.variableNameToJolieVariablePath( "startSR.name" ), 
+					JolieEppUtils.toPath( "startSR.name" ), 
 					new ConstantStringExpression(	JolieEppUtils.PARSING_CONTEXT, "done" )));
 			s.addChild( new SolicitResponseOperationStatement(
 					JolieEppUtils.PARSING_CONTEXT, 
 					"release", 
 					"SemaphoreUtils", 
-					JolieEppUtils.variableNameToJolieVariablePath( "startSR" ), 
+					JolieEppUtils.toPath( "startSR" ), 
 					null, null ));
 			jolieMainNode = new DefinitionNode(JolieEppUtils.PARSING_CONTEXT,
 					"start", s);
@@ -1486,34 +1338,34 @@ public class JolieEpp {
 		String sStruct = JolieEppUtils.getFreshVariable();
 		seq.addChild( new AssignStatement(
 				JolieEppUtils.PARSING_CONTEXT,
-				JolieEppUtils.variableNameToJolieVariablePath( sStruct + ".sid" ),
+				JolieEppUtils.toPath( sStruct + ".sid" ),
 				new ConstantStringExpression(
 						JolieEppUtils.PARSING_CONTEXT, 
 						start_key))
 		);
 		seq.addChild( new AssignStatement(
 				JolieEppUtils.PARSING_CONTEXT,
-				JolieEppUtils.variableNameToJolieVariablePath( sStruct + ".rolesNum" ),
+				JolieEppUtils.toPath( sStruct + ".rolesNum" ),
 				new ConstantIntegerExpression(
 						JolieEppUtils.PARSING_CONTEXT, 
 						rolesNumber))
 		);
-		seq.addChild( new SolicitResponseOperationStatement(
+		seq.addChild( new NotificationOperationStatement(
 				JolieEppUtils.PARSING_CONTEXT, 
 				JolieEppUtils.INITSTART_OPERATION,
 				JolieEppUtils.MESSAGEHANDLER_NAME, 
-				JolieEppUtils.variableNameToJolieVariablePath( sStruct ), 
-				null, null)
+				JolieEppUtils.toPath( sStruct )
+				)
 		);
 		seq.addChild( new UndefStatement(
 				JolieEppUtils.PARSING_CONTEXT,
-				JolieEppUtils.variableNameToJolieVariablePath( sStruct + ".rolesNum" )
+				JolieEppUtils.toPath( sStruct + ".rolesNum" )
 				) ); 
 		seq.addChild( new SolicitResponseOperationStatement(
 				JolieEppUtils.PARSING_CONTEXT, 
 				JolieEppUtils.START_OPERATION,
 				JolieEppUtils.MESSAGEHANDLER_NAME, 
-				JolieEppUtils.variableNameToJolieVariablePath( sStruct ), 
+				JolieEppUtils.toPath( sStruct ), 
 				null, null)
 		);
 		if (jolieNode != null) {
@@ -1528,8 +1380,8 @@ public class JolieEpp {
 		SequenceStatement seq = new SequenceStatement(JolieEppUtils.PARSING_CONTEXT);
 		VariablePathNode sStructVarPath, sStructVarPathRole;
 		String sStruct = JolieEppUtils.getFreshVariable();
-		sStructVarPath = JolieEppUtils.variableNameToJolieVariablePath(sStruct);
-		sStructVarPathRole = JolieEppUtils.variableNameToJolieVariablePath(sStruct);
+		sStructVarPath = JolieEppUtils.toPath(sStruct);
+		sStructVarPathRole = JolieEppUtils.toPath(sStruct);
 		JolieEppUtils.appendSubNode(sStructVarPathRole, "sid");
 		seq.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT,
 				sStructVarPathRole, new ConstantStringExpression(
@@ -1545,7 +1397,7 @@ public class JolieEpp {
 		SequenceStatement s = new SequenceStatement(JolieEppUtils.PARSING_CONTEXT);
 		// aReq.properties.dummy.value = 1;
 		VariablePathNode v = JolieEppUtils
-				.variableNameToJolieVariablePath("aReq.properties."
+				.toPath("aReq.properties."
 						+ assignmentSet.getAssignment().getVariable() + ".value");
 		s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, v,
 				ExpressionProjector.project(assignmentSet.getAssignment()
@@ -1568,19 +1420,19 @@ public class JolieEpp {
 		// wait for execution
 		s.addChild( new AssignStatement(
 				JolieEppUtils.PARSING_CONTEXT, 
-				JolieEppUtils.variableNameToJolieVariablePath( "startSR.name" ) , 
+				JolieEppUtils.toPath( "startSR.name" ) , 
 				new ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, "execute")));
 		s.addChild( new SolicitResponseOperationStatement(
 				JolieEppUtils.PARSING_CONTEXT, 
 				"acquire", 
 				"SemaphoreUtils", 
-				JolieEppUtils.variableNameToJolieVariablePath( "startSR" ), 
+				JolieEppUtils.toPath( "startSR" ), 
 				null, null ));
 
 		// aReq.client = leader_port
 		s.addChild( new AssignStatement(
 				JolieEppUtils.PARSING_CONTEXT, 
-				JolieEppUtils.variableNameToJolieVariablePath( "aReq.client" ),
+				JolieEppUtils.toPath( "aReq.client" ),
 				new ConstantStringExpression(
 						JolieEppUtils.PARSING_CONTEXT,
 						getRoleLocation( scope.getLeader() ).toString() )
@@ -1589,7 +1441,7 @@ public class JolieEpp {
 		s.addChild(
 				new AssignStatement( 
 					JolieEppUtils.PARSING_CONTEXT, 
-					JolieEppUtils.variableNameToJolieVariablePath( "aReq.ports." + scope.getLeader() + ".address"),
+					JolieEppUtils.toPath( "aReq.ports." + scope.getLeader() + ".address"),
 					new ConstantStringExpression(
 							JolieEppUtils.PARSING_CONTEXT,
 							getRoleLocation( scope.getLeader() ).toString() )
@@ -1599,7 +1451,7 @@ public class JolieEpp {
 			s.addChild(
 					new AssignStatement( 
 						JolieEppUtils.PARSING_CONTEXT, 
-						JolieEppUtils.variableNameToJolieVariablePath( "aReq.ports." + role + ".address"),
+						JolieEppUtils.toPath( "aReq.ports." + role + ".address"),
 						new ConstantStringExpression(
 							JolieEppUtils.PARSING_CONTEXT, 
 							getRoleLocation( role ).toString() )
@@ -1612,8 +1464,8 @@ public class JolieEpp {
 						JolieEppUtils.PARSING_CONTEXT, 
 						"checkForUpdate", 
 						"AdaptationManager",
-						JolieEppUtils.variableNameToJolieVariablePath( "aReq" ),
-						JolieEppUtils.variableNameToJolieVariablePath( "aRes" ),
+						JolieEppUtils.toPath( "aReq" ),
+						JolieEppUtils.toPath( "aRes" ),
 						null)
 				);
 
@@ -1635,7 +1487,7 @@ public class JolieEpp {
 		ifBranch.addChild(
 				new AssignStatement(
 						JolieEppUtils.PARSING_CONTEXT, 
-						JolieEppUtils.variableNameToJolieVariablePath( startCookie + ".msgID" ),
+						JolieEppUtils.toPath( startCookie + ".msgID" ),
 						new ConstantStringExpression(
 								JolieEppUtils.PARSING_CONTEXT, 
 								scope.getKey())
@@ -1645,7 +1497,7 @@ public class JolieEpp {
 						JolieEppUtils.PARSING_CONTEXT, 
 						JolieEppUtils.START_OPERATION, 
 						JolieEppUtils.MESSAGEHANDLER_NAME, 
-						JolieEppUtils.variableNameToJolieVariablePath( startCookie ), 
+						JolieEppUtils.toPath( startCookie ), 
 						null, null )
 				);
 
@@ -1659,28 +1511,28 @@ public class JolieEpp {
 						// c = 0
 						new AssignStatement(
 								JolieEppUtils.PARSING_CONTEXT, 
-								JolieEppUtils.variableNameToJolieVariablePath( "c" ),
+								JolieEppUtils.toPath( "c" ),
 								new ConstantIntegerExpression(
 										JolieEppUtils.PARSING_CONTEXT, 0 )
 								),
 						// c < #aRes.LEADER.code
 						new CompareConditionNode(
 								JolieEppUtils.PARSING_CONTEXT, 
-								JolieEppUtils.variableNameToJolieVariablePath( "c" ), 
-								JolieEppUtils.variableNameToJolieVariablePath( 
+								JolieEppUtils.toPath( "c" ), 
+								JolieEppUtils.toPath( 
 										"#aRes." + scope.getLeader() + ".code"), 
 										Scanner.TokenType.LANGLE ),
 						// c++
 						new PostIncrementStatement(
 								JolieEppUtils.PARSING_CONTEXT, 
-								JolieEppUtils.variableNameToJolieVariablePath( "c" )),
+								JolieEppUtils.toPath( "c" )),
 								
 						// embed_scope@ActivityManager(aRes.LEADER.code[ c ])()
 						new SolicitResponseOperationStatement(
 								JolieEppUtils.PARSING_CONTEXT,
 								"embed_scope", 
 								"ActivityManager", 
-								JolieEppUtils.variableNameToJolieVariablePath( 
+								JolieEppUtils.toPath( 
 										"aRes." + scope.getLeader()	+ ".code[ c ]"), 
 										null, null)
 						)
@@ -1690,8 +1542,8 @@ public class JolieEpp {
 		ifBranch.addChild(
 				new AssignStatement(
 						JolieEppUtils.PARSING_CONTEXT,
-						JolieEppUtils.variableNameToJolieVariablePath( "adaptRequest.cookie" ),
-						JolieEppUtils.variableNameToJolieVariablePath( startCookie + ".msgID" )));
+						JolieEppUtils.toPath( "adaptRequest.cookie" ),
+						JolieEppUtils.toPath( startCookie + ".msgID" )));
 
 		// adaptation code send block
 		for ( String ledRole : scope.getLedRoles() ) {
@@ -1699,15 +1551,15 @@ public class JolieEpp {
 			ifBranch.addChild(
 					new DeepCopyStatement(
 							JolieEppUtils.PARSING_CONTEXT,
-							JolieEppUtils.variableNameToJolieVariablePath( "adaptRequest.code" ),
-							JolieEppUtils.variableNameToJolieVariablePath( "aRes." + ledRole	+ ".code" ))
+							JolieEppUtils.toPath( "adaptRequest.code" ),
+							JolieEppUtils.toPath( "aRes." + ledRole	+ ".code" ))
 			);
 
 			ifBranch.addChild(
 					new AssignStatement(
 							JolieEppUtils.PARSING_CONTEXT,
-							JolieEppUtils.variableNameToJolieVariablePath( "adaptRequest.main_key" ),
-							JolieEppUtils.variableNameToJolieVariablePath( "aRes.main_key" ))
+							JolieEppUtils.toPath( "adaptRequest.main_key" ),
+							JolieEppUtils.toPath( "aRes.main_key" ))
 			);
 
 			ifBranch.addChild(
@@ -1715,7 +1567,7 @@ public class JolieEpp {
 							JolieEppUtils.PARSING_CONTEXT, 
 							"adapt", 
 							ledRole, 
-							JolieEppUtils.variableNameToJolieVariablePath( "adaptRequest" ), 
+							JolieEppUtils.toPath( "adaptRequest" ), 
 							null, null)
 			);
 		}
@@ -1726,7 +1578,7 @@ public class JolieEpp {
 						JolieEppUtils.PARSING_CONTEXT, 
 						JolieEppUtils.START_OPERATION + "_" + scope.getLeader(), 
 						JolieEppUtils.MESSAGEHANDLER_NAME, 
-						JolieEppUtils.variableNameToJolieVariablePath( startCookie ), 
+						JolieEppUtils.toPath( startCookie ), 
 						null, null)
 				);
 
@@ -1735,7 +1587,7 @@ public class JolieEpp {
 						JolieEppUtils.PARSING_CONTEXT, 
 						"run", 
 						"ActivityManager", 
-						JolieEppUtils.variableNameToJolieVariablePath( "aRes.main_key" ), 
+						JolieEppUtils.toPath( "aRes.main_key" ), 
 						null, null)
 		);
 
@@ -1747,7 +1599,7 @@ public class JolieEpp {
 						new IsTypeExpressionNode(
 								JolieEppUtils.PARSING_CONTEXT,
 								CheckType.DEFINED, 
-								JolieEppUtils.variableNameToJolieVariablePath( "aRes" )), 
+								JolieEppUtils.toPath( "aRes" )), 
 								ifBranch)
 		);
 
@@ -1756,7 +1608,7 @@ public class JolieEpp {
 		elseBranch.addChild(
 				new AssignStatement( 
 						JolieEppUtils.PARSING_CONTEXT,
-						JolieEppUtils.variableNameToJolieVariablePath( "eReq.cookie" ), 
+						JolieEppUtils.toPath( "eReq.cookie" ), 
 						new ConstantStringExpression( 
 								JolieEppUtils.PARSING_CONTEXT, 
 								scope.getKey())
@@ -1769,7 +1621,7 @@ public class JolieEpp {
 					JolieEppUtils.PARSING_CONTEXT, 
 					"noAdapt", 
 					ledRole, 
-					JolieEppUtils.variableNameToJolieVariablePath( "eReq" ))
+					JolieEppUtils.toPath( "eReq" ))
 			);
 		}
 		
@@ -1794,27 +1646,27 @@ public class JolieEpp {
 						// c = 0
 						new AssignStatement( 
 							JolieEppUtils.PARSING_CONTEXT, 
-							JolieEppUtils.variableNameToJolieVariablePath( "c" ),
+							JolieEppUtils.toPath( "c" ),
 							new ConstantIntegerExpression( JolieEppUtils.PARSING_CONTEXT, 0 )
 						),
 						// c < #eReq.code
 						new CompareConditionNode(
 								JolieEppUtils.PARSING_CONTEXT,
-								JolieEppUtils.variableNameToJolieVariablePath( "c" ),
-								JolieEppUtils.variableNameToJolieVariablePath( "#eReq.code" ),
+								JolieEppUtils.toPath( "c" ),
+								JolieEppUtils.toPath( "#eReq.code" ),
 								Scanner.TokenType.LANGLE
 						), 
 						// c++
 						new PostIncrementStatement(
 								JolieEppUtils.PARSING_CONTEXT, 
-								JolieEppUtils.variableNameToJolieVariablePath( "c" )
+								JolieEppUtils.toPath( "c" )
 						),
 						// for body
 						new SolicitResponseOperationStatement(
 								JolieEppUtils.PARSING_CONTEXT, 
 								"embed_scope",
 								"ActivityManager", 
-								JolieEppUtils.variableNameToJolieVariablePath( "eReq.code[ c ]" ), 
+								JolieEppUtils.toPath( "eReq.code[ c ]" ), 
 								null,	null)
 						)
 		);
@@ -1826,7 +1678,7 @@ public class JolieEpp {
 		adaptChoice.addChild(
 			new AssignStatement(
 					JolieEppUtils.PARSING_CONTEXT, 
-					JolieEppUtils.variableNameToJolieVariablePath( startCookie + ".msgID" ), 
+					JolieEppUtils.toPath( startCookie + ".msgID" ), 
 					new ConstantStringExpression(
 							JolieEppUtils.PARSING_CONTEXT, 
 							scope.getKey() )
@@ -1837,7 +1689,7 @@ public class JolieEpp {
 						JolieEppUtils.PARSING_CONTEXT, 
 						JolieEppUtils.START_OPERATION, 
 						scope.getLeader(), 
-						JolieEppUtils.variableNameToJolieVariablePath( startCookie ), 
+						JolieEppUtils.toPath( startCookie ), 
 						null, null)
 		);
 		adaptChoice.addChild(
@@ -1845,7 +1697,7 @@ public class JolieEpp {
 					JolieEppUtils.PARSING_CONTEXT, 
 					"run", 
 					"ActivityManager",
-					JolieEppUtils.variableNameToJolieVariablePath( "eReq.main_key" ), 
+					JolieEppUtils.toPath( "eReq.main_key" ), 
 					null,	null)	
 		);
 		
@@ -1854,7 +1706,7 @@ public class JolieEpp {
 						new RequestResponseOperationStatement(
 								JolieEppUtils.PARSING_CONTEXT,
 								"adapt", 
-								JolieEppUtils.variableNameToJolieVariablePath( "eReq" ),
+								JolieEppUtils.toPath( "eReq" ),
 								null, 
 								adaptSequence ), 
 						adaptChoice)
@@ -1954,11 +1806,11 @@ public class JolieEpp {
 		for (String ledRole : ledRoles) {
 			SequenceStatement s = new SequenceStatement(JolieEppUtils.PARSING_CONTEXT);
 			String v = JolieEppUtils.getFreshVariable();
-			VariablePathNode vPath = JolieEppUtils.variableNameToJolieVariablePath(v);
+			VariablePathNode vPath = JolieEppUtils.toPath(v);
 			JolieEppUtils.appendSubNode(vPath, "msgID");
 			s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, vPath,
 					new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, ledRole)));
-			vPath = JolieEppUtils.variableNameToJolieVariablePath(v);
+			vPath = JolieEppUtils.toPath(v);
 			s.addChild(new SolicitResponseOperationStatement(
 					JolieEppUtils.PARSING_CONTEXT, "get_ack",
 					JolieEppUtils.MESSAGEHANDLER_NAME, vPath, null, null));

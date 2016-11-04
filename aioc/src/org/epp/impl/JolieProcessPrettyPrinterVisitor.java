@@ -349,7 +349,7 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 			printer.indent();
 			prettyPrint( choice.value() );
 			printer.unindent();
-			printer.writeLine();
+			printer.write( "\n" );
 			printer.writeIndented( "}" );
 		}
 		if ( n.elseProcess() != null ) {
@@ -365,7 +365,7 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 	
 	public void visit( DefinitionCallStatement n )
 	{
-		printer.writeLineIndented( n.id() );
+		printer.writeIndented( n.id() );
 	}
 
 	

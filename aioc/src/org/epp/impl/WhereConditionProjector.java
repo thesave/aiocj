@@ -91,13 +91,13 @@ public class WhereConditionProjector extends AiocSwitch< OLSyntaxNode >
 	
 	public OLSyntaxNode caseWhereExpressionBasicTerm( WhereExpressionBasicTerm n ){
 		if( n.getEVariable() != null ){
-			return JolieEppUtils.variableNameToJolieVariablePath( "request.environment." + 
+			return JolieEppUtils.toPath( "request.environment." + 
 		n.getEVariable() );
 		} else if ( n.getNVariable() != null ){
-			return JolieEppUtils.variableNameToJolieVariablePath( "request.properties." + 
+			return JolieEppUtils.toPath( "request.properties." + 
 		n.getNVariable() );
 		} else if ( n.getSVariable() != null ){
-			return JolieEppUtils.variableNameToJolieVariablePath( "request.state." + 
+			return JolieEppUtils.toPath( "request.state." + 
 		n.getSVariable() );
 		} else if ( n.isTrue() ){
 			return new ConstantBoolExpression( JolieEppUtils.PARSING_CONTEXT, true );
