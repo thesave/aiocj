@@ -29,7 +29,7 @@ outputPort Leader {
 	Interfaces: LeaderInterface
 }
 
-// ADD IF LEADER, USED TO PARAMETRICALLY OVER LED ROLES
+// ADD IF LEADER, USED TO PARAMETRICALLY RANGE OVER LED ROLES
 outputPort LedRole {
   Protocol: sodep
   Interfaces: AdaptActivityInterface
@@ -78,25 +78,24 @@ define start
 	aReq.ports.B.address = "socket://localhost:10501/";
 	checkForUpdate@AdaptationManager(aReq)(aRes);
 	if (is_defined(aRes)) {
-		var3.msgID = "779c2922-6ed4-4985-9e80-01f4c31f01d6";
-		for ( c = 0, c < #aRes.roles.A.code, c++ ){
-			embed_scope@ActivityManager(aRes.roles.A.code[ c ])()
-		};
-		var6.sid = adaptRequest.main_key = aRes.main_key;
-		var6.rolesNum = 3; // THIS MUST BE A PARAMETER WITHIN aRes
-		var6.hasAck = true;
-    // REMOVES OWN CODE FROM aRes
-    undef( aRes.roles.A );
-    // LAUNCHES THE INITSTARTPROCEDURE FOR THE NEW RULE
+    for ( c = 0, c < #aRes.roles.A.code, c++ ){
+      embed_scope@ActivityManager(aRes.roles.A.code[ c ])()
+    };
+    var6.sid = adaptRequest.main_key = aRes.main_key;
+    var6.rolesNum=1; foreach ( r : aRes.roles ) { var6.rolesNum++ }; 
+    var6.hasAck = true;
     println@Console( "initiating procedure for: " + var6.sid )();
+    // LAUNCHES THE INITSTARTPROCEDURE FOR THE NEW RULE
     initStartProcedure@Leader( var6 ); 
     // ADAPTS ALL LED ROLES ( ALREADY-PRESENT AND NEW ONES )
+    // REMOVES OWN CODE FROM aRes
+    undef( aRes.roles.A );
     foreach ( roleName : aRes.roles ) {
       if( is_defined( aRes.roles.( roleName ).cookie ) ){
         adaptRequest.cookie = aRes.roles.( roleName ).cookie;
         LedRole.location = aRes.roles.( roleName ).location
       } else {
-        adaptRequest.cookie = var3.msgID;
+		    adaptRequest.cookie = "779c2922-6ed4-4985-9e80-01f4c31f01d6";
         LedRole.location = aRes.roles.( roleName ).location + "!/Activity/779c2922-6ed4-4985-9e80-01f4c31f01d6"
       };
       adaptRequest.code << aRes.roles.( roleName ).code;

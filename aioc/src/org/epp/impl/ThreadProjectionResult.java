@@ -28,15 +28,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import jolie.lang.NativeType;
 import jolie.lang.parse.ast.OLSyntaxNode;
 import jolie.lang.parse.ast.OneWayOperationDeclaration;
 import jolie.lang.parse.ast.OperationDeclaration;
 import jolie.lang.parse.ast.OutputPortInfo;
-import jolie.lang.parse.ast.RequestResponseOperationDeclaration;
-import jolie.lang.parse.ast.types.TypeInlineDefinition;
-import jolie.util.Range;
-
 import org.epp.impl.merging.MergeUtils;
 import org.epp.impl.merging.MergingException;
 
@@ -46,7 +41,7 @@ import org.epp.impl.merging.MergingException;
  * This class offers methods for merging thread projections, and accessing
  * information such as the used input operations and their correlation sets.
  * 
- * @author Fabrizio Montesi
+ * @authors Fabrizio Montesi, Saverio Giallorenzo
  *
  */
 public class ThreadProjectionResult
@@ -126,22 +121,7 @@ public class ThreadProjectionResult
 	
 	public void addRRToOutputPort( String outputPortName, String operationName )
 	{
-		getOutputPort( outputPortName ).addOperation( 
-				new RequestResponseOperationDeclaration( 
-						JolieEppUtils.PARSING_CONTEXT, 
-						operationName,
-						new TypeInlineDefinition(
-						JolieEppUtils.PARSING_CONTEXT,
-						"OpType",
-						NativeType.VOID,
-						new Range( 0, 1 ) ), 
-					new TypeInlineDefinition(
-						JolieEppUtils.PARSING_CONTEXT,
-						"undefined",
-						NativeType.VOID,
-						new Range( 0, 1 ) ),					 
-						null )
-		);
+		getOutputPort( outputPortName ).addOperation( JolieEppUtils.getMHOperationDeclaration( operationName ) );
 	}
 	
 	public OutputPortInfo getOutputPort( String outputPortName )

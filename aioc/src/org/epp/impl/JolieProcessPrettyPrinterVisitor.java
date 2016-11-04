@@ -50,7 +50,8 @@ import jolie.lang.parse.ast.DocumentationComment;
 import jolie.lang.parse.ast.EmbeddedServiceNode;
 import jolie.lang.parse.ast.ExecutionInfo;
 import jolie.lang.parse.ast.ExitStatement;
-import jolie.lang.parse.ast.ForEachStatement;
+import jolie.lang.parse.ast.ForEachArrayItemStatement;
+import jolie.lang.parse.ast.ForEachSubNodeStatement;
 import jolie.lang.parse.ast.ForStatement;
 import jolie.lang.parse.ast.IfStatement;
 import jolie.lang.parse.ast.InputPortInfo;
@@ -77,6 +78,7 @@ import jolie.lang.parse.ast.PostIncrementStatement;
 import jolie.lang.parse.ast.PreDecrementStatement;
 import jolie.lang.parse.ast.PreIncrementStatement;
 import jolie.lang.parse.ast.Program;
+import jolie.lang.parse.ast.ProvideUntilStatement;
 import jolie.lang.parse.ast.RequestResponseOperationDeclaration;
 import jolie.lang.parse.ast.RequestResponseOperationStatement;
 import jolie.lang.parse.ast.RunStatement;
@@ -103,6 +105,8 @@ import jolie.lang.parse.ast.expression.ConstantIntegerExpression;
 import jolie.lang.parse.ast.expression.ConstantLongExpression;
 import jolie.lang.parse.ast.expression.ConstantStringExpression;
 import jolie.lang.parse.ast.expression.FreshValueExpressionNode;
+import jolie.lang.parse.ast.expression.InlineTreeExpressionNode;
+import jolie.lang.parse.ast.expression.InstanceOfExpressionNode;
 import jolie.lang.parse.ast.expression.IsTypeExpressionNode;
 import jolie.lang.parse.ast.expression.IsTypeExpressionNode.CheckType;
 import jolie.lang.parse.ast.expression.NotExpressionNode;
@@ -110,6 +114,8 @@ import jolie.lang.parse.ast.expression.OrConditionNode;
 import jolie.lang.parse.ast.expression.ProductExpressionNode;
 import jolie.lang.parse.ast.expression.SumExpressionNode;
 import jolie.lang.parse.ast.expression.VariableExpressionNode;
+import jolie.lang.parse.ast.expression.VoidExpressionNode;
+import jolie.lang.parse.ast.types.TypeChoiceDefinition;
 import jolie.lang.parse.ast.types.TypeDefinition;
 import jolie.lang.parse.ast.types.TypeDefinitionLink;
 import jolie.lang.parse.ast.types.TypeInlineDefinition;
@@ -542,7 +548,7 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 				printer.write( alias.guardName() + "." );
 				prettyPrint( alias.variablePath() );
 				if ( i++ < var.aliases().size() - 1 ) {
-					printer.write( ", " );
+					printer.write( " " );
 				} else {
 					printer.writeLine();
 				}
@@ -628,7 +634,7 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 		printer.writeIndented( "" );
 		prettyPrint( n.leftPath() );
 		printer.write( " << " );
-		prettyPrint( n.rightPath() );
+		prettyPrint( n.rightExpression() );
 	}
 
 	
@@ -656,7 +662,7 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 	
 	public void visit( PreIncrementStatement n )
 	{
-		printer.write( "++" );
+		printer.writeIndented( "++" );
 		prettyPrint( n.variablePath() );
 	}
 
@@ -684,7 +690,7 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 	
 	public void visit( ForStatement n )
 	{
-		printer.writeIndented( "for ( " );
+		printer.write( "for (" );
 		prettyPrint( n.init() );
 		printer.write( ", " );
 		prettyPrint( n.condition() );
@@ -697,13 +703,6 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 		printer.unindent();	
 		printer.writeLine();
 		printer.writeIndented("}");
-	}
-
-	
-	public void visit( ForEachStatement n )
-	{
-		// TODO Auto-generated method stub
-
 	}
 
 	
@@ -1003,6 +1002,57 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 
 	
 	public void visit(InterfaceExtenderDefinition arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(ForEachSubNodeStatement n) {
+		printer.writeIndented( "foreach ( " );
+		prettyPrint( n.keyPath() );
+		printer.write( " : " );
+		prettyPrint( n.targetPath() );
+		printer.write( " ){" );		
+		printer.writeLine();
+		printer.indent();
+		prettyPrint( n.body() );
+		printer.unindent();	
+		printer.writeLine();
+		printer.writeIndented("}");
+	}
+
+	@Override
+	public void visit(ForEachArrayItemStatement arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(InstanceOfExpressionNode arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(InlineTreeExpressionNode arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(VoidExpressionNode arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(ProvideUntilStatement arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(TypeChoiceDefinition arg0) {
 		// TODO Auto-generated method stub
 		
 	}

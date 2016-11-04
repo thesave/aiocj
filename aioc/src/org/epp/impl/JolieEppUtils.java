@@ -45,9 +45,10 @@ import jolie.lang.parse.ast.DefinitionCallStatement;
 import jolie.lang.parse.ast.DefinitionNode;
 import jolie.lang.parse.ast.IfStatement;
 import jolie.lang.parse.ast.OLSyntaxNode;
+import jolie.lang.parse.ast.OneWayOperationDeclaration;
 import jolie.lang.parse.ast.OneWayOperationStatement;
 import jolie.lang.parse.ast.PreDecrementStatement;
-import jolie.lang.parse.ast.PreIncrementStatement;
+import jolie.lang.parse.ast.RequestResponseOperationDeclaration;
 import jolie.lang.parse.ast.RequestResponseOperationStatement;
 import jolie.lang.parse.ast.SequenceStatement;
 import jolie.lang.parse.ast.VariablePathNode;
@@ -77,7 +78,7 @@ public class JolieEppUtils
 	{
 		jolie.lang.parse.ast.Program jolieProgram = new jolie.lang.parse.ast.Program( JolieEppUtils.PARSING_CONTEXT );
 		jolieProgram.addChild( new DefinitionNode( JolieEppUtils.PARSING_CONTEXT, "main", processNode ) );
-		jolieProgram = new OLParseTreeOptimizer( jolieProgram ).optimize();
+		jolieProgram = OLParseTreeOptimizer.optimize( jolieProgram  );
 		DefinitionNode main = (DefinitionNode) jolieProgram.children().get( 0 );
 		return main.body();
 	}
@@ -275,6 +276,15 @@ public class JolieEppUtils
 		return "_" + s.replace("-", "");
 	}
 	
+	public static RequestResponseOperationDeclaration getMHOperationDeclaration( String operation ){
+		return new RequestResponseOperationDeclaration(
+		  JolieEppUtils.PARSING_CONTEXT, operation, new TypeInlineDefinition(
+			JolieEppUtils.PARSING_CONTEXT, "OpType", NativeType.ANY,
+			new Range(1, 1)), new TypeInlineDefinition(
+			JolieEppUtils.PARSING_CONTEXT, "undefined", NativeType.ANY,
+			new Range(1, 1)), null);
+	}
+	
 	public static VariablePathNode toPath( String variable ) 
 	{
 		if ( variable == null ) {
@@ -327,6 +337,7 @@ public class JolieEppUtils
 	public final static String TID_VARNAME = "tid";
 	public final static String CONTENT_VARNAME = "content";
 	public final static String MESSAGEHANDLER_NAME = "MH";
+	public static final String LEADER_NAME = "Leader";
 	public final static String MESSAGEHANDLER_FILENAME = "mh.ol";
 	public final static String MH_EMBEDDING_PREFIX_FOLDER = "__activity_manager" + File.separator + "activities";
 	public final static String ACTIVITY_REDIRECTION = "Activity";
@@ -397,6 +408,28 @@ public class JolieEppUtils
 		TYPE_CoordType.putSubType( new TypeInlineDefinition( JolieEppUtils.PARSING_CONTEXT, "rolesNum", NativeType.INT, new Range(1, 1) ) );
 		TYPE_CoordType.putSubType( new TypeInlineDefinition( JolieEppUtils.PARSING_CONTEXT, "hasAck", NativeType.BOOL, new Range(0, 1) ) );
 	}
+		
+	public final static OneWayOperationDeclaration INITSTART_OPERATIONDECLARATION = 
+			new OneWayOperationDeclaration( JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.INITSTART_OPERATION );
+	static {
+		INITSTART_OPERATIONDECLARATION.setRequestType( new TypeInlineDefinition( JolieEppUtils.PARSING_CONTEXT, 
+			"CoordType", NativeType.ANY, new Range(1, 1) ) );
+	}
+
+	public final static RequestResponseOperationDeclaration START_OPERATIONDECLARATION = new RequestResponseOperationDeclaration(
+			JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.START_OPERATION,
+			new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT, "JoinType",
+					NativeType.ANY, new Range(1, 1)), new TypeInlineDefinition(
+					JolieEppUtils.PARSING_CONTEXT, "void", NativeType.VOID,
+					new Range(1, 1)), null);
+	
+	public final static RequestResponseOperationDeclaration ACK_OPERATIONDECLARATION = new RequestResponseOperationDeclaration(
+			JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.ACK_OPERATION,
+			new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT, "JoinType",
+					NativeType.ANY, new Range(1, 1)), new TypeInlineDefinition(
+					JolieEppUtils.PARSING_CONTEXT, "void", NativeType.VOID,
+					new Range(1, 1)), null);
+	
 	
 	private final static String JOINSTARTCOUNTER= "joinStartCounter";
 	private final static IfStatement startBehaviour = new IfStatement( PARSING_CONTEXT );
@@ -456,6 +489,5 @@ public class JolieEppUtils
 				JolieEppUtils.toPath( JolieEppUtils.INITSTART_OPERATION_PATH )), 
 		initStartProcedureBody	
 	);
-	
 	
 }

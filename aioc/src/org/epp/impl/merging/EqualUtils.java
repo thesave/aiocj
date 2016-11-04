@@ -116,7 +116,7 @@ public class EqualUtils
 	
 	public static Boolean checkEqual( DeepCopyStatement left, DeepCopyStatement right )
 	{
-		return checkEqual( left.leftPath(), right.leftPath() ) && checkEqual( left.rightPath(), right.rightPath() );
+		return checkEqual( left.leftPath(), right.leftPath() ) && checkEqual( left.rightExpression(), right.rightExpression() );
 	}
 	
 	public static Boolean checkEqual( NotificationOperationStatement left, NotificationOperationStatement right )
