@@ -21,5 +21,6 @@
 
 constants {
 	Location_AdaptationManager = "socket://localhost:9049",
-	Location_Environment = "socket://localhost:9048"
+	Location_Environment = "socket://localhost:9048",
+  Location_RoleSupporter = "socket://localhost:9059"
 }

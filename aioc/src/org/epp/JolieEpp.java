@@ -186,6 +186,7 @@ public class JolieEpp {
 		if ( result.uncorrelatedInputOperations().isEmpty() && additionalOperations.isEmpty() ) {
 			// adds type definition
 			jolieProgram.addChild( JolieEppUtils.TYPE_OpType );
+			jolieProgram.addChild( JolieEppUtils.TYPE_JoinType );
 			OutputPortInfo embedderOutputPort = new OutputPortInfo(
 					JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.MESSAGEHANDLER_NAME);
 			jolieProgram.addChild(embedderOutputPort);
@@ -363,36 +364,20 @@ public class JolieEpp {
 				JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.SELF_INPUT_PORT_NAME
 						+ "Interface");
 
-		RequestResponseOperationDeclaration decl;
 		for ( String operation : result.uncorrelatedInputOperations() ) {
-			decl = new RequestResponseOperationDeclaration(
-					JolieEppUtils.PARSING_CONTEXT, operation, new TypeInlineDefinition(
-							JolieEppUtils.PARSING_CONTEXT, "OpType", NativeType.ANY,
-							new Range(1, 1)), new TypeInlineDefinition(
-							JolieEppUtils.PARSING_CONTEXT, "undefined", NativeType.ANY,
-							new Range(1, 1)), null);
-			iface.addOperation(decl);
+			iface.addOperation( JolieEppUtils.getMHOperationDeclaration( operation ) );
 		}
 
 		if (!leader) {
 			// add adapt and noAdapt operations via interface
-			port.addInterface(new InterfaceDefinition(JolieEppUtils.PARSING_CONTEXT,
-					"AdaptActivityInterface"));
+			port.addInterface( new InterfaceDefinition(JolieEppUtils.PARSING_CONTEXT, "AdaptActivityInterface" ) );
 		}
 
 		if (leader) {
-			// add start operation
-			decl = new RequestResponseOperationDeclaration(
-					JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.START_OPERATION,
-					new TypeInlineDefinition(JolieEppUtils.PARSING_CONTEXT, "OpType",
-							NativeType.ANY, new Range(1, 1)), new TypeInlineDefinition(
-							JolieEppUtils.PARSING_CONTEXT, "undefined", NativeType.ANY,
-							new Range(1, 1)), null);
-
-			iface.addOperation(decl);
+			iface.addOperation( JolieEppUtils.START_OPERATIONDECLARATION );
 		}
 
-		// port.addInterface( iface );
+//		port.addInterface( iface );
 
 		if (!iface.operationsMap().isEmpty()) {
 			// jolieProgram.addChild( iface );
@@ -426,7 +411,7 @@ public class JolieEpp {
 		leaderOutputPort.setProtocolId( "sodep" );
 		leaderOutputPort.addOperation( JolieEppUtils.ACK_OPERATIONDECLARATION );
 		leaderOutputPort.addOperation( JolieEppUtils.START_OPERATIONDECLARATION );
-		leaderOutputPort.addOperation( JolieEppUtils.INITSTART_OPERATIONDECLARATION );
+		if ( leader ) { leaderOutputPort.addOperation( JolieEppUtils.INITSTART_OPERATIONDECLARATION ); }
 		jolieProgram.addChild( leaderOutputPort );
 				
 		if ( leader ){
@@ -965,9 +950,7 @@ public class JolieEpp {
 					"RPH__" + thread
 			);
 		} else {
-			String threadStartOperation = 
-					JolieEppUtils.START_OPERATION;
-			result.addRRToOutputPort(scope.getLeader(), threadStartOperation);
+//			result.getOutputPort( scope.getLeader() ).addOperation( JolieEppUtils.START_OPERATIONDECLARATION );
 			jolieMainNode = getLedStartProcedure(
 					getLedAdaptProcedure( jolieMainNode, thread, scope ),
 					thread, 
@@ -1145,9 +1128,10 @@ public class JolieEpp {
 		NameCollector nc = new NameCollector();
 		nc.collect( choreography, null );
 
-		if ( !nc.getRoles().contains( scope.getLeader() ) ) {
-			nc.addRole( scope.getLeader() );
-		}
+		// NO LONGER NEEDED BECAUSE WE HAVE THE LEADER PORT
+//		if ( !nc.getRoles().contains( scope.getLeader() ) ) {
+//			nc.addRole( scope.getLeader() );
+//		}
 
 		nc.addRoles( scope.getLedRoles() );
 		String mh = embedMessageHandler( thread, jolieProgram, result, leader, nc, scope.getKey() );
@@ -1174,9 +1158,7 @@ public class JolieEpp {
 					thread,
 					nc.getRoles().size(), true, getRoleLocation( thread ).toString() );
 		} else {
-			String threadStartOperation = JolieEppUtils.START_OPERATION;
-			result.addRRToOutputPort( scope.getLeader(), 
-					threadStartOperation );
+//			result.getOutputPort( scope.getLeader() ).addOperation( JolieEppUtils.START_OPERATIONDECLARATION );
 			jolieMainNode = getLedStartProcedure(
 					getLedAdaptProcedure( 
 							jolieMainNode, 
@@ -1393,27 +1375,27 @@ public class JolieEpp {
 	}
 
 	private OLSyntaxNode getLedStartProcedure(OLSyntaxNode jolieNode,
-			String thread, String start_key, String leader, boolean isRuleOrScope ) {
-		SequenceStatement seq = new SequenceStatement(JolieEppUtils.PARSING_CONTEXT);
-		String defaultCoordinator = leader;
+			String thread, String start_key, String leaderNameOrAddress, boolean isRuleOrScope ) {
+		SequenceStatement seq = new SequenceStatement( JolieEppUtils.PARSING_CONTEXT );
+		String defaultCoordinator = leaderNameOrAddress;
 		VariablePathNode sStructVarPath, sStructVarPathRole;
 		String sStruct = JolieEppUtils.getFreshVariable();
-		sStructVarPath = JolieEppUtils.toPath(sStruct);
-		sStructVarPathRole = JolieEppUtils.toPath(sStruct);
+		sStructVarPath = JolieEppUtils.toPath( sStruct );
+		sStructVarPathRole = JolieEppUtils.toPath( sStruct );
 		JolieEppUtils.appendSubNode(sStructVarPathRole, "sid");
-		seq.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT,
+		seq.addChild( new AssignStatement( JolieEppUtils.PARSING_CONTEXT,
 				sStructVarPathRole, new ConstantStringExpression(
-						JolieEppUtils.PARSING_CONTEXT, start_key)));
+						JolieEppUtils.PARSING_CONTEXT, start_key ) ) );
 		if ( isRuleOrScope ){
 			seq.addChild( new AssignStatement(JolieEppUtils.PARSING_CONTEXT,
 					JolieEppUtils.toPath( "Leader.location" ), new ConstantStringExpression(
-							JolieEppUtils.PARSING_CONTEXT, leader)));			
+							JolieEppUtils.PARSING_CONTEXT, leaderNameOrAddress)));			
 			defaultCoordinator = JolieEppUtils.LEADER_NAME;
 		}
-		seq.addChild(new SolicitResponseOperationStatement(
+		seq.addChild( new SolicitResponseOperationStatement(
 				JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.START_OPERATION, defaultCoordinator,
-				sStructVarPath, null, null));
-		seq.addChild(jolieNode);
+				sStructVarPath, null, null ) );
+		seq.addChild( jolieNode );
 		return seq;
 	}
 
@@ -1426,8 +1408,8 @@ public class JolieEpp {
 		s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, v,
 				ExpressionProjector.project(assignmentSet.getAssignment()
 						.getExpression())));
-		if (assignmentSet.getContinuation() != null) {
-			s.addChild(getSetPropertiesProcedure(assignmentSet.getContinuation()));
+		if ( assignmentSet.getContinuation() != null ) {
+			s.addChild(getSetPropertiesProcedure( assignmentSet.getContinuation() ) );
 		}
 		return s;
 	}
@@ -1770,10 +1752,10 @@ public class JolieEpp {
 		if ( starter.equals( thread ) ) {
 			result.setJolieNode( getStarterProcedure( result.jolieNode(), start_key, thread, collector.getRoles().size(), false, null ) );
 		} else {
-			String threadStartOperation = JolieEppUtils.START_OPERATION;
-			result.addRRToOutputPort(starter, threadStartOperation);
-			result.setJolieNode(getLedStartProcedure(result.jolieNode(), thread,
-					start_key, starter, false));
+			result.getOutputPort( starter ).addOperation( JolieEppUtils.START_OPERATIONDECLARATION );
+			result.setJolieNode( 
+				getLedStartProcedure(result.jolieNode(), thread, start_key, starter, false)
+			);
 		}
 
 		// creates the folder for the role/thread and sets in JFW
