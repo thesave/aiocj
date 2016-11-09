@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
+import jolie.lang.NativeType;
 import jolie.lang.Constants.EmbeddedServiceType;
 import jolie.lang.Constants.ExecutionMode;
 import jolie.lang.parse.Scanner;
@@ -63,6 +63,7 @@ import jolie.lang.parse.ast.OLSyntaxNode;
 import jolie.lang.parse.ast.OneWayOperationStatement;
 import jolie.lang.parse.ast.OutputPortInfo;
 import jolie.lang.parse.ast.PostIncrementStatement;
+import jolie.lang.parse.ast.RequestResponseOperationDeclaration;
 import jolie.lang.parse.ast.RequestResponseOperationStatement;
 import jolie.lang.parse.ast.SequenceStatement;
 import jolie.lang.parse.ast.SolicitResponseOperationStatement;
@@ -73,8 +74,11 @@ import jolie.lang.parse.ast.expression.ConstantIntegerExpression;
 import jolie.lang.parse.ast.expression.ConstantStringExpression;
 import jolie.lang.parse.ast.expression.IsTypeExpressionNode;
 import jolie.lang.parse.ast.expression.IsTypeExpressionNode.CheckType;
+import jolie.lang.parse.ast.types.TypeInlineDefinition;
 import jolie.lang.parse.ast.expression.SumExpressionNode;
 import jolie.util.Pair;
+import jolie.util.Range;
+
 import org.aioc.Aioc;
 import org.aioc.AiocJ;
 import org.aioc.AssignmentSet;
@@ -170,7 +174,7 @@ public class JolieEpp {
 
 		Set<String> additionalOperations = new HashSet<String>();
 
-		if (starter) {
+		if ( starter ) {
 			// add also ack and get_Ack
 			additionalOperations.add( JolieEppUtils.START_OPERATION );
 			additionalOperations.add( JolieEppUtils.ACK_OPERATION );
@@ -413,6 +417,12 @@ public class JolieEpp {
 			OutputPortInfo ledRoleOutputPort = new OutputPortInfo( JolieEppUtils.PARSING_CONTEXT, "LedRole" );
 			ledRoleOutputPort.setProtocolId( "sodep" );
 			ledRoleOutputPort.addInterface( new InterfaceDefinition( JolieEppUtils.PARSING_CONTEXT, "AdaptActivityInterface") );
+			ledRoleOutputPort.addOperation( new RequestResponseOperationDeclaration(
+					  JolieEppUtils.PARSING_CONTEXT, "coord", new TypeInlineDefinition(
+								JolieEppUtils.PARSING_CONTEXT, "OpType", NativeType.ANY,
+								new Range(1, 1)), new TypeInlineDefinition(
+								JolieEppUtils.PARSING_CONTEXT, "void", NativeType.ANY,
+								new Range(1, 1)), null));
 			jolieProgram.addChild( ledRoleOutputPort );
 		}
 		
@@ -439,6 +449,26 @@ public class JolieEpp {
 			NameCollector nameCollector, 
 			String label, 
 			Boolean leader) {
+		OutputPortInfo leaderOutputPort = new OutputPortInfo( JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.LEADER_NAME );
+		leaderOutputPort.setProtocolId( "sodep" );
+		leaderOutputPort.addOperation( JolieEppUtils.ACK_OPERATIONDECLARATION );
+		leaderOutputPort.addOperation( JolieEppUtils.START_OPERATIONDECLARATION );
+		if ( leader ) { leaderOutputPort.addOperation( JolieEppUtils.INITSTART_OPERATIONDECLARATION ); }
+		jolieProgram.addChild( leaderOutputPort );
+		
+		if ( leader ){
+			OutputPortInfo ledRoleOutputPort = new OutputPortInfo( JolieEppUtils.PARSING_CONTEXT, "LedRole" );
+			ledRoleOutputPort.setProtocolId( "sodep" );
+			ledRoleOutputPort.addInterface( new InterfaceDefinition( JolieEppUtils.PARSING_CONTEXT, "AdaptActivityInterface") );
+			ledRoleOutputPort.addOperation( new RequestResponseOperationDeclaration(
+					  JolieEppUtils.PARSING_CONTEXT, "coord", new TypeInlineDefinition(
+								JolieEppUtils.PARSING_CONTEXT, "OpType", NativeType.ANY,
+								new Range(1, 1)), new TypeInlineDefinition(
+								JolieEppUtils.PARSING_CONTEXT, "void", NativeType.ANY,
+								new Range(1, 1)), null));
+			jolieProgram.addChild( ledRoleOutputPort );
+		}
+		
 		for (OutputPortInfo port : result.outputPorts().values()) {
 			if (nameCollector.getRoles().contains(port.id())) {
 				String scopeLocation = "RPH__" + port.id() + "!/"
@@ -903,25 +933,18 @@ public class JolieEpp {
 		NameCollector nc = new NameCollector();
 
 		nc.collect( choreography, null );
-		if ( !nc.getRoles().contains( scope.getLeader() )){
-			nc.addRole( scope.getLeader() );
-		}
+//		if ( !nc.getRoles().contains( scope.getLeader() )){
+//			nc.addRole( scope.getLeader() );
+//		}
 
 		nc.addRoles( scope.getLedRoles() );
-		String mh = embedMessageHandler(
-				thread, 
-				jolieProgram, 
-				result, 
-				leader, 
-				nc,
-				scope.getKey()
-		);
+		String mh = embedMessageHandler( thread, jolieProgram, result, leader,	nc,	scope.getKey() );
 
 		// Add the onRun procedure
 		OLSyntaxNode jolieMainNode = result.jolieNode();
-
+		
 		// add led port
-		if (leader) {
+		if ( leader ) {
 			for (String role : scope.getLedRoles()) {
 				if (!result.outputPorts().containsKey(role)) {
 					result.addRRToOutputPort(role, "dummy");
@@ -933,11 +956,7 @@ public class JolieEpp {
 		if ( leader ) {
 			// add adapt procedure after the start procedure
 			jolieMainNode = getStarterProcedure(
-					getLeaderAdaptProcedure(
-							scope, 
-							result, 
-							jolieMainNode
-					),
+					getLeaderAdaptProcedure( scope, result, jolieMainNode ),
 					scope.getKey(), 
 					thread,
 					nc.getRoles().size(),
@@ -966,30 +985,22 @@ public class JolieEpp {
 			s.addChild( jolieMainNode );
 
 			// add the ack procedure
-			String v = JolieEppUtils.getFreshVariable();
-			VariablePathNode vPath = JolieEppUtils.toPath(v);
-			JolieEppUtils.appendSubNode(vPath, "msgID");
-			s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, vPath,
-					new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, thread)));
-			vPath = JolieEppUtils.toPath(v);
-			s.addChild(new SolicitResponseOperationStatement(
-					JolieEppUtils.PARSING_CONTEXT, "ack", scope.getLeader(), vPath, null,
-					null));
-			jolieMainNode = s;
-			result.addRRToOutputPort(scope.getLeader(), "ack");
+			String ackVar = JolieEppUtils.getFreshVariable();
+		      s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.toPath( ackVar + ".sid" ),
+		        new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, scope.getKey())));
+		      s.addChild(new SolicitResponseOperationStatement(
+		        JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.ACK_OPERATION, 
+		        JolieEppUtils.LEADER_NAME, JolieEppUtils.toPath( ackVar ), null, null));
+		      jolieMainNode = s;
 		}
 		
-		addOutputInterfacesAndPortsRule( jolieProgram, result, nc, scope.getKey(),
-				leader);
+		addOutputInterfacesAndPortsRule( jolieProgram, result, nc, scope.getKey(), leader );
 		
-		
-
 		// scopeLocation is local as it is redirected from the activityManager
 		String scopeLocation = "local";
-		addInputInterfaceAndPort(jolieProgram, result, URI.create(scopeLocation),
-				leader);
+		addInputInterfaceAndPort( jolieProgram, result, URI.create( scopeLocation ), leader );
 
-		if (leader) {
+		if ( leader ) {
 			// add onRun procedure
 			// execute = true;
 			// set while( !done ){ nullProcess }
@@ -1030,14 +1041,6 @@ public class JolieEpp {
 				JolieEppUtils.ACK_OPERATION, JolieEppUtils.LEADER_NAME, JolieEppUtils.toPath( ackVar ), null, null 
 			));
 			
-//			if (scope.getLedRoles().size() > 0) {
-//				s.addChild(getAckBlock(scope.getLedRoles()));
-//			}
-			// execute = false
-//			s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT,
-//					JolieEppUtils.variableNameToJolieVariablePath("execute"),
-//					new ConstantBoolExpression(JolieEppUtils.PARSING_CONTEXT, false)));
-			// startActivity@ActivityManager("key");
 			s.addChild(new NotificationOperationStatement(
 					JolieEppUtils.PARSING_CONTEXT, "startActivity", "ActivityManager",
 					new ConstantStringExpression(
@@ -1541,6 +1544,20 @@ public class JolieEpp {
 			JolieEppUtils.toPath( adaptRequestVariable )
 		));
 		
+		// INIT START COORDINATION FOR ADAPTED SCOPE
+		ifBranch.addChild( new AssignStatement( 
+				JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.toPath( adaptRequestVariable + ".sid" ), 
+				new ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, scope.getKey() )));
+		ifBranch.addChild( new UndefStatement( JolieEppUtils.PARSING_CONTEXT, 
+				JolieEppUtils.toPath( adaptRequestVariable + ".hasAck" )));
+		ifBranch.addChild( new NotificationOperationStatement( 
+				JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.INITSTART_OPERATION,JolieEppUtils.LEADER_NAME, 
+				JolieEppUtils.toPath( adaptRequestVariable )
+			));
+		ifBranch.addChild( new UndefStatement( JolieEppUtils.PARSING_CONTEXT, 
+				JolieEppUtils.toPath( adaptRequestVariable + ".rolesNum" )));
+		// ------
+		
 	    // REMOVES scope leader's CODE FROM aRes
 		ifBranch.addChild( new UndefStatement( JolieEppUtils.PARSING_CONTEXT, 
 				JolieEppUtils.toPath( "aRes.roles." + scope.getLeader() )));
@@ -1557,6 +1574,25 @@ public class JolieEpp {
 				new AssignStatement( JolieEppUtils.PARSING_CONTEXT, 
 					JolieEppUtils.toPath( "LedRole.location" ), JolieEppUtils.toPath( "aRes.roles.( roleName ).location" ) ) );
 		
+		String coordVar = JolieEppUtils.getFreshOperation();
+		
+		tmpSequence.addChild( new AssignStatement( JolieEppUtils.PARSING_CONTEXT, 
+			JolieEppUtils.toPath( coordVar + ".msgID" ), JolieEppUtils.toPath( "adaptRequest.cookie" ) ) );
+		
+		
+		tmpSequence.addChild( new AssignStatement( JolieEppUtils.PARSING_CONTEXT, 
+				JolieEppUtils.toPath( coordVar + ".content.sid" ),
+				new ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, scope.getKey() ) ) );
+			
+			
+		tmpSequence.addChild( new AssignStatement( JolieEppUtils.PARSING_CONTEXT, 
+				JolieEppUtils.toPath( coordVar + ".content.leader" ), JolieEppUtils.toPath( "Leader.location" ) ) );
+		
+		tmpSequence.addChild( new SolicitResponseOperationStatement(
+				JolieEppUtils.PARSING_CONTEXT, 
+				"coord", "LedRole", 
+				JolieEppUtils.toPath( coordVar ), null, null ));
+				
 		ifForeachStatement.addChild( new Pair<OLSyntaxNode, OLSyntaxNode>(
 			new IsTypeExpressionNode(
 			  JolieEppUtils.PARSING_CONTEXT,
@@ -1597,7 +1633,15 @@ public class JolieEpp {
 			JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.toPath( "roleName" ), 
 			JolieEppUtils.toPath( "aRes.roles"), foreachSequence 
 		));
-
+		
+		ifBranch.addChild( new SolicitResponseOperationStatement(
+				JolieEppUtils.PARSING_CONTEXT, 
+				JolieEppUtils.START_OPERATION,
+				JolieEppUtils.LEADER_NAME, 
+				JolieEppUtils.toPath( adaptRequestVariable ), 
+				null, null
+		));
+		
 		ifBranch.addChild(
 				new SolicitResponseOperationStatement(
 						JolieEppUtils.PARSING_CONTEXT, 
@@ -1690,6 +1734,18 @@ public class JolieEpp {
 		NDChoiceStatement choice = new NDChoiceStatement(	JolieEppUtils.PARSING_CONTEXT );
 		
 		SequenceStatement adaptChoice = new SequenceStatement( JolieEppUtils.PARSING_CONTEXT );
+		String adaptRequestVariable = JolieEppUtils.getFreshVariable();
+		adaptChoice.addChild( new AssignStatement( JolieEppUtils.PARSING_CONTEXT,
+				JolieEppUtils.toPath( adaptRequestVariable + ".sid" ), 
+				new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, scope.getKey() )
+		));
+		adaptChoice.addChild(new SolicitResponseOperationStatement(
+				JolieEppUtils.PARSING_CONTEXT, 
+				JolieEppUtils.START_OPERATION,
+				JolieEppUtils.LEADER_NAME, 
+				JolieEppUtils.toPath( adaptRequestVariable ), 
+				null, null
+		));
 		adaptChoice.addChild(
 			new SolicitResponseOperationStatement(
 					JolieEppUtils.PARSING_CONTEXT, 

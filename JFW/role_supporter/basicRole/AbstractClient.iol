@@ -46,7 +46,7 @@ inputPort ClientInput {
 	Location: "local"
 	Protocol: sodep
 	RequestResponse: setConstants( NewRoleConstantsType )( void )
-	Aggregates: State, ActivityManager
+	Aggregates: State, ActivityManager, MH
 	Redirects:
 		Activity => ActivityManager
 }

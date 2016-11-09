@@ -26,23 +26,36 @@ type OpType:void {
 	.content?:undefined
 }
 
+type JoinType: void {
+	.sid: string
+}
+
 cset { msgID:	OpType.msgID }
+
+outputPort Leader {
+	Protocol: sodep
+	RequestResponse: joinStart( JoinType )( void )
+}
 
 inputPort MyInputPort {
 	Location: "local"
 	Protocol: sodep
 	Interfaces: AdaptActivityInterface
-	RequestResponse: hello( OpType )( undefined )
+	RequestResponse: coord( OpType )( void )
 }
 
 define onRun
 {
-	csets.cookie = "basicActivity";
+	csets.cookie = csets.msgID = "basicActivity";
+	coord( var1 )();
+	Leader.location = var1.content.leader;
 	adapt( eReq )(){ 
 		for ( c = 0, c < #eReq.code, c++ ){
 			embed_scope@ActivityManager(eReq.code[ c ])()
 		}
 	};
+	var2.sid = var1.content.sid;
+	joinStart@Leader( var2 )();
 	run@ActivityManager(eReq.main_key)()
 }
 

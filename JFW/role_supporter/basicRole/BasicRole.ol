@@ -21,6 +21,37 @@
 
 execution { single }
 
+
+type OpType:void {
+  .msgID:string
+  .content?:undefined
+}
+
+type CoordType:void {
+  .rolesNum:int
+  .hasAck?:bool
+  .sid:string
+}
+
+type JoinType:void {
+  .sid:string
+}
+
+interface MHInterface {
+OneWay:
+  initStartProcedure(CoordType)
+RequestResponse:
+  joinAck(JoinType)(void), joinStart(JoinType)(void)
+}
+
+outputPort MH {
+  Interfaces: MHInterface
+}
+
+embedded {
+  Jolie : "mh.ol" in MH
+}
+
 include "AbstractClient.iol"
 main
 {

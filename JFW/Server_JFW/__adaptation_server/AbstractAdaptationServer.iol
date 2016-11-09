@@ -214,6 +214,12 @@ define sendRule {
             code.regex = "RPH__" + p + "!";
             replaceAll@StringUtils( code )( code )
           };
+        // replaces the addresses of the newRoles if scope leaders
+          foreach ( p : newRolesLocations ){
+            code.replacement = newRolesLocations.( p );
+            code.regex = "RPH__" + p;
+            replaceAll@StringUtils( code )( code )
+          };
           
         // replaces the static UUID keys with the fresh ones
         foreach( staticScopeUUID : subscopesMap ){
@@ -267,6 +273,12 @@ define sendRule {
           foreach ( p : newRolesLocations ){
             code.replacement = newRolesLocations.( p );
             code.regex = "RPH__" + p + "!";
+            replaceAll@StringUtils( code )( code )
+          };          
+          // replaces the addresses of the newRoles if scope leaders
+          foreach ( p : newRolesLocations ){
+            code.replacement = newRolesLocations.( p );
+            code.regex = "RPH__" + p;
             replaceAll@StringUtils( code )( code )
           };
           
@@ -325,6 +337,12 @@ define sendRule {
             code.regex = "RPH__" + p + "!";
             replaceAll@StringUtils( code )( code )
           };
+          // replaces the addresses of the newRoles if scope leaders
+          foreach ( p : newRolesLocations ){
+            code.replacement = newRolesLocations.( p );
+            code.regex = "RPH__" + p;
+            replaceAll@StringUtils( code )( code )
+          };
           // replaces the static UUID keys with the fresh ones
           foreach( staticScopeUUID : subscopesMap ){
             code.replacement = subscopesMap.( staticScopeUUID );
@@ -377,6 +395,12 @@ define sendRule {
             foreach ( p : newRolesLocations ){
               code.replacement = newRolesLocations.( p );
               code.regex = "RPH__" + p + "!";
+              replaceAll@StringUtils( code )( code )
+            };
+            // replaces the addresses of the newRoles if scope leaders
+            foreach ( p : newRolesLocations ){
+              code.replacement = newRolesLocations.( p );
+              code.regex = "RPH__" + p;
               replaceAll@StringUtils( code )( code )
             };
 
