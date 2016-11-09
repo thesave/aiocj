@@ -40,7 +40,6 @@ import java.util.Set;
 
 import jolie.lang.Constants.EmbeddedServiceType;
 import jolie.lang.Constants.ExecutionMode;
-import jolie.lang.NativeType;
 import jolie.lang.parse.Scanner;
 import jolie.lang.parse.ast.AssignStatement;
 import jolie.lang.parse.ast.CompareConditionNode;
@@ -64,7 +63,6 @@ import jolie.lang.parse.ast.OLSyntaxNode;
 import jolie.lang.parse.ast.OneWayOperationStatement;
 import jolie.lang.parse.ast.OutputPortInfo;
 import jolie.lang.parse.ast.PostIncrementStatement;
-import jolie.lang.parse.ast.RequestResponseOperationDeclaration;
 import jolie.lang.parse.ast.RequestResponseOperationStatement;
 import jolie.lang.parse.ast.SequenceStatement;
 import jolie.lang.parse.ast.SolicitResponseOperationStatement;
@@ -76,10 +74,7 @@ import jolie.lang.parse.ast.expression.ConstantStringExpression;
 import jolie.lang.parse.ast.expression.IsTypeExpressionNode;
 import jolie.lang.parse.ast.expression.IsTypeExpressionNode.CheckType;
 import jolie.lang.parse.ast.expression.SumExpressionNode;
-import jolie.lang.parse.ast.types.TypeInlineDefinition;
 import jolie.util.Pair;
-import jolie.util.Range;
-
 import org.aioc.Aioc;
 import org.aioc.AiocJ;
 import org.aioc.AssignmentSet;
