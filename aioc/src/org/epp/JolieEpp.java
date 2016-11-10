@@ -120,26 +120,22 @@ public class JolieEpp {
 	private URI getLocationURI(String location) {
 		URI uri = null;
 		location = "socket://" + location + "/";
-		try {
-			uri = URI.create(location);
-		} catch (IllegalArgumentException e) {
-		}
-		;
+		try { uri = URI.create(location); } 
+		catch ( IllegalArgumentException e ){};
 		return uri;
 	}
 
 	private void setRuleRoleLocation(Set<String> roles) {
-		for (String role : roles) {
+		for ( String role : roles ) {
 			rolesLocations.put(role, URI.create("RPH__" + role));
 		}
 	}
 
-	private void collectLocations(LocationDefinition l) {
+	private void collectLocations( LocationDefinition l ) {
 		if (l != null) {
 			if (l.getContinuation() != null) {
 				collectLocations(l.getContinuation());
-			}
-			;
+			};
 			URI uri = getLocationURI(l.getLocation());
 			if (uri != null) {
 				rolesLocations.put(l.getRole(), uri);
@@ -386,25 +382,20 @@ public class JolieEpp {
 
 	// this is for the thread
 	private void addOutputInterfacesAndPorts(
-			Aioc aioc,
-			jolie.lang.parse.ast.Program jolieProgram, 
-			ThreadProjectionResult result,
-			NameCollector nameCollector) {
-		for (OutputPortInfo port : result.outputPorts().values()) {
-			if (nameCollector.getRoles().contains(port.id())) {
-				port.setLocation(getRoleLocation(port.id()));
+			Aioc aioc, jolie.lang.parse.ast.Program jolieProgram, 
+			ThreadProjectionResult result, NameCollector nameCollector) {
+		for ( OutputPortInfo port : result.outputPorts().values() ) {
+			if ( nameCollector.getRoles().contains( port.id() ) ) {
+				port.setLocation( getRoleLocation( port.id() ) );
 			}
 			jolieProgram.addChild(port);
 		}
 	}
 
 	// this is for the scope
-	private void addOutputInterfacesAndPorts(
-			jolie.lang.parse.ast.Program jolieProgram, 
-			ThreadProjectionResult result,
-			NameCollector nameCollector, 
-			String label, 
-			Boolean leader) {
+	private void addOutputInterfacesAndPortsScope( 
+			jolie.lang.parse.ast.Program jolieProgram, ThreadProjectionResult result,
+			NameCollector nameCollector, String label, Boolean leader ) {
 		
 		OutputPortInfo leaderOutputPort = new OutputPortInfo( JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.LEADER_NAME );
 		leaderOutputPort.setProtocolId( "sodep" );
@@ -444,11 +435,9 @@ public class JolieEpp {
 	}
 
 	private void addOutputInterfacesAndPortsRule(
-			jolie.lang.parse.ast.Program jolieProgram, 
-			ThreadProjectionResult result,
-			NameCollector nameCollector, 
-			String label, 
-			Boolean leader) {
+			jolie.lang.parse.ast.Program jolieProgram, ThreadProjectionResult result,
+			NameCollector nameCollector, String label, Boolean leader ) {
+		
 		OutputPortInfo leaderOutputPort = new OutputPortInfo( JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.LEADER_NAME );
 		leaderOutputPort.setProtocolId( "sodep" );
 		leaderOutputPort.addOperation( JolieEppUtils.ACK_OPERATIONDECLARATION );
@@ -483,15 +472,14 @@ public class JolieEpp {
 		}
 	}
 
-	private void writeIncludes(Writer w, ThreadProjectionResult result)
-			throws IOException {
-		for (String include : result.includes()) {
+	private void writeIncludes( Writer w, ThreadProjectionResult result ) throws IOException {
+		for ( String include : result.includes() ) {
 			w.write("include \"" + include + ".iol\"\n");
 		}
 		w.write('\n');
 	}
 
-	private void writeConstants(Writer w, String thread) throws IOException {
+	private void writeConstants( Writer w, String thread ) throws IOException {
 		w.write("constants {\n");
 		w.write("\tLocation_Client = \"" + getRoleLocation(thread) + "\",\n");
 		w.write("\tLocation_Folder = \"" + thread + "\",\n");
@@ -507,7 +495,7 @@ public class JolieEpp {
 	 * @throws EndpointProjectionException
 	 * @throws IOException
 	 */
-	public void epp(AiocJ aiocJ) throws EndpointProjectionException, IOException {
+	public void epp( AiocJ aiocJ ) throws EndpointProjectionException, IOException {
 		LaunchScripts ls = new LaunchScripts();
 		targetDirectory = new File(srcGenDirectory.getAbsolutePath());
 		try {
@@ -1192,7 +1180,7 @@ public class JolieEpp {
 //			result.addRRToOutputPort(scope.getLeader(), "ack");
 		}
 
-		addOutputInterfacesAndPorts( jolieProgram, result, nc, scope.getKey(), leader );
+		addOutputInterfacesAndPortsScope( jolieProgram, result, nc, scope.getKey(), leader );
 
 		// scopeLocation is local as it is redirected from the activityManager
 		String scopeLocation = "local";

@@ -278,19 +278,19 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 	
 	public void visit( OneWayOperationStatement n )
 	{
-		printer.writeIndented( n.id() + "(" );
+		printer.writeIndented( n.id() + "( " );
 		prettyPrint( n.inputVarPath() );
-		printer.write( ")" );
+		printer.write( " )" );
 	}
 
 	
 	public void visit( RequestResponseOperationStatement n )
 	{
-		printer.writeIndented( n.id() + "(" );
+		printer.writeIndented( n.id() + "( " );
 		prettyPrint( n.inputVarPath() );
-		printer.write( ")(" );
+		printer.write( " )( " );
 		prettyPrint( n.outputExpression() );
-		printer.writeLineIndented( ") {" );
+		printer.writeLineIndented( " ) {" );
 		printer.indent();
 		prettyPrint( n.process() );
 		printer.unindent();
@@ -301,19 +301,19 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 	
 	public void visit( NotificationOperationStatement n )
 	{
-		printer.writeIndented( n.id() + "@" + n.outputPortId() + "(" );
+		printer.writeIndented( n.id() + "@" + n.outputPortId() + "( " );
 		prettyPrint( n.outputExpression() );
-		printer.write( ")" );
+		printer.write( " )" );
 	}
 
 	
 	public void visit( SolicitResponseOperationStatement n )
 	{
-		printer.writeIndented( n.id() + "@" + n.outputPortId() + "(" );
+		printer.writeIndented( n.id() + "@" + n.outputPortId() + "( " );
 		prettyPrint( n.outputExpression() );
-		printer.write( ")(" );
+		printer.write( " )( " );
 		prettyPrint( n.inputVarPath() );
-		printer.write( ")" );
+		printer.write( " )" );
 	}
 
 	
@@ -345,13 +345,13 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 		Pair< OLSyntaxNode, OLSyntaxNode > choice;
 		for( int i = 0; i < n.children().size(); i++ ) {
 			if ( i == 0 ) {
-				printer.writeIndented( "if (" );
+				printer.writeIndented( "if ( " );
 			} else {
-				printer.write( " else if (" );
+				printer.write( " else if ( " );
 			}
 			choice = n.children().get( i );
 			prettyPrint( choice.key() );
-			printer.writeLine( ") {");
+			printer.writeLine( " ) {");
 			printer.indent();
 			prettyPrint( choice.value() );
 			printer.unindent();
@@ -647,9 +647,9 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 	
 	public void visit( UndefStatement n )
 	{
-		printer.writeIndented( "undef(" );
+		printer.writeIndented( "undef( " );
 		prettyPrint( n.variablePath() );
-		printer.write( ")" );
+		printer.write( " )" );
 	}
 
 	
@@ -669,6 +669,7 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 	
 	public void visit( PostIncrementStatement n )
 	{
+		printer.writeIndented( "" );
 		prettyPrint( n.variablePath() );
 		printer.write( "++" );
 	}
@@ -676,13 +677,14 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 	
 	public void visit( PreDecrementStatement n )
 	{
-		printer.write( "--" );
+		printer.writeIndented( "--" );
 		prettyPrint( n.variablePath() );
 	}
 
 	
 	public void visit( PostDecrementStatement n )
 	{
+		printer.writeIndented( "" );
 		prettyPrint( n.variablePath() );
 		printer.write( "--" );
 	}
@@ -690,13 +692,17 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 	
 	public void visit( ForStatement n )
 	{
-		printer.write( "for (" );
+		printer.writeIndented( "for ( " );
+		printer.unindent();
 		prettyPrint( n.init() );
 		printer.write( ", " );
 		prettyPrint( n.condition() );
 		printer.write( ", " );
+		printer.unindent();
 		prettyPrint( n.post() );
 		printer.write( " ){" );		
+		printer.indent();
+		printer.indent();
 		printer.writeLine();
 		printer.indent();
 		prettyPrint( n.body() );
@@ -716,9 +722,9 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 	public void visit( IsTypeExpressionNode n )
 	{
 		if ( n.type() == CheckType.DEFINED ) {
-			printer.write( "is_defined(" );
+			printer.write( "is_defined( " );
 			prettyPrint( n.variablePath() );
-			printer.write( ")" );
+			printer.write( " )" );
 		}
 	}
 
@@ -726,15 +732,15 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 	public void visit( TypeCastExpressionNode n )
 	{
 		printer.write( n.type().id() );
-		printer.write( "(" );
+		printer.write( "( " );
 		prettyPrint( n.expression() );
-		printer.write( ")" );
+		printer.write( " )" );
 	}
 
 	
 	public void visit( SynchronizedStatement n )
 	{
-		printer.writeLineIndented( "synchronized(" + n.id() + ") {" );
+		printer.writeLineIndented( "synchronized( " + n.id() + " ) {" );
 		printer.indent();
 		prettyPrint( n.body() );
 		printer.unindent();
@@ -873,7 +879,7 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 			for( OneWayOperationDeclaration decl : ow.values() ) {
 				printer.write( decl.id() );
 				if ( decl.requestType() != null ) {
-					printer.write( "(" + decl.requestType().id() + ")" );
+					printer.write( "( " + decl.requestType().id() + " )" );
 				}
 				if ( i++ < ow.size() - 1 ) {
 					printer.write( ", " );
@@ -890,10 +896,10 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 			for( RequestResponseOperationDeclaration decl : rr.values() ) {
 				printer.write( decl.id() );
 				if ( decl.requestType() != null ) {
-					printer.write( "(" + decl.requestType().id() + ")" );
+					printer.write( "( " + decl.requestType().id() + " )" );
 				}
 				if ( decl.responseType() != null ) {
-					printer.write( "(" + decl.responseType().id() + ")" );
+					printer.write( "( " + decl.responseType().id() + " )" );
 				}
 				if ( i++ < rr.size() - 1 ) {
 					printer.write( ", " );

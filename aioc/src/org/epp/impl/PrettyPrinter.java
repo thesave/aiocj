@@ -60,7 +60,8 @@ public abstract class PrettyPrinter
 	protected void writeIndented( String s )
 	{
 		for( int i = 0; i < indentation; i++ ) {
-			builder.append( '\t' );
+			builder.append( ' ' );
+			builder.append( ' ' );
 		}
 		builder.append( s );
 	}
