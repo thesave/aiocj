@@ -144,9 +144,11 @@ define checkRule {
   list@File( f )( list );
   for( r = 0, r < #list.result, r++ ) {
     role = list.result[ r ];
-    println@Console( "Checking the presence of original role " + role )();
-    if( !is_defined( _newRoles.( role ) ) && !is_defined( request.ports.( role ) )){
-      send = 0
+    if( !is_defined( _newRoles.( role ) ) ) {
+      println@Console( "Checking the presence of original role " + role )();
+      if( !is_defined( request.ports.( role ) )){
+        send = 0
+      }
     }
   };
   // clean variables
