@@ -105,6 +105,9 @@ public class JolieEppUtils
 	}
 	
 	public static void deployRoleSupporter( String targetDirectory ) throws IOException {
+		File path = new File( targetDirectory + File.separator + "role_supporter" );
+		System.out.println( path.toString() );
+		FileUtils.deleteDirectory( path );
 		deployJFWElement( targetDirectory, "role_supporter", JolieEppUtils.JFW_ROLESUPPORTER );
 	}
 	

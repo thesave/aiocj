@@ -44,6 +44,17 @@ public class LaunchScripts {
 		ostream.close();
 	}
 	
+	public void writeRoleSuppoterLaunchScript( File targetDirectory ) throws IOException{
+		String s = getInit();
+		s += getRoleSupportLaunchString();
+		OutputStream ostream = new FileOutputStream( 
+				targetDirectory.getAbsolutePath() + File.separator + "role_supporter" + File.separator + "role_supporter_launcher.sh" );
+		Writer fileWriter = new OutputStreamWriter( ostream );
+		fileWriter.write( s );
+		fileWriter.flush();
+		ostream.close();
+	}
+	
 	public void writeMidLaunchScript( File targetDirectory ) throws IOException{
 		String s = getInit();
 		s += getAdapationManagerLaunchString();
@@ -94,6 +105,7 @@ public class LaunchScripts {
 				"sh mid_launcher.sh",
 				"if [[ $rule_server == \"y\" ]]; then",
 					"sh epp_rules/rules_launcher.sh",
+					"sh role_supporter/role_supporter_launcher.sh",
 				"fi",
 				"sh epp_aioc/aioc_launcher.sh"
 		);
@@ -159,6 +171,11 @@ public class LaunchScripts {
 	private String getAdaptationServerLaunchString(){
 		return "\n" + "adaptation_server_launcher=\"cd $dir/__adaptation_server/servers/server; jolie AdaptationServer.ol\"" +
 				"\n" + "launcher \"$adaptation_server_launcher\"";
+	}
+	
+	private String getRoleSupportLaunchString(){
+		return "\n" + "role_support_launcher=\"cd $dir; jolie RoleSupporter.ol\"" +
+				"\n" + "launcher \"$role_support_launcher\"";
 	}
 	
 	private String getInit(){

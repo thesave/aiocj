@@ -538,8 +538,9 @@ public class JolieEpp {
 			FileUtils.deleteDirectory(targetDirectory);
 			targetDirectory.mkdir();
 			JolieEppUtils.deployJorbaServerFramework( targetDirectory );
-			JolieEppUtils.deployRoleSupporter( targetDirectory.getParent() );
 			ls.writeRulesLaunchScript( targetDirectory );
+			JolieEppUtils.deployRoleSupporter( targetDirectory.getParent() );
+			ls.writeRoleSuppoterLaunchScript( new File( targetDirectory.getParent() ) );
 			targetDirectory = new File(srcGenDirectory.getAbsolutePath()
 					+ File.separator + "epp_rules" + File.separator
 					+ "__adaptation_server" + File.separator + "servers" + File.separator
