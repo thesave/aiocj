@@ -538,7 +538,7 @@ public class JolieEpp {
 			FileUtils.deleteDirectory(targetDirectory);
 			targetDirectory.mkdir();
 			JolieEppUtils.deployJorbaServerFramework( targetDirectory );
-			JolieEppUtils.deployRoleSupporter( targetDirectory.getAbsolutePath() );
+			JolieEppUtils.deployRoleSupporter( targetDirectory.getParent() );
 			ls.writeRulesLaunchScript( targetDirectory );
 			targetDirectory = new File(srcGenDirectory.getAbsolutePath()
 					+ File.separator + "epp_rules" + File.separator
@@ -1523,9 +1523,9 @@ public class JolieEpp {
 							JolieEppUtils.toPath( "aRes.main_key" ) 
 		)));
 		
-		ifBranch.addChild( new AssignStatement( 
-			JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.toPath( adaptRequestVariable + ".rolesNum" ), 
-			new ConstantIntegerExpression( JolieEppUtils.PARSING_CONTEXT, 1)));
+//		ifBranch.addChild( new AssignStatement( 
+//			JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.toPath( adaptRequestVariable + ".rolesNum" ), 
+//			new ConstantIntegerExpression( JolieEppUtils.PARSING_CONTEXT, 1)));
 		
 		ifBranch.addChild( 
 			new ForEachSubNodeStatement( 
@@ -1547,7 +1547,7 @@ public class JolieEpp {
 		// INIT START COORDINATION FOR ADAPTED SCOPE
 		ifBranch.addChild( new AssignStatement( 
 				JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.toPath( adaptRequestVariable + ".sid" ), 
-				new ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, scope.getKey() )));
+				new ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, scope.getKey() + "_adapt" )));
 		ifBranch.addChild( new UndefStatement( JolieEppUtils.PARSING_CONTEXT, 
 				JolieEppUtils.toPath( adaptRequestVariable + ".hasAck" )));
 		ifBranch.addChild( new NotificationOperationStatement( 
@@ -1582,7 +1582,7 @@ public class JolieEpp {
 		
 		tmpSequence.addChild( new AssignStatement( JolieEppUtils.PARSING_CONTEXT, 
 				JolieEppUtils.toPath( coordVar + ".content.sid" ),
-				new ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, scope.getKey() ) ) );
+				new ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, scope.getKey() + "_adapt" ) ) );
 			
 			
 		tmpSequence.addChild( new AssignStatement( JolieEppUtils.PARSING_CONTEXT, 
@@ -1638,7 +1638,7 @@ public class JolieEpp {
 				JolieEppUtils.PARSING_CONTEXT, 
 				JolieEppUtils.START_OPERATION,
 				JolieEppUtils.LEADER_NAME, 
-				JolieEppUtils.toPath( adaptRequestVariable ), 
+				JolieEppUtils.toPath( adaptRequestVariable ), // <-- contains scope.key() + "_adapt"
 				null, null
 		));
 		
@@ -1737,7 +1737,7 @@ public class JolieEpp {
 		String adaptRequestVariable = JolieEppUtils.getFreshVariable();
 		adaptChoice.addChild( new AssignStatement( JolieEppUtils.PARSING_CONTEXT,
 				JolieEppUtils.toPath( adaptRequestVariable + ".sid" ), 
-				new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, scope.getKey() )
+				new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, scope.getKey()  + "_adapt" )
 		));
 		adaptChoice.addChild(new SolicitResponseOperationStatement(
 				JolieEppUtils.PARSING_CONTEXT, 

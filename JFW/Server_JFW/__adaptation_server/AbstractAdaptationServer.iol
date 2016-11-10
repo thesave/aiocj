@@ -129,11 +129,28 @@ define checkRule {
   // check that the rule does not have any newRole 
   // with the same name of a role in the scope
   for ( newRole in rule.newRoles ) {
+    _newRoles.( newRole ) = 1; // <-- used below to exclude new roles
     if( is_defined( request.ports.( newRole ) ) ){
       println@Console( "The rule contains the newRole " + newRole + " already present in the scope" )();
       send = 0
     }
-  }
+  };
+
+  // check that the rule does not have any non-new role
+  // not present in the original scope
+  ruleDir = rulesDirectory + rule.activityDirectory;
+  f.directory = ruleDir;
+  f.dirsOnly = true;
+  list@File( f )( list );
+  for( r = 0, r < #list.result, r++ ) {
+    role = list.result[ r ];
+    println@Console( "Checking the presence of original role " + role )();
+    if( !is_defined( _newRoles.( role ) ) && !is_defined( request.ports.( role ) )){
+      send = 0
+    }
+  };
+  // clean variables
+  undef( ruleDir ); undef( _newRoles ); undef( f ); undef( list ); undef( role )
 }
 
 define sendRule { 
