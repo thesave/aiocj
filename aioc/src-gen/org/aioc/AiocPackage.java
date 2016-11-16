@@ -351,22 +351,13 @@ public interface AiocPackage extends EPackage
   int WHERE_EXPRESSION_BASIC_TERM__SVARIABLE = 2;
 
   /**
-   * The feature id for the '<em><b>True</b></em>' attribute.
+   * The feature id for the '<em><b>Constant</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int WHERE_EXPRESSION_BASIC_TERM__TRUE = 3;
-
-  /**
-   * The feature id for the '<em><b>False</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int WHERE_EXPRESSION_BASIC_TERM__FALSE = 4;
+  int WHERE_EXPRESSION_BASIC_TERM__CONSTANT = 3;
 
   /**
    * The number of structural features of the '<em>Where Expression Basic Term</em>' class.
@@ -375,7 +366,7 @@ public interface AiocPackage extends EPackage
    * @generated
    * @ordered
    */
-  int WHERE_EXPRESSION_BASIC_TERM_FEATURE_COUNT = 5;
+  int WHERE_EXPRESSION_BASIC_TERM_FEATURE_COUNT = 4;
 
   /**
    * The meta object id for the '{@link org.aioc.impl.PreambleImpl <em>Preamble</em>}' class.
@@ -1191,7 +1182,7 @@ public interface AiocPackage extends EPackage
   int CONSTANT = 26;
 
   /**
-   * The feature id for the '<em><b>Int Value</b></em>' attribute.
+   * The feature id for the '<em><b>Int Value</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1410,6 +1401,34 @@ public interface AiocPackage extends EPackage
   int FUNCTION_FEATURE_COUNT = 2;
 
   /**
+   * The meta object id for the '{@link org.aioc.impl.IntegerImpl <em>Integer</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.aioc.impl.IntegerImpl
+   * @see org.aioc.impl.AiocPackageImpl#getInteger()
+   * @generated
+   */
+  int INTEGER = 30;
+
+  /**
+   * The feature id for the '<em><b>Value</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int INTEGER__VALUE = 0;
+
+  /**
+   * The number of structural features of the '<em>Integer</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int INTEGER_FEATURE_COUNT = 1;
+
+  /**
    * The meta object id for the '{@link org.aioc.impl.LocalAskCommandImpl <em>Local Ask Command</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1417,7 +1436,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getLocalAskCommand()
    * @generated
    */
-  int LOCAL_ASK_COMMAND = 30;
+  int LOCAL_ASK_COMMAND = 31;
 
   /**
    * The feature id for the '<em><b>Thread</b></em>' attribute.
@@ -1463,7 +1482,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getLocalShowCommand()
    * @generated
    */
-  int LOCAL_SHOW_COMMAND = 31;
+  int LOCAL_SHOW_COMMAND = 32;
 
   /**
    * The feature id for the '<em><b>Thread</b></em>' attribute.
@@ -1509,7 +1528,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getLocalAssignmentCommand()
    * @generated
    */
-  int LOCAL_ASSIGNMENT_COMMAND = 32;
+  int LOCAL_ASSIGNMENT_COMMAND = 33;
 
   /**
    * The feature id for the '<em><b>Thread</b></em>' attribute.
@@ -1564,7 +1583,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getSumExpressionAddTerm()
    * @generated
    */
-  int SUM_EXPRESSION_ADD_TERM = 33;
+  int SUM_EXPRESSION_ADD_TERM = 34;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -1592,7 +1611,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getSumExpressionSubtractTerm()
    * @generated
    */
-  int SUM_EXPRESSION_SUBTRACT_TERM = 34;
+  int SUM_EXPRESSION_SUBTRACT_TERM = 35;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -1611,6 +1630,62 @@ public interface AiocPackage extends EPackage
    * @ordered
    */
   int SUM_EXPRESSION_SUBTRACT_TERM_FEATURE_COUNT = SUM_EXPRESSION_TERM_FEATURE_COUNT + 0;
+
+  /**
+   * The meta object id for the '{@link org.aioc.impl.SumExpressionTimesTermImpl <em>Sum Expression Times Term</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.aioc.impl.SumExpressionTimesTermImpl
+   * @see org.aioc.impl.AiocPackageImpl#getSumExpressionTimesTerm()
+   * @generated
+   */
+  int SUM_EXPRESSION_TIMES_TERM = 36;
+
+  /**
+   * The feature id for the '<em><b>Expression</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int SUM_EXPRESSION_TIMES_TERM__EXPRESSION = SUM_EXPRESSION_TERM__EXPRESSION;
+
+  /**
+   * The number of structural features of the '<em>Sum Expression Times Term</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int SUM_EXPRESSION_TIMES_TERM_FEATURE_COUNT = SUM_EXPRESSION_TERM_FEATURE_COUNT + 0;
+
+  /**
+   * The meta object id for the '{@link org.aioc.impl.SumExpressionDivideTermImpl <em>Sum Expression Divide Term</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.aioc.impl.SumExpressionDivideTermImpl
+   * @see org.aioc.impl.AiocPackageImpl#getSumExpressionDivideTerm()
+   * @generated
+   */
+  int SUM_EXPRESSION_DIVIDE_TERM = 37;
+
+  /**
+   * The feature id for the '<em><b>Expression</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int SUM_EXPRESSION_DIVIDE_TERM__EXPRESSION = SUM_EXPRESSION_TERM__EXPRESSION;
+
+  /**
+   * The number of structural features of the '<em>Sum Expression Divide Term</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int SUM_EXPRESSION_DIVIDE_TERM_FEATURE_COUNT = SUM_EXPRESSION_TERM_FEATURE_COUNT + 0;
 
 
   /**
@@ -1905,26 +1980,15 @@ public interface AiocPackage extends EPackage
   EAttribute getWhereExpressionBasicTerm_SVariable();
 
   /**
-   * Returns the meta object for the attribute '{@link org.aioc.WhereExpressionBasicTerm#isTrue <em>True</em>}'.
+   * Returns the meta object for the containment reference '{@link org.aioc.WhereExpressionBasicTerm#getConstant <em>Constant</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>True</em>'.
-   * @see org.aioc.WhereExpressionBasicTerm#isTrue()
+   * @return the meta object for the containment reference '<em>Constant</em>'.
+   * @see org.aioc.WhereExpressionBasicTerm#getConstant()
    * @see #getWhereExpressionBasicTerm()
    * @generated
    */
-  EAttribute getWhereExpressionBasicTerm_True();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.aioc.WhereExpressionBasicTerm#isFalse <em>False</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>False</em>'.
-   * @see org.aioc.WhereExpressionBasicTerm#isFalse()
-   * @see #getWhereExpressionBasicTerm()
-   * @generated
-   */
-  EAttribute getWhereExpressionBasicTerm_False();
+  EReference getWhereExpressionBasicTerm_Constant();
 
   /**
    * Returns the meta object for class '{@link org.aioc.Preamble <em>Preamble</em>}'.
@@ -2654,15 +2718,15 @@ public interface AiocPackage extends EPackage
   EClass getConstant();
 
   /**
-   * Returns the meta object for the attribute '{@link org.aioc.Constant#getIntValue <em>Int Value</em>}'.
+   * Returns the meta object for the containment reference '{@link org.aioc.Constant#getIntValue <em>Int Value</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Int Value</em>'.
+   * @return the meta object for the containment reference '<em>Int Value</em>'.
    * @see org.aioc.Constant#getIntValue()
    * @see #getConstant()
    * @generated
    */
-  EAttribute getConstant_IntValue();
+  EReference getConstant_IntValue();
 
   /**
    * Returns the meta object for the attribute '{@link org.aioc.Constant#getStrValue <em>Str Value</em>}'.
@@ -2871,6 +2935,27 @@ public interface AiocPackage extends EPackage
   EReference getFunction_Params();
 
   /**
+   * Returns the meta object for class '{@link org.aioc.Integer <em>Integer</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Integer</em>'.
+   * @see org.aioc.Integer
+   * @generated
+   */
+  EClass getInteger();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.aioc.Integer#getValue <em>Value</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Value</em>'.
+   * @see org.aioc.Integer#getValue()
+   * @see #getInteger()
+   * @generated
+   */
+  EAttribute getInteger_Value();
+
+  /**
    * Returns the meta object for class '{@link org.aioc.LocalAskCommand <em>Local Ask Command</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2996,6 +3081,26 @@ public interface AiocPackage extends EPackage
    * @generated
    */
   EClass getSumExpressionSubtractTerm();
+
+  /**
+   * Returns the meta object for class '{@link org.aioc.SumExpressionTimesTerm <em>Sum Expression Times Term</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Sum Expression Times Term</em>'.
+   * @see org.aioc.SumExpressionTimesTerm
+   * @generated
+   */
+  EClass getSumExpressionTimesTerm();
+
+  /**
+   * Returns the meta object for class '{@link org.aioc.SumExpressionDivideTerm <em>Sum Expression Divide Term</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Sum Expression Divide Term</em>'.
+   * @see org.aioc.SumExpressionDivideTerm
+   * @generated
+   */
+  EClass getSumExpressionDivideTerm();
 
   /**
    * Returns the factory that creates the instances of the model.
@@ -3249,20 +3354,12 @@ public interface AiocPackage extends EPackage
     EAttribute WHERE_EXPRESSION_BASIC_TERM__SVARIABLE = eINSTANCE.getWhereExpressionBasicTerm_SVariable();
 
     /**
-     * The meta object literal for the '<em><b>True</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Constant</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute WHERE_EXPRESSION_BASIC_TERM__TRUE = eINSTANCE.getWhereExpressionBasicTerm_True();
-
-    /**
-     * The meta object literal for the '<em><b>False</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute WHERE_EXPRESSION_BASIC_TERM__FALSE = eINSTANCE.getWhereExpressionBasicTerm_False();
+    EReference WHERE_EXPRESSION_BASIC_TERM__CONSTANT = eINSTANCE.getWhereExpressionBasicTerm_Constant();
 
     /**
      * The meta object literal for the '{@link org.aioc.impl.PreambleImpl <em>Preamble</em>}' class.
@@ -3851,12 +3948,12 @@ public interface AiocPackage extends EPackage
     EClass CONSTANT = eINSTANCE.getConstant();
 
     /**
-     * The meta object literal for the '<em><b>Int Value</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Int Value</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute CONSTANT__INT_VALUE = eINSTANCE.getConstant_IntValue();
+    EReference CONSTANT__INT_VALUE = eINSTANCE.getConstant_IntValue();
 
     /**
      * The meta object literal for the '<em><b>Str Value</b></em>' attribute feature.
@@ -4017,6 +4114,24 @@ public interface AiocPackage extends EPackage
     EReference FUNCTION__PARAMS = eINSTANCE.getFunction_Params();
 
     /**
+     * The meta object literal for the '{@link org.aioc.impl.IntegerImpl <em>Integer</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.aioc.impl.IntegerImpl
+     * @see org.aioc.impl.AiocPackageImpl#getInteger()
+     * @generated
+     */
+    EClass INTEGER = eINSTANCE.getInteger();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute INTEGER__VALUE = eINSTANCE.getInteger_Value();
+
+    /**
      * The meta object literal for the '{@link org.aioc.impl.LocalAskCommandImpl <em>Local Ask Command</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4121,6 +4236,26 @@ public interface AiocPackage extends EPackage
      * @generated
      */
     EClass SUM_EXPRESSION_SUBTRACT_TERM = eINSTANCE.getSumExpressionSubtractTerm();
+
+    /**
+     * The meta object literal for the '{@link org.aioc.impl.SumExpressionTimesTermImpl <em>Sum Expression Times Term</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.aioc.impl.SumExpressionTimesTermImpl
+     * @see org.aioc.impl.AiocPackageImpl#getSumExpressionTimesTerm()
+     * @generated
+     */
+    EClass SUM_EXPRESSION_TIMES_TERM = eINSTANCE.getSumExpressionTimesTerm();
+
+    /**
+     * The meta object literal for the '{@link org.aioc.impl.SumExpressionDivideTermImpl <em>Sum Expression Divide Term</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.aioc.impl.SumExpressionDivideTermImpl
+     * @see org.aioc.impl.AiocPackageImpl#getSumExpressionDivideTerm()
+     * @generated
+     */
+    EClass SUM_EXPRESSION_DIVIDE_TERM = eINSTANCE.getSumExpressionDivideTerm();
 
   }
 

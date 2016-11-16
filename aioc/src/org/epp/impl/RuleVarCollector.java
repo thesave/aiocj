@@ -69,9 +69,11 @@ public class RuleVarCollector extends AiocSwitch< Boolean >
 	{
 		if( n.getNVariable() != null ){
 			propertiesVarNames.add( n.getNVariable() );
-		} else if( n.getSVariable() != null ){
+		}
+		if( n.getSVariable() != null ){
 			stateVarNames.add( n.getSVariable() );
-		} else if( n.getEVariable() != null ){
+		}
+		if( n.getEVariable() != null ){
 			environmentVarNames.add( n.getEVariable() );
 		}
 		return true;

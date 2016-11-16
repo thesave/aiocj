@@ -89,6 +89,8 @@ public class AiocParser extends AbstractContentAssistParser {
 					put(grammarAccess.getSumExpressionAccess().getGroup(), "rule__SumExpression__Group__0");
 					put(grammarAccess.getSumExpressionTermAccess().getGroup_0(), "rule__SumExpressionTerm__Group_0__0");
 					put(grammarAccess.getSumExpressionTermAccess().getGroup_1(), "rule__SumExpressionTerm__Group_1__0");
+					put(grammarAccess.getSumExpressionTermAccess().getGroup_2(), "rule__SumExpressionTerm__Group_2__0");
+					put(grammarAccess.getSumExpressionTermAccess().getGroup_3(), "rule__SumExpressionTerm__Group_3__0");
 					put(grammarAccess.getExpressionBasicTermAccess().getGroup_0(), "rule__ExpressionBasicTerm__Group_0__0");
 					put(grammarAccess.getExpressionBasicTermAccess().getGroup_2(), "rule__ExpressionBasicTerm__Group_2__0");
 					put(grammarAccess.getConditionAccess().getGroup(), "rule__Condition__Group__0");
@@ -119,8 +121,7 @@ public class AiocParser extends AbstractContentAssistParser {
 					put(grammarAccess.getWhereExpressionBasicTermAccess().getNVariableAssignment_0_1(), "rule__WhereExpressionBasicTerm__NVariableAssignment_0_1");
 					put(grammarAccess.getWhereExpressionBasicTermAccess().getEVariableAssignment_1_1(), "rule__WhereExpressionBasicTerm__EVariableAssignment_1_1");
 					put(grammarAccess.getWhereExpressionBasicTermAccess().getSVariableAssignment_2(), "rule__WhereExpressionBasicTerm__SVariableAssignment_2");
-					put(grammarAccess.getWhereExpressionBasicTermAccess().getTrueAssignment_3(), "rule__WhereExpressionBasicTerm__TrueAssignment_3");
-					put(grammarAccess.getWhereExpressionBasicTermAccess().getFalseAssignment_4(), "rule__WhereExpressionBasicTerm__FalseAssignment_4");
+					put(grammarAccess.getWhereExpressionBasicTermAccess().getConstantAssignment_3(), "rule__WhereExpressionBasicTerm__ConstantAssignment_3");
 					put(grammarAccess.getPreambleAccess().getStarterAssignment_1(), "rule__Preamble__StarterAssignment_1");
 					put(grammarAccess.getPreambleAccess().getLocDefinitionAssignment_2(), "rule__Preamble__LocDefinitionAssignment_2");
 					put(grammarAccess.getFunctionLocationAccess().getFunctionsAssignment_1(), "rule__FunctionLocation__FunctionsAssignment_1");
@@ -177,6 +178,8 @@ public class AiocParser extends AbstractContentAssistParser {
 					put(grammarAccess.getSumExpressionAccess().getChildrenAssignment_1(), "rule__SumExpression__ChildrenAssignment_1");
 					put(grammarAccess.getSumExpressionTermAccess().getExpressionAssignment_0_2(), "rule__SumExpressionTerm__ExpressionAssignment_0_2");
 					put(grammarAccess.getSumExpressionTermAccess().getExpressionAssignment_1_2(), "rule__SumExpressionTerm__ExpressionAssignment_1_2");
+					put(grammarAccess.getSumExpressionTermAccess().getExpressionAssignment_2_2(), "rule__SumExpressionTerm__ExpressionAssignment_2_2");
+					put(grammarAccess.getSumExpressionTermAccess().getExpressionAssignment_3_2(), "rule__SumExpressionTerm__ExpressionAssignment_3_2");
 					put(grammarAccess.getExpressionBasicTermAccess().getNotAssignment_0_0(), "rule__ExpressionBasicTerm__NotAssignment_0_0");
 					put(grammarAccess.getExpressionBasicTermAccess().getVariableAssignment_0_1(), "rule__ExpressionBasicTerm__VariableAssignment_0_1");
 					put(grammarAccess.getExpressionBasicTermAccess().getConstantAssignment_1(), "rule__ExpressionBasicTerm__ConstantAssignment_1");
@@ -199,6 +202,7 @@ public class AiocParser extends AbstractContentAssistParser {
 					put(grammarAccess.getFunctionAccess().getNameAssignment_0(), "rule__Function__NameAssignment_0");
 					put(grammarAccess.getFunctionAccess().getParamsAssignment_2_0(), "rule__Function__ParamsAssignment_2_0");
 					put(grammarAccess.getFunctionAccess().getParamsAssignment_2_1_1(), "rule__Function__ParamsAssignment_2_1_1");
+					put(grammarAccess.getIntegerAccess().getValueAssignment(), "rule__Integer__ValueAssignment");
 				}
 			};
 		}

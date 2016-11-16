@@ -39,8 +39,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//WhereExpressionBasicTerm/nVariable"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//WhereExpressionBasicTerm/eVariable"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//WhereExpressionBasicTerm/sVariable"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//WhereExpressionBasicTerm/true"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//WhereExpressionBasicTerm/false"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Aioc.ecore#//WhereExpressionBasicTerm/constant"/>
     </genClasses>
     <genClasses ecoreClass="Aioc.ecore#//Preamble">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//Preamble/starter"/>
@@ -130,7 +129,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Aioc.ecore#//ExpressionBasicTerm/condition"/>
     </genClasses>
     <genClasses ecoreClass="Aioc.ecore#//Constant">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//Constant/intValue"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Aioc.ecore#//Constant/intValue"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//Constant/strValue"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//Constant/true"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//Constant/false"/>
@@ -154,6 +153,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//Function/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Aioc.ecore#//Function/params"/>
     </genClasses>
+    <genClasses ecoreClass="Aioc.ecore#//Integer">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//Integer/value"/>
+    </genClasses>
     <genClasses ecoreClass="Aioc.ecore#//LocalAskCommand">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//LocalAskCommand/resultVariable"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Aioc.ecore#//LocalAskCommand/question"/>
@@ -169,5 +171,7 @@
     </genClasses>
     <genClasses ecoreClass="Aioc.ecore#//SumExpressionAddTerm"/>
     <genClasses ecoreClass="Aioc.ecore#//SumExpressionSubtractTerm"/>
+    <genClasses ecoreClass="Aioc.ecore#//SumExpressionTimesTerm"/>
+    <genClasses ecoreClass="Aioc.ecore#//SumExpressionDivideTerm"/>
   </genPackages>
 </genmodel:GenModel>

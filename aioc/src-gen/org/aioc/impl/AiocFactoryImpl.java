@@ -2,7 +2,45 @@
  */
 package org.aioc.impl;
 
-import org.aioc.*;
+import org.aioc.Aioc;
+import org.aioc.AiocFactory;
+import org.aioc.AiocJ;
+import org.aioc.AiocPackage;
+import org.aioc.Assignment;
+import org.aioc.AssignmentSet;
+import org.aioc.Choreography;
+import org.aioc.Condition;
+import org.aioc.ConditionOperator;
+import org.aioc.Constant;
+import org.aioc.Expression;
+import org.aioc.ExpressionBasicTerm;
+import org.aioc.Function;
+import org.aioc.FunctionList;
+import org.aioc.FunctionLocation;
+import org.aioc.IfThenElse;
+import org.aioc.Interaction;
+import org.aioc.LocalAskCommand;
+import org.aioc.LocalAssignmentCommand;
+import org.aioc.LocalCode;
+import org.aioc.LocalShowCommand;
+import org.aioc.LocationDefinition;
+import org.aioc.NestedChoreography;
+import org.aioc.Preamble;
+import org.aioc.Roles;
+import org.aioc.Rule;
+import org.aioc.Scope;
+import org.aioc.SeqBlock;
+import org.aioc.Skip;
+import org.aioc.SumExpression;
+import org.aioc.SumExpressionAddTerm;
+import org.aioc.SumExpressionDivideTerm;
+import org.aioc.SumExpressionSubtractTerm;
+import org.aioc.SumExpressionTerm;
+import org.aioc.SumExpressionTimesTerm;
+import org.aioc.Where;
+import org.aioc.WhereCompareCondition;
+import org.aioc.WhereExpressionBasicTerm;
+import org.aioc.While;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -94,11 +132,14 @@ public class AiocFactoryImpl extends EFactoryImpl implements AiocFactory
       case AiocPackage.CONDITION: return createCondition();
       case AiocPackage.CONDITION_OPERATOR: return createConditionOperator();
       case AiocPackage.FUNCTION: return createFunction();
+      case AiocPackage.INTEGER: return createInteger();
       case AiocPackage.LOCAL_ASK_COMMAND: return createLocalAskCommand();
       case AiocPackage.LOCAL_SHOW_COMMAND: return createLocalShowCommand();
       case AiocPackage.LOCAL_ASSIGNMENT_COMMAND: return createLocalAssignmentCommand();
       case AiocPackage.SUM_EXPRESSION_ADD_TERM: return createSumExpressionAddTerm();
       case AiocPackage.SUM_EXPRESSION_SUBTRACT_TERM: return createSumExpressionSubtractTerm();
+      case AiocPackage.SUM_EXPRESSION_TIMES_TERM: return createSumExpressionTimesTerm();
+      case AiocPackage.SUM_EXPRESSION_DIVIDE_TERM: return createSumExpressionDivideTerm();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
@@ -439,6 +480,17 @@ public class AiocFactoryImpl extends EFactoryImpl implements AiocFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  public org.aioc.Integer createInteger()
+  {
+    IntegerImpl integer = new IntegerImpl();
+    return integer;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public LocalAskCommand createLocalAskCommand()
   {
     LocalAskCommandImpl localAskCommand = new LocalAskCommandImpl();
@@ -487,6 +539,28 @@ public class AiocFactoryImpl extends EFactoryImpl implements AiocFactory
   {
     SumExpressionSubtractTermImpl sumExpressionSubtractTerm = new SumExpressionSubtractTermImpl();
     return sumExpressionSubtractTerm;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public SumExpressionTimesTerm createSumExpressionTimesTerm()
+  {
+    SumExpressionTimesTermImpl sumExpressionTimesTerm = new SumExpressionTimesTermImpl();
+    return sumExpressionTimesTerm;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public SumExpressionDivideTerm createSumExpressionDivideTerm()
+  {
+    SumExpressionDivideTermImpl sumExpressionDivideTerm = new SumExpressionDivideTermImpl();
+    return sumExpressionDivideTerm;
   }
 
   /**

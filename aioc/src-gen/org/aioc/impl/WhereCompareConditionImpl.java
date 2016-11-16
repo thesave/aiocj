@@ -4,7 +4,6 @@ package org.aioc.impl;
 
 import org.aioc.AiocPackage;
 import org.aioc.ConditionOperator;
-import org.aioc.Expression;
 import org.aioc.Where;
 import org.aioc.WhereCompareCondition;
 import org.aioc.WhereExpressionBasicTerm;
@@ -66,7 +65,7 @@ public class WhereCompareConditionImpl extends MinimalEObjectImpl.Container impl
    * @generated
    * @ordered
    */
-  protected Expression right;
+  protected WhereExpressionBasicTerm right;
 
   /**
    * The default value of the '{@link #isAnd() <em>And</em>}' attribute.
@@ -240,7 +239,7 @@ public class WhereCompareConditionImpl extends MinimalEObjectImpl.Container impl
    * <!-- end-user-doc -->
    * @generated
    */
-  public Expression getRight()
+  public WhereExpressionBasicTerm getRight()
   {
     return right;
   }
@@ -250,9 +249,9 @@ public class WhereCompareConditionImpl extends MinimalEObjectImpl.Container impl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetRight(Expression newRight, NotificationChain msgs)
+  public NotificationChain basicSetRight(WhereExpressionBasicTerm newRight, NotificationChain msgs)
   {
-    Expression oldRight = right;
+    WhereExpressionBasicTerm oldRight = right;
     right = newRight;
     if (eNotificationRequired())
     {
@@ -267,7 +266,7 @@ public class WhereCompareConditionImpl extends MinimalEObjectImpl.Container impl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setRight(Expression newRight)
+  public void setRight(WhereExpressionBasicTerm newRight)
   {
     if (newRight != right)
     {
@@ -442,7 +441,7 @@ public class WhereCompareConditionImpl extends MinimalEObjectImpl.Container impl
         setOperator((ConditionOperator)newValue);
         return;
       case AiocPackage.WHERE_COMPARE_CONDITION__RIGHT:
-        setRight((Expression)newValue);
+        setRight((WhereExpressionBasicTerm)newValue);
         return;
       case AiocPackage.WHERE_COMPARE_CONDITION__AND:
         setAnd((Boolean)newValue);
@@ -474,7 +473,7 @@ public class WhereCompareConditionImpl extends MinimalEObjectImpl.Container impl
         setOperator((ConditionOperator)null);
         return;
       case AiocPackage.WHERE_COMPARE_CONDITION__RIGHT:
-        setRight((Expression)null);
+        setRight((WhereExpressionBasicTerm)null);
         return;
       case AiocPackage.WHERE_COMPARE_CONDITION__AND:
         setAnd(AND_EDEFAULT);

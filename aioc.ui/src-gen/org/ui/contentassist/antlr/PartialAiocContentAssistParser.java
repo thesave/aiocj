@@ -15,7 +15,6 @@ import org.eclipse.xtext.util.PolymorphicDispatcher;
 /*
  * Template CodetemplatesGeneratorFragment.xpt
  */
-@SuppressWarnings("restriction")
 public class PartialAiocContentAssistParser extends AiocParser implements IPartialContentAssistParser {
 
 	private AbstractRule rule;

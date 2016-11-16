@@ -36,7 +36,7 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="operator" eType="#//ConditionOperator"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//Expression"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//WhereExpressionBasicTerm"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="and" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="or" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
@@ -47,8 +47,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="nVariable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="eVariable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="sVariable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="true" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constant" eType="#//Constant"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Preamble">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="starter" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -89,7 +89,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Interaction">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="operation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="sender" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="senderExpression" eType="#//ExpressionBasicTerm"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="senderExpression" eType="#//SumExpression"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="receiver" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="receiverVariable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -165,7 +165,8 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Constant">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="intValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="intValue" eType="#//Integer"
+        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="strValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="true" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -193,6 +194,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
         eType="#//Expression" containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Integer">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LocalAskCommand" eSuperTypes="#//LocalCode">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="resultVariable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="question" eType="#//Expression"
@@ -212,4 +216,6 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SumExpressionAddTerm" eSuperTypes="#//SumExpressionTerm"/>
   <eClassifiers xsi:type="ecore:EClass" name="SumExpressionSubtractTerm" eSuperTypes="#//SumExpressionTerm"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SumExpressionTimesTerm" eSuperTypes="#//SumExpressionTerm"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SumExpressionDivideTerm" eSuperTypes="#//SumExpressionTerm"/>
 </ecore:EPackage>

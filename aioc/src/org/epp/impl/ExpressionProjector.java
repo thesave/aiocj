@@ -22,18 +22,23 @@
 
 package org.epp.impl;
 
+import jolie.lang.Constants.OperandType;
 import jolie.lang.parse.ast.OLSyntaxNode;
 import jolie.lang.parse.ast.expression.ConstantBoolExpression;
 import jolie.lang.parse.ast.expression.ConstantIntegerExpression;
 import jolie.lang.parse.ast.expression.ConstantStringExpression;
 import jolie.lang.parse.ast.expression.SumExpressionNode;
+import jolie.util.Pair;
 
 import org.aioc.Constant;
 import org.aioc.Expression;
 import org.aioc.ExpressionBasicTerm;
 import org.aioc.SumExpression;
 import org.aioc.SumExpressionAddTerm;
+import org.aioc.SumExpressionDivideTerm;
+import org.aioc.SumExpressionSubtractTerm;
 import org.aioc.SumExpressionTerm;
+import org.aioc.SumExpressionTimesTerm;
 import org.aioc.util.AiocSwitch;
 import org.eclipse.emf.ecore.EObject;
 
@@ -69,14 +74,16 @@ public class ExpressionProjector extends AiocSwitch< OLSyntaxNode >
 				if( term instanceof SumExpressionAddTerm ){
 					jolieSumExpression.add( jolieTerm );					
 				} else if ( castToInt ){
-					jolieSumExpression.add( 
-							JolieEppUtils.toPath(
-									"int(" + ((ExpressionBasicTerm) term).getVariable() + ")" ));						
-					}	else {
-						jolieSumExpression.add( jolieTerm );
+					jolieSumExpression.add( JolieEppUtils.toPath( "int( " + ( ( ExpressionBasicTerm ) term ).getVariable() + " )" ) );						
+				} else {
+					jolieSumExpression.add( jolieTerm );
 				}
-			} else {
-				jolieSumExpression.subtract( jolieTerm );
+			} else if( term instanceof SumExpressionSubtractTerm ){
+				jolieSumExpression.operands().add( new Pair< OperandType, OLSyntaxNode >( OperandType.SUBTRACT, jolieTerm  ) );
+			} else if( term instanceof SumExpressionTimesTerm ){
+				jolieSumExpression.operands().add( new Pair< OperandType, OLSyntaxNode >( OperandType.MULTIPLY, jolieTerm  ) );
+			} else if( term instanceof SumExpressionDivideTerm ){
+				jolieSumExpression.operands().add( new Pair< OperandType, OLSyntaxNode >( OperandType.DIVIDE, jolieTerm  ) );
 			}
 		}
 		return jolieSumExpression;
@@ -115,7 +122,7 @@ public class ExpressionProjector extends AiocSwitch< OLSyntaxNode >
 		} if( n.getFalse() != null ){
 			return new ConstantBoolExpression( JolieEppUtils.PARSING_CONTEXT, false );
 		}	else {
-			return new ConstantIntegerExpression( JolieEppUtils.PARSING_CONTEXT, n.getIntValue() );
+			return new ConstantIntegerExpression( JolieEppUtils.PARSING_CONTEXT, n.getIntValue().getValue() );
 		} 
 	}
 	

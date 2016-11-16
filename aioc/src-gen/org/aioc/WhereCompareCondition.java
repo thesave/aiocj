@@ -88,12 +88,12 @@ public interface WhereCompareCondition extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Right</em>' containment reference.
-   * @see #setRight(Expression)
+   * @see #setRight(WhereExpressionBasicTerm)
    * @see org.aioc.AiocPackage#getWhereCompareCondition_Right()
    * @model containment="true"
    * @generated
    */
-  Expression getRight();
+  WhereExpressionBasicTerm getRight();
 
   /**
    * Sets the value of the '{@link org.aioc.WhereCompareCondition#getRight <em>Right</em>}' containment reference.
@@ -103,7 +103,7 @@ public interface WhereCompareCondition extends EObject
    * @see #getRight()
    * @generated
    */
-  void setRight(Expression value);
+  void setRight(WhereExpressionBasicTerm value);
 
   /**
    * Returns the value of the '<em><b>And</b></em>' attribute.

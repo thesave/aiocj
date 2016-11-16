@@ -2,7 +2,44 @@
  */
 package org.aioc.util;
 
-import org.aioc.*;
+import org.aioc.Aioc;
+import org.aioc.AiocJ;
+import org.aioc.AiocPackage;
+import org.aioc.Assignment;
+import org.aioc.AssignmentSet;
+import org.aioc.Choreography;
+import org.aioc.Condition;
+import org.aioc.ConditionOperator;
+import org.aioc.Constant;
+import org.aioc.Expression;
+import org.aioc.ExpressionBasicTerm;
+import org.aioc.Function;
+import org.aioc.FunctionList;
+import org.aioc.FunctionLocation;
+import org.aioc.IfThenElse;
+import org.aioc.Interaction;
+import org.aioc.LocalAskCommand;
+import org.aioc.LocalAssignmentCommand;
+import org.aioc.LocalCode;
+import org.aioc.LocalShowCommand;
+import org.aioc.LocationDefinition;
+import org.aioc.NestedChoreography;
+import org.aioc.Preamble;
+import org.aioc.Roles;
+import org.aioc.Rule;
+import org.aioc.Scope;
+import org.aioc.SeqBlock;
+import org.aioc.Skip;
+import org.aioc.SumExpression;
+import org.aioc.SumExpressionAddTerm;
+import org.aioc.SumExpressionDivideTerm;
+import org.aioc.SumExpressionSubtractTerm;
+import org.aioc.SumExpressionTerm;
+import org.aioc.SumExpressionTimesTerm;
+import org.aioc.Where;
+import org.aioc.WhereCompareCondition;
+import org.aioc.WhereExpressionBasicTerm;
+import org.aioc.While;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -282,6 +319,13 @@ public class AiocSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case AiocPackage.INTEGER:
+      {
+        org.aioc.Integer integer = (org.aioc.Integer)theEObject;
+        T result = caseInteger(integer);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case AiocPackage.LOCAL_ASK_COMMAND:
       {
         LocalAskCommand localAskCommand = (LocalAskCommand)theEObject;
@@ -319,6 +363,22 @@ public class AiocSwitch<T> extends Switch<T>
         SumExpressionSubtractTerm sumExpressionSubtractTerm = (SumExpressionSubtractTerm)theEObject;
         T result = caseSumExpressionSubtractTerm(sumExpressionSubtractTerm);
         if (result == null) result = caseSumExpressionTerm(sumExpressionSubtractTerm);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case AiocPackage.SUM_EXPRESSION_TIMES_TERM:
+      {
+        SumExpressionTimesTerm sumExpressionTimesTerm = (SumExpressionTimesTerm)theEObject;
+        T result = caseSumExpressionTimesTerm(sumExpressionTimesTerm);
+        if (result == null) result = caseSumExpressionTerm(sumExpressionTimesTerm);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case AiocPackage.SUM_EXPRESSION_DIVIDE_TERM:
+      {
+        SumExpressionDivideTerm sumExpressionDivideTerm = (SumExpressionDivideTerm)theEObject;
+        T result = caseSumExpressionDivideTerm(sumExpressionDivideTerm);
+        if (result == null) result = caseSumExpressionTerm(sumExpressionDivideTerm);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -807,6 +867,22 @@ public class AiocSwitch<T> extends Switch<T>
   }
 
   /**
+   * Returns the result of interpreting the object as an instance of '<em>Integer</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Integer</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseInteger(org.aioc.Integer object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpreting the object as an instance of '<em>Local Ask Command</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
@@ -882,6 +958,38 @@ public class AiocSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseSumExpressionSubtractTerm(SumExpressionSubtractTerm object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Sum Expression Times Term</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Sum Expression Times Term</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseSumExpressionTimesTerm(SumExpressionTimesTerm object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Sum Expression Divide Term</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Sum Expression Divide Term</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseSumExpressionDivideTerm(SumExpressionDivideTerm object)
   {
     return null;
   }

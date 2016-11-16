@@ -54,14 +54,16 @@ Where:
 
 WhereCompareCondition:
 	left = WhereExpressionBasicTerm operator = ConditionOperator
-			right = Expression ( ( and?=AND | or?=OR ) next=Where )?
+			right = WhereExpressionBasicTerm ( ( and?=AND | or?=OR ) next=Where )?
 ;
 
 WhereExpressionBasicTerm: "N." nVariable = ID 
 										| "E." eVariable = ID
-										| sVariable=ID
-										| true ?= TRUE
-										| false ?= FALSE
+										| sVariable = ID
+										| constant = Constant
+//										| true ?= TRUE
+//										| false ?= FALSE
+//										| 
 ;
 
 Preamble:
@@ -102,7 +104,7 @@ Skip:
 Interaction:
 	operation = ID COLON
 	sender = ID LRND
-		( senderExpression = ExpressionBasicTerm )?
+		( senderExpression = SumExpression )?
 	RRND ARROW
 	receiver = ID LRND
 		( receiverVariable = ID )?
@@ -184,6 +186,10 @@ SumExpressionTerm:
 	{SumExpressionAddTerm} PLUS expression = ExpressionBasicTerm
 	|
 	{SumExpressionSubtractTerm} MINUS expression = ExpressionBasicTerm
+	|
+	{SumExpressionTimesTerm} TIMES expression = ExpressionBasicTerm
+	|
+	{SumExpressionDivideTerm} SLASH expression = ExpressionBasicTerm
 ;
 
 ExpressionBasicTerm: ( not?=NOT )? variable = ID | constant = Constant | 
@@ -192,7 +198,7 @@ LRND condition = Condition RRND
 ;
 
 Constant:
-	intValue = INT | strValue = STRING | true = TRUE | false = FALSE
+	intValue = Integer | strValue = STRING | true = TRUE | false = FALSE
 ;
 
 Condition:
@@ -211,6 +217,8 @@ Function:
 	RRND
 ;
 
+Integer: value=INT;
+
 // Terminals
 terminal LCURLY: '{';
 terminal RCURLY: '}';
@@ -220,6 +228,8 @@ terminal PIPE: '|';
 terminal COLON: ':';
 terminal PLUS: '+';
 terminal MINUS: '-';
+terminal TIMES: '*';
+terminal SLASH: '/';
 terminal AT: '@';
 terminal ASSIGN: '=';
 terminal DOT: '.';

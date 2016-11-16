@@ -293,6 +293,15 @@ public interface AiocFactory extends EFactory
   Function createFunction();
 
   /**
+   * Returns a new object of class '<em>Integer</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Integer</em>'.
+   * @generated
+   */
+  Integer createInteger();
+
+  /**
    * Returns a new object of class '<em>Local Ask Command</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -336,6 +345,24 @@ public interface AiocFactory extends EFactory
    * @generated
    */
   SumExpressionSubtractTerm createSumExpressionSubtractTerm();
+
+  /**
+   * Returns a new object of class '<em>Sum Expression Times Term</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Sum Expression Times Term</em>'.
+   * @generated
+   */
+  SumExpressionTimesTerm createSumExpressionTimesTerm();
+
+  /**
+   * Returns a new object of class '<em>Sum Expression Divide Term</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Sum Expression Divide Term</em>'.
+   * @generated
+   */
+  SumExpressionDivideTerm createSumExpressionDivideTerm();
 
   /**
    * Returns the package supported by this factory.

@@ -33,8 +33,10 @@ import org.aioc.SeqBlock;
 import org.aioc.Skip;
 import org.aioc.SumExpression;
 import org.aioc.SumExpressionAddTerm;
+import org.aioc.SumExpressionDivideTerm;
 import org.aioc.SumExpressionSubtractTerm;
 import org.aioc.SumExpressionTerm;
+import org.aioc.SumExpressionTimesTerm;
 import org.aioc.Where;
 import org.aioc.WhereCompareCondition;
 import org.aioc.WhereExpressionBasicTerm;
@@ -270,6 +272,13 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  private EClass integerEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   private EClass localAskCommandEClass = null;
 
   /**
@@ -299,6 +308,20 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
    * @generated
    */
   private EClass sumExpressionSubtractTermEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass sumExpressionTimesTermEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass sumExpressionDivideTermEClass = null;
 
   /**
    * Creates an instance of the model <b>Package</b>, registered with
@@ -638,19 +661,9 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getWhereExpressionBasicTerm_True()
+  public EReference getWhereExpressionBasicTerm_Constant()
   {
-    return (EAttribute)whereExpressionBasicTermEClass.getEStructuralFeatures().get(3);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EAttribute getWhereExpressionBasicTerm_False()
-  {
-    return (EAttribute)whereExpressionBasicTermEClass.getEStructuralFeatures().get(4);
+    return (EReference)whereExpressionBasicTermEClass.getEStructuralFeatures().get(3);
   }
 
   /**
@@ -1338,9 +1351,9 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getConstant_IntValue()
+  public EReference getConstant_IntValue()
   {
-    return (EAttribute)constantEClass.getEStructuralFeatures().get(0);
+    return (EReference)constantEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -1538,6 +1551,26 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getInteger()
+  {
+    return integerEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getInteger_Value()
+  {
+    return (EAttribute)integerEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getLocalAskCommand()
   {
     return localAskCommandEClass;
@@ -1658,6 +1691,26 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getSumExpressionTimesTerm()
+  {
+    return sumExpressionTimesTermEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getSumExpressionDivideTerm()
+  {
+    return sumExpressionDivideTermEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public AiocFactory getAiocFactory()
   {
     return (AiocFactory)getEFactoryInstance();
@@ -1715,8 +1768,7 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
     createEAttribute(whereExpressionBasicTermEClass, WHERE_EXPRESSION_BASIC_TERM__NVARIABLE);
     createEAttribute(whereExpressionBasicTermEClass, WHERE_EXPRESSION_BASIC_TERM__EVARIABLE);
     createEAttribute(whereExpressionBasicTermEClass, WHERE_EXPRESSION_BASIC_TERM__SVARIABLE);
-    createEAttribute(whereExpressionBasicTermEClass, WHERE_EXPRESSION_BASIC_TERM__TRUE);
-    createEAttribute(whereExpressionBasicTermEClass, WHERE_EXPRESSION_BASIC_TERM__FALSE);
+    createEReference(whereExpressionBasicTermEClass, WHERE_EXPRESSION_BASIC_TERM__CONSTANT);
 
     preambleEClass = createEClass(PREAMBLE);
     createEAttribute(preambleEClass, PREAMBLE__STARTER);
@@ -1806,7 +1858,7 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
     createEReference(expressionBasicTermEClass, EXPRESSION_BASIC_TERM__CONDITION);
 
     constantEClass = createEClass(CONSTANT);
-    createEAttribute(constantEClass, CONSTANT__INT_VALUE);
+    createEReference(constantEClass, CONSTANT__INT_VALUE);
     createEAttribute(constantEClass, CONSTANT__STR_VALUE);
     createEAttribute(constantEClass, CONSTANT__TRUE);
     createEAttribute(constantEClass, CONSTANT__FALSE);
@@ -1830,6 +1882,9 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
     createEAttribute(functionEClass, FUNCTION__NAME);
     createEReference(functionEClass, FUNCTION__PARAMS);
 
+    integerEClass = createEClass(INTEGER);
+    createEAttribute(integerEClass, INTEGER__VALUE);
+
     localAskCommandEClass = createEClass(LOCAL_ASK_COMMAND);
     createEAttribute(localAskCommandEClass, LOCAL_ASK_COMMAND__RESULT_VARIABLE);
     createEReference(localAskCommandEClass, LOCAL_ASK_COMMAND__QUESTION);
@@ -1846,6 +1901,10 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
     sumExpressionAddTermEClass = createEClass(SUM_EXPRESSION_ADD_TERM);
 
     sumExpressionSubtractTermEClass = createEClass(SUM_EXPRESSION_SUBTRACT_TERM);
+
+    sumExpressionTimesTermEClass = createEClass(SUM_EXPRESSION_TIMES_TERM);
+
+    sumExpressionDivideTermEClass = createEClass(SUM_EXPRESSION_DIVIDE_TERM);
   }
 
   /**
@@ -1882,6 +1941,8 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
     localAssignmentCommandEClass.getESuperTypes().add(this.getLocalCode());
     sumExpressionAddTermEClass.getESuperTypes().add(this.getSumExpressionTerm());
     sumExpressionSubtractTermEClass.getESuperTypes().add(this.getSumExpressionTerm());
+    sumExpressionTimesTermEClass.getESuperTypes().add(this.getSumExpressionTerm());
+    sumExpressionDivideTermEClass.getESuperTypes().add(this.getSumExpressionTerm());
 
     // Initialize classes and features; add operations and parameters
     initEClass(aiocJEClass, AiocJ.class, "AiocJ", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1907,7 +1968,7 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
     initEClass(whereCompareConditionEClass, WhereCompareCondition.class, "WhereCompareCondition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getWhereCompareCondition_Left(), this.getWhereExpressionBasicTerm(), null, "left", null, 0, 1, WhereCompareCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getWhereCompareCondition_Operator(), this.getConditionOperator(), null, "operator", null, 0, 1, WhereCompareCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getWhereCompareCondition_Right(), this.getExpression(), null, "right", null, 0, 1, WhereCompareCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getWhereCompareCondition_Right(), this.getWhereExpressionBasicTerm(), null, "right", null, 0, 1, WhereCompareCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getWhereCompareCondition_And(), ecorePackage.getEBoolean(), "and", null, 0, 1, WhereCompareCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getWhereCompareCondition_Or(), ecorePackage.getEBoolean(), "or", null, 0, 1, WhereCompareCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getWhereCompareCondition_Next(), this.getWhere(), null, "next", null, 0, 1, WhereCompareCondition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1916,8 +1977,7 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
     initEAttribute(getWhereExpressionBasicTerm_NVariable(), ecorePackage.getEString(), "nVariable", null, 0, 1, WhereExpressionBasicTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getWhereExpressionBasicTerm_EVariable(), ecorePackage.getEString(), "eVariable", null, 0, 1, WhereExpressionBasicTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getWhereExpressionBasicTerm_SVariable(), ecorePackage.getEString(), "sVariable", null, 0, 1, WhereExpressionBasicTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getWhereExpressionBasicTerm_True(), ecorePackage.getEBoolean(), "true", null, 0, 1, WhereExpressionBasicTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getWhereExpressionBasicTerm_False(), ecorePackage.getEBoolean(), "false", null, 0, 1, WhereExpressionBasicTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getWhereExpressionBasicTerm_Constant(), this.getConstant(), null, "constant", null, 0, 1, WhereExpressionBasicTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(preambleEClass, Preamble.class, "Preamble", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getPreamble_Starter(), ecorePackage.getEString(), "starter", null, 0, 1, Preamble.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1950,7 +2010,7 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
     initEClass(interactionEClass, Interaction.class, "Interaction", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getInteraction_Operation(), ecorePackage.getEString(), "operation", null, 0, 1, Interaction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getInteraction_Sender(), ecorePackage.getEString(), "sender", null, 0, 1, Interaction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getInteraction_SenderExpression(), this.getExpressionBasicTerm(), null, "senderExpression", null, 0, 1, Interaction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getInteraction_SenderExpression(), this.getSumExpression(), null, "senderExpression", null, 0, 1, Interaction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getInteraction_Receiver(), ecorePackage.getEString(), "receiver", null, 0, 1, Interaction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getInteraction_ReceiverVariable(), ecorePackage.getEString(), "receiverVariable", null, 0, 1, Interaction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -2007,7 +2067,7 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
     initEReference(getExpressionBasicTerm_Condition(), this.getCondition(), null, "condition", null, 0, 1, ExpressionBasicTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(constantEClass, Constant.class, "Constant", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getConstant_IntValue(), ecorePackage.getEInt(), "intValue", null, 0, 1, Constant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getConstant_IntValue(), this.getInteger(), null, "intValue", null, 0, 1, Constant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getConstant_StrValue(), ecorePackage.getEString(), "strValue", null, 0, 1, Constant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getConstant_True(), ecorePackage.getEString(), "true", null, 0, 1, Constant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getConstant_False(), ecorePackage.getEString(), "false", null, 0, 1, Constant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2031,6 +2091,9 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
     initEAttribute(getFunction_Name(), ecorePackage.getEString(), "name", null, 0, 1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getFunction_Params(), this.getExpression(), null, "params", null, 0, -1, Function.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+    initEClass(integerEClass, org.aioc.Integer.class, "Integer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getInteger_Value(), ecorePackage.getEInt(), "value", null, 0, 1, org.aioc.Integer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
     initEClass(localAskCommandEClass, LocalAskCommand.class, "LocalAskCommand", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getLocalAskCommand_ResultVariable(), ecorePackage.getEString(), "resultVariable", null, 0, 1, LocalAskCommand.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getLocalAskCommand_Question(), this.getExpression(), null, "question", null, 0, 1, LocalAskCommand.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2047,6 +2110,10 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
     initEClass(sumExpressionAddTermEClass, SumExpressionAddTerm.class, "SumExpressionAddTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(sumExpressionSubtractTermEClass, SumExpressionSubtractTerm.class, "SumExpressionSubtractTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+    initEClass(sumExpressionTimesTermEClass, SumExpressionTimesTerm.class, "SumExpressionTimesTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+    initEClass(sumExpressionDivideTermEClass, SumExpressionDivideTerm.class, "SumExpressionDivideTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     // Create resource
     createResource(eNS_URI);

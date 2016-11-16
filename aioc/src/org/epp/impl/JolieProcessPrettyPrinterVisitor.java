@@ -463,8 +463,12 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 			if ( i > 0 ) {
 				if ( pair.key() == OperandType.ADD ) {
 					printer.write( " + " );
-				} else {
+				} else if ( pair.key() == OperandType.SUBTRACT ){
 					printer.write( " - " );
+				} else if ( pair.key() == OperandType.MULTIPLY ){
+					printer.write( " * " );
+				} else if ( pair.key() == OperandType.DIVIDE ){
+					printer.write( " / " );
 				}
 			}
 			prettyPrint( pair.value() );

@@ -535,9 +535,9 @@ ruleWhereCompareCondition returns [EObject current=null]
 )(
 (
 		{ 
-	        newCompositeNode(grammarAccess.getWhereCompareConditionAccess().getRightExpressionParserRuleCall_2_0()); 
+	        newCompositeNode(grammarAccess.getWhereCompareConditionAccess().getRightWhereExpressionBasicTermParserRuleCall_2_0()); 
 	    }
-		lv_right_2_0=ruleExpression		{
+		lv_right_2_0=ruleWhereExpressionBasicTerm		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getWhereCompareConditionRule());
 	        }
@@ -545,7 +545,7 @@ ruleWhereCompareCondition returns [EObject current=null]
        			$current, 
        			"right",
         		lv_right_2_0, 
-        		"org.Aioc.Expression");
+        		"org.Aioc.WhereExpressionBasicTerm");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -693,38 +693,19 @@ ruleWhereExpressionBasicTerm returns [EObject current=null]
 )
     |(
 (
-		lv_true_5_0=RULE_TRUE
-		{
-			newLeafNode(lv_true_5_0, grammarAccess.getWhereExpressionBasicTermAccess().getTrueTRUETerminalRuleCall_3_0()); 
-		}
-		{
-	        if ($current==null) {
-	            $current = createModelElement(grammarAccess.getWhereExpressionBasicTermRule());
-	        }
-       		setWithLastConsumed(
-       			$current, 
-       			"true",
-        		true, 
-        		"org.Aioc.TRUE");
+		{ 
+	        newCompositeNode(grammarAccess.getWhereExpressionBasicTermAccess().getConstantConstantParserRuleCall_3_0()); 
 	    }
-
-)
-)
-    |(
-(
-		lv_false_6_0=RULE_FALSE
-		{
-			newLeafNode(lv_false_6_0, grammarAccess.getWhereExpressionBasicTermAccess().getFalseFALSETerminalRuleCall_4_0()); 
-		}
-		{
+		lv_constant_5_0=ruleConstant		{
 	        if ($current==null) {
-	            $current = createModelElement(grammarAccess.getWhereExpressionBasicTermRule());
+	            $current = createModelElementForParent(grammarAccess.getWhereExpressionBasicTermRule());
 	        }
-       		setWithLastConsumed(
+       		set(
        			$current, 
-       			"false",
-        		true, 
-        		"org.Aioc.FALSE");
+       			"constant",
+        		lv_constant_5_0, 
+        		"org.Aioc.Constant");
+	        afterParserOrEnumRuleCall();
 	    }
 
 )
@@ -1343,9 +1324,9 @@ ruleInteraction returns [EObject current=null]
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getInteractionAccess().getSenderExpressionExpressionBasicTermParserRuleCall_4_0()); 
+	        newCompositeNode(grammarAccess.getInteractionAccess().getSenderExpressionSumExpressionParserRuleCall_4_0()); 
 	    }
-		lv_senderExpression_4_0=ruleExpressionBasicTerm		{
+		lv_senderExpression_4_0=ruleSumExpression		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getInteractionRule());
 	        }
@@ -1353,7 +1334,7 @@ ruleInteraction returns [EObject current=null]
        			$current, 
        			"senderExpression",
         		lv_senderExpression_4_0, 
-        		"org.Aioc.ExpressionBasicTerm");
+        		"org.Aioc.SumExpression");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2523,6 +2504,64 @@ ruleSumExpressionTerm returns [EObject current=null]
 	    }
 
 )
+))
+    |((
+    {
+        $current = forceCreateModelElement(
+            grammarAccess.getSumExpressionTermAccess().getSumExpressionTimesTermAction_2_0(),
+            $current);
+    }
+)this_TIMES_7=RULE_TIMES
+    { 
+    newLeafNode(this_TIMES_7, grammarAccess.getSumExpressionTermAccess().getTIMESTerminalRuleCall_2_1()); 
+    }
+(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getSumExpressionTermAccess().getExpressionExpressionBasicTermParserRuleCall_2_2_0()); 
+	    }
+		lv_expression_8_0=ruleExpressionBasicTerm		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getSumExpressionTermRule());
+	        }
+       		set(
+       			$current, 
+       			"expression",
+        		lv_expression_8_0, 
+        		"org.Aioc.ExpressionBasicTerm");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+))
+    |((
+    {
+        $current = forceCreateModelElement(
+            grammarAccess.getSumExpressionTermAccess().getSumExpressionDivideTermAction_3_0(),
+            $current);
+    }
+)this_SLASH_10=RULE_SLASH
+    { 
+    newLeafNode(this_SLASH_10, grammarAccess.getSumExpressionTermAccess().getSLASHTerminalRuleCall_3_1()); 
+    }
+(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getSumExpressionTermAccess().getExpressionExpressionBasicTermParserRuleCall_3_2_0()); 
+	    }
+		lv_expression_11_0=ruleExpressionBasicTerm		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getSumExpressionTermRule());
+	        }
+       		set(
+       			$current, 
+       			"expression",
+        		lv_expression_11_0, 
+        		"org.Aioc.ExpressionBasicTerm");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
 )))
 ;
 
@@ -2649,19 +2688,19 @@ ruleConstant returns [EObject current=null]
     @after { leaveRule(); }:
 ((
 (
-		lv_intValue_0_0=RULE_INT
-		{
-			newLeafNode(lv_intValue_0_0, grammarAccess.getConstantAccess().getIntValueINTTerminalRuleCall_0_0()); 
-		}
-		{
+		{ 
+	        newCompositeNode(grammarAccess.getConstantAccess().getIntValueIntegerParserRuleCall_0_0()); 
+	    }
+		lv_intValue_0_0=ruleInteger		{
 	        if ($current==null) {
-	            $current = createModelElement(grammarAccess.getConstantRule());
+	            $current = createModelElementForParent(grammarAccess.getConstantRule());
 	        }
-       		setWithLastConsumed(
+       		set(
        			$current, 
        			"intValue",
         		lv_intValue_0_0, 
-        		"org.eclipse.xtext.common.Terminals.INT");
+        		"org.Aioc.Integer");
+	        afterParserOrEnumRuleCall();
 	    }
 
 )
@@ -3063,6 +3102,45 @@ ruleFunction returns [EObject current=null]
 
 
 
+// Entry rule entryRuleInteger
+entryRuleInteger returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getIntegerRule()); }
+	 iv_ruleInteger=ruleInteger 
+	 { $current=$iv_ruleInteger.current; } 
+	 EOF 
+;
+
+// Rule Integer
+ruleInteger returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+(
+(
+		lv_value_0_0=RULE_INT
+		{
+			newLeafNode(lv_value_0_0, grammarAccess.getIntegerAccess().getValueINTTerminalRuleCall_0()); 
+		}
+		{
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getIntegerRule());
+	        }
+       		setWithLastConsumed(
+       			$current, 
+       			"value",
+        		lv_value_0_0, 
+        		"org.eclipse.xtext.common.Terminals.INT");
+	    }
+
+)
+)
+;
+
+
+
+
+
 RULE_LCURLY : '{';
 
 RULE_RCURLY : '}';
@@ -3078,6 +3156,10 @@ RULE_COLON : ':';
 RULE_PLUS : '+';
 
 RULE_MINUS : '-';
+
+RULE_TIMES : '*';
+
+RULE_SLASH : '/';
 
 RULE_AT : '@';
 

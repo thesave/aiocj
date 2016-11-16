@@ -28,6 +28,8 @@ import jolie.lang.parse.ast.NullProcessStatement;
 import jolie.lang.parse.ast.OLSyntaxNode;
 import jolie.lang.parse.ast.expression.AndConditionNode;
 import jolie.lang.parse.ast.expression.ConstantBoolExpression;
+import jolie.lang.parse.ast.expression.ConstantIntegerExpression;
+import jolie.lang.parse.ast.expression.ConstantStringExpression;
 import jolie.lang.parse.ast.expression.OrConditionNode;
 
 import org.aioc.ConditionOperator;
@@ -37,6 +39,7 @@ import org.aioc.WhereCompareCondition;
 import org.aioc.WhereExpressionBasicTerm;
 import org.aioc.util.AiocSwitch;
 import org.eclipse.emf.ecore.EObject;
+import org.w3c.dom.NamedNodeMap;
 
 public class WhereConditionProjector extends AiocSwitch< OLSyntaxNode >
 {
@@ -99,10 +102,16 @@ public class WhereConditionProjector extends AiocSwitch< OLSyntaxNode >
 		} else if ( n.getSVariable() != null ){
 			return JolieEppUtils.toPath( "request.state." + 
 		n.getSVariable() );
-		} else if ( n.isTrue() ){
-			return new ConstantBoolExpression( JolieEppUtils.PARSING_CONTEXT, true );
-		} else if ( n.isFalse() ){
-			return new ConstantBoolExpression( JolieEppUtils.PARSING_CONTEXT, false );
+		} else if ( n.getConstant() != null ){
+			if( n.getConstant().getTrue() != null ){
+				return new ConstantBoolExpression( JolieEppUtils.PARSING_CONTEXT, true );
+			} else if ( n.getConstant().getFalse() != null ){
+				return new ConstantBoolExpression( JolieEppUtils.PARSING_CONTEXT, false );
+			} else if ( n.getConstant().getStrValue() != null ){
+				return new ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, n.getConstant().getStrValue() );
+			} else if ( n.getConstant().getIntValue() != null ){
+				return new ConstantIntegerExpression( JolieEppUtils.PARSING_CONTEXT, (int) n.getConstant().getIntValue().getValue() );
+			}
 		}
 		return null;
 	}

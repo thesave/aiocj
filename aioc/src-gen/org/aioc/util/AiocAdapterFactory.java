@@ -2,7 +2,44 @@
  */
 package org.aioc.util;
 
-import org.aioc.*;
+import org.aioc.Aioc;
+import org.aioc.AiocJ;
+import org.aioc.AiocPackage;
+import org.aioc.Assignment;
+import org.aioc.AssignmentSet;
+import org.aioc.Choreography;
+import org.aioc.Condition;
+import org.aioc.ConditionOperator;
+import org.aioc.Constant;
+import org.aioc.Expression;
+import org.aioc.ExpressionBasicTerm;
+import org.aioc.Function;
+import org.aioc.FunctionList;
+import org.aioc.FunctionLocation;
+import org.aioc.IfThenElse;
+import org.aioc.Interaction;
+import org.aioc.LocalAskCommand;
+import org.aioc.LocalAssignmentCommand;
+import org.aioc.LocalCode;
+import org.aioc.LocalShowCommand;
+import org.aioc.LocationDefinition;
+import org.aioc.NestedChoreography;
+import org.aioc.Preamble;
+import org.aioc.Roles;
+import org.aioc.Rule;
+import org.aioc.Scope;
+import org.aioc.SeqBlock;
+import org.aioc.Skip;
+import org.aioc.SumExpression;
+import org.aioc.SumExpressionAddTerm;
+import org.aioc.SumExpressionDivideTerm;
+import org.aioc.SumExpressionSubtractTerm;
+import org.aioc.SumExpressionTerm;
+import org.aioc.SumExpressionTimesTerm;
+import org.aioc.Where;
+import org.aioc.WhereCompareCondition;
+import org.aioc.WhereExpressionBasicTerm;
+import org.aioc.While;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -225,6 +262,11 @@ public class AiocAdapterFactory extends AdapterFactoryImpl
         return createFunctionAdapter();
       }
       @Override
+      public Adapter caseInteger(org.aioc.Integer object)
+      {
+        return createIntegerAdapter();
+      }
+      @Override
       public Adapter caseLocalAskCommand(LocalAskCommand object)
       {
         return createLocalAskCommandAdapter();
@@ -248,6 +290,16 @@ public class AiocAdapterFactory extends AdapterFactoryImpl
       public Adapter caseSumExpressionSubtractTerm(SumExpressionSubtractTerm object)
       {
         return createSumExpressionSubtractTermAdapter();
+      }
+      @Override
+      public Adapter caseSumExpressionTimesTerm(SumExpressionTimesTerm object)
+      {
+        return createSumExpressionTimesTermAdapter();
+      }
+      @Override
+      public Adapter caseSumExpressionDivideTerm(SumExpressionDivideTerm object)
+      {
+        return createSumExpressionDivideTermAdapter();
       }
       @Override
       public Adapter defaultCase(EObject object)
@@ -722,6 +774,21 @@ public class AiocAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
+   * Creates a new adapter for an object of class '{@link org.aioc.Integer <em>Integer</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.aioc.Integer
+   * @generated
+   */
+  public Adapter createIntegerAdapter()
+  {
+    return null;
+  }
+
+  /**
    * Creates a new adapter for an object of class '{@link org.aioc.LocalAskCommand <em>Local Ask Command</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
@@ -792,6 +859,36 @@ public class AiocAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createSumExpressionSubtractTermAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.aioc.SumExpressionTimesTerm <em>Sum Expression Times Term</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.aioc.SumExpressionTimesTerm
+   * @generated
+   */
+  public Adapter createSumExpressionTimesTermAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.aioc.SumExpressionDivideTerm <em>Sum Expression Divide Term</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.aioc.SumExpressionDivideTerm
+   * @generated
+   */
+  public Adapter createSumExpressionDivideTermAdapter()
   {
     return null;
   }

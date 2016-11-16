@@ -60,6 +60,7 @@ protected class ThisRootNode extends RootToken {
 			case 27: return new Condition_Group(this, this, 27, inst);
 			case 28: return new ConditionOperator_Alternatives(this, this, 28, inst);
 			case 29: return new Function_Group(this, this, 29, inst);
+			case 30: return new Integer_ValueAssignment(this, this, 30, inst);
 			default: return null;
 		}	
 	}	
@@ -1342,11 +1343,12 @@ protected class Where_RRNDTerminalRuleCall_1_2 extends UnassignedTextToken {
  *
  * WhereCompareCondition:
  * 	left=WhereExpressionBasicTerm operator=ConditionOperator
- * 	right=Expression ((and?=AND | or?=OR) next=Where)?;
+ * 	right=WhereExpressionBasicTerm ((and?=AND | or?=OR) next=Where)?;
  *
  **/
 
-// left=WhereExpressionBasicTerm operator=ConditionOperator right=Expression ((and?=AND | or?=OR) next=Where)?
+// left=WhereExpressionBasicTerm operator=ConditionOperator right=WhereExpressionBasicTerm ((and?=AND | or?=OR)
+// next=Where)?
 protected class WhereCompareCondition_Group extends GroupToken {
 	
 	public WhereCompareCondition_Group(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -1467,7 +1469,7 @@ protected class WhereCompareCondition_OperatorAssignment_1 extends AssignmentTok
 	}	
 }
 
-// right=Expression
+// right=WhereExpressionBasicTerm
 protected class WhereCompareCondition_RightAssignment_2 extends AssignmentToken  {
 	
 	public WhereCompareCondition_RightAssignment_2(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -1482,7 +1484,7 @@ protected class WhereCompareCondition_RightAssignment_2 extends AssignmentToken 
     @Override
 	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
 		switch(index) {
-			case 0: return new Expression_SumExpressionAssignment(this, this, 0, inst);
+			case 0: return new WhereExpressionBasicTerm_Alternatives(this, this, 0, inst);
 			default: return null;
 		}	
 	}
@@ -1493,9 +1495,9 @@ protected class WhereCompareCondition_RightAssignment_2 extends AssignmentToken 
 		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("right");
 		if(value instanceof EObject) { // org::eclipse::xtext::impl::RuleCallImpl
 			IEObjectConsumer param = createEObjectConsumer((EObject)value);
-			if(param.isInstanceOf(grammarAccess.getExpressionRule().getType().getClassifier())) {
+			if(param.isInstanceOf(grammarAccess.getWhereExpressionBasicTermRule().getType().getClassifier())) {
 				type = AssignmentType.PARSER_RULE_CALL;
-				element = grammarAccess.getWhereCompareConditionAccess().getRightExpressionParserRuleCall_2_0(); 
+				element = grammarAccess.getWhereCompareConditionAccess().getRightWhereExpressionBasicTermParserRuleCall_2_0(); 
 				consumed = obj;
 				return param;
 			}
@@ -1684,12 +1686,15 @@ protected class WhereCompareCondition_NextAssignment_3_1 extends AssignmentToken
  * 	"N." nVariable=ID
  * 	| "E." eVariable=ID
  * 	| sVariable=ID
- * 	| true?=TRUE
- * 	| false?=FALSE;
+ * 	| constant=Constant
+ * 	//										| true ?= TRUE
+ * 	//										| false ?= FALSE
+ * 	//										| 
+ * ;
  *
  **/
 
-// "N." nVariable=ID | "E." eVariable=ID | sVariable=ID | true?=TRUE | false?=FALSE
+// "N." nVariable=ID | "E." eVariable=ID | sVariable=ID | constant=Constant
 protected class WhereExpressionBasicTerm_Alternatives extends AlternativesToken {
 
 	public WhereExpressionBasicTerm_Alternatives(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -1707,8 +1712,7 @@ protected class WhereExpressionBasicTerm_Alternatives extends AlternativesToken 
 			case 0: return new WhereExpressionBasicTerm_Group_0(lastRuleCallOrigin, this, 0, inst);
 			case 1: return new WhereExpressionBasicTerm_Group_1(lastRuleCallOrigin, this, 1, inst);
 			case 2: return new WhereExpressionBasicTerm_SVariableAssignment_2(lastRuleCallOrigin, this, 2, inst);
-			case 3: return new WhereExpressionBasicTerm_TrueAssignment_3(lastRuleCallOrigin, this, 3, inst);
-			case 4: return new WhereExpressionBasicTerm_FalseAssignment_4(lastRuleCallOrigin, this, 4, inst);
+			case 3: return new WhereExpressionBasicTerm_ConstantAssignment_3(lastRuleCallOrigin, this, 3, inst);
 			default: return null;
 		}	
 	}
@@ -1911,70 +1915,49 @@ protected class WhereExpressionBasicTerm_SVariableAssignment_2 extends Assignmen
 
 }
 
-// true?=TRUE
-protected class WhereExpressionBasicTerm_TrueAssignment_3 extends AssignmentToken  {
+// org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.5/@alternatives/@elements.3'
+protected class WhereExpressionBasicTerm_ConstantAssignment_3 extends AssignmentToken  {
 	
-	public WhereExpressionBasicTerm_TrueAssignment_3(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+	public WhereExpressionBasicTerm_ConstantAssignment_3(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
 		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
 	}
 	
 	@Override
 	public Assignment getGrammarElement() {
-		return grammarAccess.getWhereExpressionBasicTermAccess().getTrueAssignment_3();
+		return grammarAccess.getWhereExpressionBasicTermAccess().getConstantAssignment_3();
 	}
 
     @Override
 	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
 		switch(index) {
-			default: return lastRuleCallOrigin.createFollowerAfterReturn(this, index, index, inst);
+			case 0: return new Constant_Alternatives(this, this, 0, inst);
+			default: return null;
 		}	
 	}
 
     @Override	
 	public IEObjectConsumer tryConsume() {
-		if((value = eObjectConsumer.getConsumable("true",true)) == null) return null;
-		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("true");
-		if(valueSerializer.isValid(obj.getEObject(), grammarAccess.getWhereExpressionBasicTermAccess().getTrueTRUETerminalRuleCall_3_0(), value, null)) {
-			type = AssignmentType.TERMINAL_RULE_CALL;
-			element = grammarAccess.getWhereExpressionBasicTermAccess().getTrueTRUETerminalRuleCall_3_0();
-			return obj;
+		if((value = eObjectConsumer.getConsumable("constant",true)) == null) return null;
+		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("constant");
+		if(value instanceof EObject) { // org::eclipse::xtext::impl::RuleCallImpl
+			IEObjectConsumer param = createEObjectConsumer((EObject)value);
+			if(param.isInstanceOf(grammarAccess.getConstantRule().getType().getClassifier())) {
+				type = AssignmentType.PARSER_RULE_CALL;
+				element = grammarAccess.getWhereExpressionBasicTermAccess().getConstantConstantParserRuleCall_3_0(); 
+				consumed = obj;
+				return param;
+			}
 		}
 		return null;
-	}
-
-}
-
-// false?=FALSE
-protected class WhereExpressionBasicTerm_FalseAssignment_4 extends AssignmentToken  {
-	
-	public WhereExpressionBasicTerm_FalseAssignment_4(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
-		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
-	}
-	
-	@Override
-	public Assignment getGrammarElement() {
-		return grammarAccess.getWhereExpressionBasicTermAccess().getFalseAssignment_4();
 	}
 
     @Override
-	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
+	public AbstractToken createFollowerAfterReturn(AbstractToken next,	int actIndex, int index, IEObjectConsumer inst) {
+		if(value == inst.getEObject() && !inst.isConsumed()) return null;
 		switch(index) {
-			default: return lastRuleCallOrigin.createFollowerAfterReturn(this, index, index, inst);
+			default: return lastRuleCallOrigin.createFollowerAfterReturn(next, actIndex , index, consumed);
 		}	
-	}
-
-    @Override	
-	public IEObjectConsumer tryConsume() {
-		if((value = eObjectConsumer.getConsumable("false",true)) == null) return null;
-		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("false");
-		if(valueSerializer.isValid(obj.getEObject(), grammarAccess.getWhereExpressionBasicTermAccess().getFalseFALSETerminalRuleCall_4_0(), value, null)) {
-			type = AssignmentType.TERMINAL_RULE_CALL;
-			element = grammarAccess.getWhereExpressionBasicTermAccess().getFalseFALSETerminalRuleCall_4_0();
-			return obj;
-		}
-		return null;
-	}
-
+	}	
 }
 
 
@@ -1983,13 +1966,11 @@ protected class WhereExpressionBasicTerm_FalseAssignment_4 extends AssignmentTok
 
 /************ begin Rule Preamble ****************
  *
- * Preamble:
- * 	"starter:" starter=ID
- * 	locDefinition=LocationDefinition?;
+ * org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#XtextFragmentProvider_org.Aioc/Preamble'
  *
  **/
 
-// "starter:" starter=ID locDefinition=LocationDefinition?
+// org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.6/@alternatives'
 protected class Preamble_Group extends GroupToken {
 	
 	public Preamble_Group(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -3207,7 +3188,7 @@ protected class Skip_SkipAssignment extends AssignmentToken  {
  * Interaction:
  * 	operation=ID COLON
  * 	sender=ID LRND
- * 	senderExpression=ExpressionBasicTerm?
+ * 	senderExpression=SumExpression?
  * 	RRND ARROW
  * 	receiver=ID LRND
  * 	receiverVariable=ID?
@@ -3215,8 +3196,7 @@ protected class Skip_SkipAssignment extends AssignmentToken  {
  *
  **/
 
-// operation=ID COLON sender=ID LRND senderExpression=ExpressionBasicTerm? RRND ARROW receiver=ID LRND receiverVariable=ID?
-// RRND
+// operation=ID COLON sender=ID LRND senderExpression=SumExpression? RRND ARROW receiver=ID LRND receiverVariable=ID? RRND
 protected class Interaction_Group extends GroupToken {
 	
 	public Interaction_Group(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -3356,7 +3336,7 @@ protected class Interaction_LRNDTerminalRuleCall_3 extends UnassignedTextToken {
 
 }
 
-// senderExpression=ExpressionBasicTerm?
+// senderExpression=SumExpression?
 protected class Interaction_SenderExpressionAssignment_4 extends AssignmentToken  {
 	
 	public Interaction_SenderExpressionAssignment_4(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -3371,7 +3351,7 @@ protected class Interaction_SenderExpressionAssignment_4 extends AssignmentToken
     @Override
 	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
 		switch(index) {
-			case 0: return new ExpressionBasicTerm_Alternatives(this, this, 0, inst);
+			case 0: return new SumExpression_Group(this, this, 0, inst);
 			default: return null;
 		}	
 	}
@@ -3382,9 +3362,9 @@ protected class Interaction_SenderExpressionAssignment_4 extends AssignmentToken
 		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("senderExpression");
 		if(value instanceof EObject) { // org::eclipse::xtext::impl::RuleCallImpl
 			IEObjectConsumer param = createEObjectConsumer((EObject)value);
-			if(param.isInstanceOf(grammarAccess.getExpressionBasicTermRule().getType().getClassifier())) {
+			if(param.isInstanceOf(grammarAccess.getSumExpressionRule().getType().getClassifier())) {
 				type = AssignmentType.PARSER_RULE_CALL;
-				element = grammarAccess.getInteractionAccess().getSenderExpressionExpressionBasicTermParserRuleCall_4_0(); 
+				element = grammarAccess.getInteractionAccess().getSenderExpressionSumExpressionParserRuleCall_4_0(); 
 				consumed = obj;
 				return param;
 			}
@@ -4498,7 +4478,7 @@ protected class IfThenElse_Group extends GroupToken {
 
 }
 
-// (key=ID COLON)?
+// org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.15/@alternatives/@elements.0'
 protected class IfThenElse_Group_0 extends GroupToken {
 	
 	public IfThenElse_Group_0(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -4520,7 +4500,7 @@ protected class IfThenElse_Group_0 extends GroupToken {
 
 }
 
-// key=ID
+// org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.15/@alternatives/@elements.0/@elements.0'
 protected class IfThenElse_KeyAssignment_0_0 extends AssignmentToken  {
 	
 	public IfThenElse_KeyAssignment_0_0(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -4553,7 +4533,7 @@ protected class IfThenElse_KeyAssignment_0_0 extends AssignmentToken  {
 
 }
 
-// COLON
+// org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.15/@alternatives/@elements.0/@elements.1'
 protected class IfThenElse_COLONTerminalRuleCall_0_1 extends UnassignedTextToken {
 
 	public IfThenElse_COLONTerminalRuleCall_0_1(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -4576,7 +4556,7 @@ protected class IfThenElse_COLONTerminalRuleCall_0_1 extends UnassignedTextToken
 }
 
 
-// 'if'
+// org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.15/@alternatives/@elements.1'
 protected class IfThenElse_IfKeyword_1 extends KeywordToken  {
 	
 	public IfThenElse_IfKeyword_1(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -4598,7 +4578,7 @@ protected class IfThenElse_IfKeyword_1 extends KeywordToken  {
 
 }
 
-// LRND
+// org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.15/@alternatives/@elements.2'
 protected class IfThenElse_LRNDTerminalRuleCall_2 extends UnassignedTextToken {
 
 	public IfThenElse_LRNDTerminalRuleCall_2(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -4620,7 +4600,7 @@ protected class IfThenElse_LRNDTerminalRuleCall_2 extends UnassignedTextToken {
 
 }
 
-// condition=Condition
+// org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.15/@alternatives/@elements.3'
 protected class IfThenElse_ConditionAssignment_3 extends AssignmentToken  {
 	
 	public IfThenElse_ConditionAssignment_3(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -6783,12 +6763,15 @@ protected class SumExpression_ChildrenAssignment_1 extends AssignmentToken  {
  *
  * SumExpressionTerm:
  * 	{SumExpressionAddTerm} PLUS expression=ExpressionBasicTerm
- * 	| {SumExpressionSubtractTerm} MINUS expression=ExpressionBasicTerm;
+ * 	| {SumExpressionSubtractTerm} MINUS expression=ExpressionBasicTerm
+ * 	| {SumExpressionTimesTerm} TIMES expression=ExpressionBasicTerm
+ * 	| {SumExpressionDivideTerm} SLASH expression=ExpressionBasicTerm;
  *
  **/
 
 // {SumExpressionAddTerm} PLUS expression=ExpressionBasicTerm | {SumExpressionSubtractTerm} MINUS
-// expression=ExpressionBasicTerm
+// expression=ExpressionBasicTerm | {SumExpressionTimesTerm} TIMES expression=ExpressionBasicTerm |
+// {SumExpressionDivideTerm} SLASH expression=ExpressionBasicTerm
 protected class SumExpressionTerm_Alternatives extends AlternativesToken {
 
 	public SumExpressionTerm_Alternatives(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -6805,6 +6788,8 @@ protected class SumExpressionTerm_Alternatives extends AlternativesToken {
 		switch(index) {
 			case 0: return new SumExpressionTerm_Group_0(lastRuleCallOrigin, this, 0, inst);
 			case 1: return new SumExpressionTerm_Group_1(lastRuleCallOrigin, this, 1, inst);
+			case 2: return new SumExpressionTerm_Group_2(lastRuleCallOrigin, this, 2, inst);
+			case 3: return new SumExpressionTerm_Group_3(lastRuleCallOrigin, this, 3, inst);
 			default: return null;
 		}	
 	}
@@ -6812,7 +6797,9 @@ protected class SumExpressionTerm_Alternatives extends AlternativesToken {
     @Override
 	public IEObjectConsumer tryConsume() {
 		if(getEObject().eClass() != grammarAccess.getSumExpressionTermAccess().getSumExpressionAddTermAction_0_0().getType().getClassifier() && 
-		   getEObject().eClass() != grammarAccess.getSumExpressionTermAccess().getSumExpressionSubtractTermAction_1_0().getType().getClassifier())
+		   getEObject().eClass() != grammarAccess.getSumExpressionTermAccess().getSumExpressionDivideTermAction_3_0().getType().getClassifier() && 
+		   getEObject().eClass() != grammarAccess.getSumExpressionTermAccess().getSumExpressionSubtractTermAction_1_0().getType().getClassifier() && 
+		   getEObject().eClass() != grammarAccess.getSumExpressionTermAccess().getSumExpressionTimesTermAction_2_0().getType().getClassifier())
 			return null;
 		return eObjectConsumer;
 	}
@@ -7061,6 +7048,254 @@ protected class SumExpressionTerm_ExpressionAssignment_1_2 extends AssignmentTok
 		if(value == inst.getEObject() && !inst.isConsumed()) return null;
 		switch(index) {
 			case 0: return new SumExpressionTerm_MINUSTerminalRuleCall_1_1(lastRuleCallOrigin, next, actIndex, consumed);
+			default: return null;
+		}	
+	}	
+}
+
+
+// {SumExpressionTimesTerm} TIMES expression=ExpressionBasicTerm
+protected class SumExpressionTerm_Group_2 extends GroupToken {
+	
+	public SumExpressionTerm_Group_2(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
+	}
+	
+	@Override
+	public Group getGrammarElement() {
+		return grammarAccess.getSumExpressionTermAccess().getGroup_2();
+	}
+
+    @Override
+	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
+		switch(index) {
+			case 0: return new SumExpressionTerm_ExpressionAssignment_2_2(lastRuleCallOrigin, this, 0, inst);
+			default: return null;
+		}	
+	}
+
+    @Override
+	public IEObjectConsumer tryConsume() {
+		if(getEObject().eClass() != grammarAccess.getSumExpressionTermAccess().getSumExpressionTimesTermAction_2_0().getType().getClassifier())
+			return null;
+		return eObjectConsumer;
+	}
+
+}
+
+// {SumExpressionTimesTerm}
+protected class SumExpressionTerm_SumExpressionTimesTermAction_2_0 extends ActionToken  {
+
+	public SumExpressionTerm_SumExpressionTimesTermAction_2_0(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
+	}
+	
+	@Override
+	public Action getGrammarElement() {
+		return grammarAccess.getSumExpressionTermAccess().getSumExpressionTimesTermAction_2_0();
+	}
+
+    @Override
+	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
+		switch(index) {
+			default: return lastRuleCallOrigin.createFollowerAfterReturn(this, index, index, inst);
+		}	
+	}
+
+    @Override
+	public IEObjectConsumer tryConsume() {
+		if(!eObjectConsumer.isConsumed()) return null;
+		return eObjectConsumer;
+	}
+}
+
+// TIMES
+protected class SumExpressionTerm_TIMESTerminalRuleCall_2_1 extends UnassignedTextToken {
+
+	public SumExpressionTerm_TIMESTerminalRuleCall_2_1(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
+	}
+	
+	@Override
+	public RuleCall getGrammarElement() {
+		return grammarAccess.getSumExpressionTermAccess().getTIMESTerminalRuleCall_2_1();
+	}
+
+    @Override
+	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
+		switch(index) {
+			case 0: return new SumExpressionTerm_SumExpressionTimesTermAction_2_0(lastRuleCallOrigin, this, 0, inst);
+			default: return null;
+		}	
+	}
+
+}
+
+// expression=ExpressionBasicTerm
+protected class SumExpressionTerm_ExpressionAssignment_2_2 extends AssignmentToken  {
+	
+	public SumExpressionTerm_ExpressionAssignment_2_2(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
+	}
+	
+	@Override
+	public Assignment getGrammarElement() {
+		return grammarAccess.getSumExpressionTermAccess().getExpressionAssignment_2_2();
+	}
+
+    @Override
+	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
+		switch(index) {
+			case 0: return new ExpressionBasicTerm_Alternatives(this, this, 0, inst);
+			default: return null;
+		}	
+	}
+
+    @Override	
+	public IEObjectConsumer tryConsume() {
+		if((value = eObjectConsumer.getConsumable("expression",true)) == null) return null;
+		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("expression");
+		if(value instanceof EObject) { // org::eclipse::xtext::impl::RuleCallImpl
+			IEObjectConsumer param = createEObjectConsumer((EObject)value);
+			if(param.isInstanceOf(grammarAccess.getExpressionBasicTermRule().getType().getClassifier())) {
+				type = AssignmentType.PARSER_RULE_CALL;
+				element = grammarAccess.getSumExpressionTermAccess().getExpressionExpressionBasicTermParserRuleCall_2_2_0(); 
+				consumed = obj;
+				return param;
+			}
+		}
+		return null;
+	}
+
+    @Override
+	public AbstractToken createFollowerAfterReturn(AbstractToken next,	int actIndex, int index, IEObjectConsumer inst) {
+		if(value == inst.getEObject() && !inst.isConsumed()) return null;
+		switch(index) {
+			case 0: return new SumExpressionTerm_TIMESTerminalRuleCall_2_1(lastRuleCallOrigin, next, actIndex, consumed);
+			default: return null;
+		}	
+	}	
+}
+
+
+// {SumExpressionDivideTerm} SLASH expression=ExpressionBasicTerm
+protected class SumExpressionTerm_Group_3 extends GroupToken {
+	
+	public SumExpressionTerm_Group_3(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
+	}
+	
+	@Override
+	public Group getGrammarElement() {
+		return grammarAccess.getSumExpressionTermAccess().getGroup_3();
+	}
+
+    @Override
+	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
+		switch(index) {
+			case 0: return new SumExpressionTerm_ExpressionAssignment_3_2(lastRuleCallOrigin, this, 0, inst);
+			default: return null;
+		}	
+	}
+
+    @Override
+	public IEObjectConsumer tryConsume() {
+		if(getEObject().eClass() != grammarAccess.getSumExpressionTermAccess().getSumExpressionDivideTermAction_3_0().getType().getClassifier())
+			return null;
+		return eObjectConsumer;
+	}
+
+}
+
+// {SumExpressionDivideTerm}
+protected class SumExpressionTerm_SumExpressionDivideTermAction_3_0 extends ActionToken  {
+
+	public SumExpressionTerm_SumExpressionDivideTermAction_3_0(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
+	}
+	
+	@Override
+	public Action getGrammarElement() {
+		return grammarAccess.getSumExpressionTermAccess().getSumExpressionDivideTermAction_3_0();
+	}
+
+    @Override
+	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
+		switch(index) {
+			default: return lastRuleCallOrigin.createFollowerAfterReturn(this, index, index, inst);
+		}	
+	}
+
+    @Override
+	public IEObjectConsumer tryConsume() {
+		if(!eObjectConsumer.isConsumed()) return null;
+		return eObjectConsumer;
+	}
+}
+
+// SLASH
+protected class SumExpressionTerm_SLASHTerminalRuleCall_3_1 extends UnassignedTextToken {
+
+	public SumExpressionTerm_SLASHTerminalRuleCall_3_1(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
+	}
+	
+	@Override
+	public RuleCall getGrammarElement() {
+		return grammarAccess.getSumExpressionTermAccess().getSLASHTerminalRuleCall_3_1();
+	}
+
+    @Override
+	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
+		switch(index) {
+			case 0: return new SumExpressionTerm_SumExpressionDivideTermAction_3_0(lastRuleCallOrigin, this, 0, inst);
+			default: return null;
+		}	
+	}
+
+}
+
+// expression=ExpressionBasicTerm
+protected class SumExpressionTerm_ExpressionAssignment_3_2 extends AssignmentToken  {
+	
+	public SumExpressionTerm_ExpressionAssignment_3_2(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
+	}
+	
+	@Override
+	public Assignment getGrammarElement() {
+		return grammarAccess.getSumExpressionTermAccess().getExpressionAssignment_3_2();
+	}
+
+    @Override
+	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
+		switch(index) {
+			case 0: return new ExpressionBasicTerm_Alternatives(this, this, 0, inst);
+			default: return null;
+		}	
+	}
+
+    @Override	
+	public IEObjectConsumer tryConsume() {
+		if((value = eObjectConsumer.getConsumable("expression",true)) == null) return null;
+		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("expression");
+		if(value instanceof EObject) { // org::eclipse::xtext::impl::RuleCallImpl
+			IEObjectConsumer param = createEObjectConsumer((EObject)value);
+			if(param.isInstanceOf(grammarAccess.getExpressionBasicTermRule().getType().getClassifier())) {
+				type = AssignmentType.PARSER_RULE_CALL;
+				element = grammarAccess.getSumExpressionTermAccess().getExpressionExpressionBasicTermParserRuleCall_3_2_0(); 
+				consumed = obj;
+				return param;
+			}
+		}
+		return null;
+	}
+
+    @Override
+	public AbstractToken createFollowerAfterReturn(AbstractToken next,	int actIndex, int index, IEObjectConsumer inst) {
+		if(value == inst.getEObject() && !inst.isConsumed()) return null;
+		switch(index) {
+			case 0: return new SumExpressionTerm_SLASHTerminalRuleCall_3_1(lastRuleCallOrigin, next, actIndex, consumed);
 			default: return null;
 		}	
 	}	
@@ -7364,12 +7599,11 @@ protected class ExpressionBasicTerm_RRNDTerminalRuleCall_2_2 extends UnassignedT
 
 /************ begin Rule Constant ****************
  *
- * Constant:
- * 	intValue=INT | strValue=STRING | true=TRUE | false=FALSE;
+ * org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#XtextFragmentProvider_org.Aioc/Integer'
  *
  **/
 
-// intValue=INT | strValue=STRING | true=TRUE | false=FALSE
+// org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.26/@alternatives'
 protected class Constant_Alternatives extends AlternativesToken {
 
 	public Constant_Alternatives(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -7401,7 +7635,7 @@ protected class Constant_Alternatives extends AlternativesToken {
 
 }
 
-// intValue=INT
+// intValue=Integer
 protected class Constant_IntValueAssignment_0 extends AssignmentToken  {
 	
 	public Constant_IntValueAssignment_0(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -7416,7 +7650,8 @@ protected class Constant_IntValueAssignment_0 extends AssignmentToken  {
     @Override
 	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
 		switch(index) {
-			default: return lastRuleCallOrigin.createFollowerAfterReturn(this, index, index, inst);
+			case 0: return new Integer_ValueAssignment(this, this, 0, inst);
+			default: return null;
 		}	
 	}
 
@@ -7424,14 +7659,25 @@ protected class Constant_IntValueAssignment_0 extends AssignmentToken  {
 	public IEObjectConsumer tryConsume() {
 		if((value = eObjectConsumer.getConsumable("intValue",true)) == null) return null;
 		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("intValue");
-		if(valueSerializer.isValid(obj.getEObject(), grammarAccess.getConstantAccess().getIntValueINTTerminalRuleCall_0_0(), value, null)) {
-			type = AssignmentType.TERMINAL_RULE_CALL;
-			element = grammarAccess.getConstantAccess().getIntValueINTTerminalRuleCall_0_0();
-			return obj;
+		if(value instanceof EObject) { // org::eclipse::xtext::impl::RuleCallImpl
+			IEObjectConsumer param = createEObjectConsumer((EObject)value);
+			if(param.isInstanceOf(grammarAccess.getIntegerRule().getType().getClassifier())) {
+				type = AssignmentType.PARSER_RULE_CALL;
+				element = grammarAccess.getConstantAccess().getIntValueIntegerParserRuleCall_0_0(); 
+				consumed = obj;
+				return param;
+			}
 		}
 		return null;
 	}
 
+    @Override
+	public AbstractToken createFollowerAfterReturn(AbstractToken next,	int actIndex, int index, IEObjectConsumer inst) {
+		if(value == inst.getEObject() && !inst.isConsumed()) return null;
+		switch(index) {
+			default: return lastRuleCallOrigin.createFollowerAfterReturn(next, actIndex , index, consumed);
+		}	
+	}	
 }
 
 // strValue=STRING
@@ -8328,5 +8574,50 @@ protected class Function_RRNDTerminalRuleCall_3 extends UnassignedTextToken {
 
 
 /************ end Rule Function ****************/
+
+
+/************ begin Rule Integer ****************
+ *
+ * Integer:
+ * 	value=INT;
+ *
+ **/
+
+// value=INT
+protected class Integer_ValueAssignment extends AssignmentToken  {
+	
+	public Integer_ValueAssignment(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
+	}
+	
+	@Override
+	public Assignment getGrammarElement() {
+		return grammarAccess.getIntegerAccess().getValueAssignment();
+	}
+
+    @Override
+	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
+		switch(index) {
+			default: return lastRuleCallOrigin.createFollowerAfterReturn(this, index, index, inst);
+		}	
+	}
+
+    @Override	
+	public IEObjectConsumer tryConsume() {
+		if(getEObject().eClass() != grammarAccess.getIntegerRule().getType().getClassifier())
+			return null;
+		if((value = eObjectConsumer.getConsumable("value",true)) == null) return null;
+		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("value");
+		if(valueSerializer.isValid(obj.getEObject(), grammarAccess.getIntegerAccess().getValueINTTerminalRuleCall_0(), value, null)) {
+			type = AssignmentType.TERMINAL_RULE_CALL;
+			element = grammarAccess.getIntegerAccess().getValueINTTerminalRuleCall_0();
+			return obj;
+		}
+		return null;
+	}
+
+}
+
+/************ end Rule Integer ****************/
 
 }

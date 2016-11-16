@@ -3,8 +3,8 @@
 package org.aioc.impl;
 
 import org.aioc.AiocPackage;
-import org.aioc.ExpressionBasicTerm;
 import org.aioc.Interaction;
+import org.aioc.SumExpression;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -82,7 +82,7 @@ public class InteractionImpl extends MinimalEObjectImpl.Container implements Int
    * @generated
    * @ordered
    */
-  protected ExpressionBasicTerm senderExpression;
+  protected SumExpression senderExpression;
 
   /**
    * The default value of the '{@link #getReceiver() <em>Receiver</em>}' attribute.
@@ -196,7 +196,7 @@ public class InteractionImpl extends MinimalEObjectImpl.Container implements Int
    * <!-- end-user-doc -->
    * @generated
    */
-  public ExpressionBasicTerm getSenderExpression()
+  public SumExpression getSenderExpression()
   {
     return senderExpression;
   }
@@ -206,9 +206,9 @@ public class InteractionImpl extends MinimalEObjectImpl.Container implements Int
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetSenderExpression(ExpressionBasicTerm newSenderExpression, NotificationChain msgs)
+  public NotificationChain basicSetSenderExpression(SumExpression newSenderExpression, NotificationChain msgs)
   {
-    ExpressionBasicTerm oldSenderExpression = senderExpression;
+    SumExpression oldSenderExpression = senderExpression;
     senderExpression = newSenderExpression;
     if (eNotificationRequired())
     {
@@ -223,7 +223,7 @@ public class InteractionImpl extends MinimalEObjectImpl.Container implements Int
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setSenderExpression(ExpressionBasicTerm newSenderExpression)
+  public void setSenderExpression(SumExpression newSenderExpression)
   {
     if (newSenderExpression != senderExpression)
     {
@@ -342,7 +342,7 @@ public class InteractionImpl extends MinimalEObjectImpl.Container implements Int
         setSender((String)newValue);
         return;
       case AiocPackage.INTERACTION__SENDER_EXPRESSION:
-        setSenderExpression((ExpressionBasicTerm)newValue);
+        setSenderExpression((SumExpression)newValue);
         return;
       case AiocPackage.INTERACTION__RECEIVER:
         setReceiver((String)newValue);
@@ -371,7 +371,7 @@ public class InteractionImpl extends MinimalEObjectImpl.Container implements Int
         setSender(SENDER_EDEFAULT);
         return;
       case AiocPackage.INTERACTION__SENDER_EXPRESSION:
-        setSenderExpression((ExpressionBasicTerm)null);
+        setSenderExpression((SumExpression)null);
         return;
       case AiocPackage.INTERACTION__RECEIVER:
         setReceiver(RECEIVER_EDEFAULT);

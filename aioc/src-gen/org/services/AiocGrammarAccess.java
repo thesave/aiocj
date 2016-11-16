@@ -284,7 +284,7 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cOperatorAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cOperatorConditionOperatorParserRuleCall_1_0 = (RuleCall)cOperatorAssignment_1.eContents().get(0);
 		private final Assignment cRightAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cRightExpressionParserRuleCall_2_0 = (RuleCall)cRightAssignment_2.eContents().get(0);
+		private final RuleCall cRightWhereExpressionBasicTermParserRuleCall_2_0 = (RuleCall)cRightAssignment_2.eContents().get(0);
 		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
 		private final Alternatives cAlternatives_3_0 = (Alternatives)cGroup_3.eContents().get(0);
 		private final Assignment cAndAssignment_3_0_0 = (Assignment)cAlternatives_3_0.eContents().get(0);
@@ -296,10 +296,11 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//WhereCompareCondition:
 		//	left=WhereExpressionBasicTerm operator=ConditionOperator
-		//	right=Expression ((and?=AND | or?=OR) next=Where)?;
+		//	right=WhereExpressionBasicTerm ((and?=AND | or?=OR) next=Where)?;
 		@Override public ParserRule getRule() { return rule; }
 
-		//left=WhereExpressionBasicTerm operator=ConditionOperator right=Expression ((and?=AND | or?=OR) next=Where)?
+		//left=WhereExpressionBasicTerm operator=ConditionOperator right=WhereExpressionBasicTerm ((and?=AND | or?=OR)
+		//next=Where)?
 		public Group getGroup() { return cGroup; }
 
 		//left=WhereExpressionBasicTerm
@@ -314,11 +315,11 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		//ConditionOperator
 		public RuleCall getOperatorConditionOperatorParserRuleCall_1_0() { return cOperatorConditionOperatorParserRuleCall_1_0; }
 
-		//right=Expression
+		//right=WhereExpressionBasicTerm
 		public Assignment getRightAssignment_2() { return cRightAssignment_2; }
 
-		//Expression
-		public RuleCall getRightExpressionParserRuleCall_2_0() { return cRightExpressionParserRuleCall_2_0; }
+		//WhereExpressionBasicTerm
+		public RuleCall getRightWhereExpressionBasicTermParserRuleCall_2_0() { return cRightWhereExpressionBasicTermParserRuleCall_2_0; }
 
 		//((and?=AND | or?=OR) next=Where)?
 		public Group getGroup_3() { return cGroup_3; }
@@ -358,20 +359,21 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cEVariableIDTerminalRuleCall_1_1_0 = (RuleCall)cEVariableAssignment_1_1.eContents().get(0);
 		private final Assignment cSVariableAssignment_2 = (Assignment)cAlternatives.eContents().get(2);
 		private final RuleCall cSVariableIDTerminalRuleCall_2_0 = (RuleCall)cSVariableAssignment_2.eContents().get(0);
-		private final Assignment cTrueAssignment_3 = (Assignment)cAlternatives.eContents().get(3);
-		private final RuleCall cTrueTRUETerminalRuleCall_3_0 = (RuleCall)cTrueAssignment_3.eContents().get(0);
-		private final Assignment cFalseAssignment_4 = (Assignment)cAlternatives.eContents().get(4);
-		private final RuleCall cFalseFALSETerminalRuleCall_4_0 = (RuleCall)cFalseAssignment_4.eContents().get(0);
+		private final Assignment cConstantAssignment_3 = (Assignment)cAlternatives.eContents().get(3);
+		private final RuleCall cConstantConstantParserRuleCall_3_0 = (RuleCall)cConstantAssignment_3.eContents().get(0);
 		
 		//WhereExpressionBasicTerm:
 		//	"N." nVariable=ID
 		//	| "E." eVariable=ID
 		//	| sVariable=ID
-		//	| true?=TRUE
-		//	| false?=FALSE;
+		//	| constant=Constant
+		//	//										| true ?= TRUE
+		//	//										| false ?= FALSE
+		//	//										| 
+		//;
 		@Override public ParserRule getRule() { return rule; }
 
-		//"N." nVariable=ID | "E." eVariable=ID | sVariable=ID | true?=TRUE | false?=FALSE
+		//"N." nVariable=ID | "E." eVariable=ID | sVariable=ID | constant=Constant
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//"N." nVariable=ID
@@ -404,17 +406,11 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getSVariableIDTerminalRuleCall_2_0() { return cSVariableIDTerminalRuleCall_2_0; }
 
-		//true?=TRUE
-		public Assignment getTrueAssignment_3() { return cTrueAssignment_3; }
+		//constant=Constant
+		public Assignment getConstantAssignment_3() { return cConstantAssignment_3; }
 
-		//TRUE
-		public RuleCall getTrueTRUETerminalRuleCall_3_0() { return cTrueTRUETerminalRuleCall_3_0; }
-
-		//false?=FALSE
-		public Assignment getFalseAssignment_4() { return cFalseAssignment_4; }
-
-		//FALSE
-		public RuleCall getFalseFALSETerminalRuleCall_4_0() { return cFalseFALSETerminalRuleCall_4_0; }
+		//Constant
+		public RuleCall getConstantConstantParserRuleCall_3_0() { return cConstantConstantParserRuleCall_3_0; }
 	}
 
 	public class PreambleElements extends AbstractParserRuleElementFinder {
@@ -714,7 +710,7 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cSenderIDTerminalRuleCall_2_0 = (RuleCall)cSenderAssignment_2.eContents().get(0);
 		private final RuleCall cLRNDTerminalRuleCall_3 = (RuleCall)cGroup.eContents().get(3);
 		private final Assignment cSenderExpressionAssignment_4 = (Assignment)cGroup.eContents().get(4);
-		private final RuleCall cSenderExpressionExpressionBasicTermParserRuleCall_4_0 = (RuleCall)cSenderExpressionAssignment_4.eContents().get(0);
+		private final RuleCall cSenderExpressionSumExpressionParserRuleCall_4_0 = (RuleCall)cSenderExpressionAssignment_4.eContents().get(0);
 		private final RuleCall cRRNDTerminalRuleCall_5 = (RuleCall)cGroup.eContents().get(5);
 		private final RuleCall cARROWTerminalRuleCall_6 = (RuleCall)cGroup.eContents().get(6);
 		private final Assignment cReceiverAssignment_7 = (Assignment)cGroup.eContents().get(7);
@@ -727,15 +723,14 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		//Interaction:
 		//	operation=ID COLON
 		//	sender=ID LRND
-		//	senderExpression=ExpressionBasicTerm?
+		//	senderExpression=SumExpression?
 		//	RRND ARROW
 		//	receiver=ID LRND
 		//	receiverVariable=ID?
 		//	RRND;
 		@Override public ParserRule getRule() { return rule; }
 
-		//operation=ID COLON sender=ID LRND senderExpression=ExpressionBasicTerm? RRND ARROW receiver=ID LRND receiverVariable=ID?
-		//RRND
+		//operation=ID COLON sender=ID LRND senderExpression=SumExpression? RRND ARROW receiver=ID LRND receiverVariable=ID? RRND
 		public Group getGroup() { return cGroup; }
 
 		//operation=ID
@@ -756,11 +751,11 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		//LRND
 		public RuleCall getLRNDTerminalRuleCall_3() { return cLRNDTerminalRuleCall_3; }
 
-		//senderExpression=ExpressionBasicTerm?
+		//senderExpression=SumExpression?
 		public Assignment getSenderExpressionAssignment_4() { return cSenderExpressionAssignment_4; }
 
-		//ExpressionBasicTerm
-		public RuleCall getSenderExpressionExpressionBasicTermParserRuleCall_4_0() { return cSenderExpressionExpressionBasicTermParserRuleCall_4_0; }
+		//SumExpression
+		public RuleCall getSenderExpressionSumExpressionParserRuleCall_4_0() { return cSenderExpressionSumExpressionParserRuleCall_4_0; }
 
 		//RRND
 		public RuleCall getRRNDTerminalRuleCall_5() { return cRRNDTerminalRuleCall_5; }
@@ -1307,26 +1302,22 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cChoreographyChoreographyParserRuleCall_1_0 = (RuleCall)cChoreographyAssignment_1.eContents().get(0);
 		private final RuleCall cRCURLYTerminalRuleCall_2 = (RuleCall)cGroup.eContents().get(2);
 		
-		////nested Choreography code
-		//NestedChoreography:
-		//	LCURLY
-		//	choreography=Choreography
-		//	RCURLY;
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#XtextFragmentProvider_org.Aioc/NestedChoreography'
 		@Override public ParserRule getRule() { return rule; }
 
-		//LCURLY choreography=Choreography RCURLY
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.19/@alternatives'
 		public Group getGroup() { return cGroup; }
 
-		//LCURLY
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.19/@alternatives/@elements.0'
 		public RuleCall getLCURLYTerminalRuleCall_0() { return cLCURLYTerminalRuleCall_0; }
 
-		//choreography=Choreography
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.19/@alternatives/@elements.1'
 		public Assignment getChoreographyAssignment_1() { return cChoreographyAssignment_1; }
 
-		//Choreography
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.19/@alternatives/@elements.1/@terminal'
 		public RuleCall getChoreographyChoreographyParserRuleCall_1_0() { return cChoreographyChoreographyParserRuleCall_1_0; }
 
-		//RCURLY
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.19/@alternatives/@elements.2'
 		public RuleCall getRCURLYTerminalRuleCall_2() { return cRCURLYTerminalRuleCall_2; }
 	}
 
@@ -1340,29 +1331,28 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cContinuationAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
 		private final RuleCall cContinuationAssignmentSetParserRuleCall_1_1_0 = (RuleCall)cContinuationAssignment_1_1.eContents().get(0);
 		
-		/// *** Assignment *** / AssignmentSet:
-		//	assignment=Assignment (COMMA continuation=AssignmentSet)?;
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#XtextFragmentProvider_org.Aioc/AssignmentSet'
 		@Override public ParserRule getRule() { return rule; }
 
-		//assignment=Assignment (COMMA continuation=AssignmentSet)?
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.20/@alternatives'
 		public Group getGroup() { return cGroup; }
 
-		//assignment=Assignment
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.20/@alternatives/@elements.0'
 		public Assignment getAssignmentAssignment_0() { return cAssignmentAssignment_0; }
 
-		//Assignment
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.20/@alternatives/@elements.0/@terminal'
 		public RuleCall getAssignmentAssignmentParserRuleCall_0_0() { return cAssignmentAssignmentParserRuleCall_0_0; }
 
-		//(COMMA continuation=AssignmentSet)?
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.20/@alternatives/@elements.1'
 		public Group getGroup_1() { return cGroup_1; }
 
-		//COMMA
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.20/@alternatives/@elements.1/@elements.0'
 		public RuleCall getCOMMATerminalRuleCall_1_0() { return cCOMMATerminalRuleCall_1_0; }
 
-		//continuation=AssignmentSet
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.20/@alternatives/@elements.1/@elements.1'
 		public Assignment getContinuationAssignment_1_1() { return cContinuationAssignment_1_1; }
 
-		//AssignmentSet
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.20/@alternatives/@elements.1/@elements.1/@terminal'
 		public RuleCall getContinuationAssignmentSetParserRuleCall_1_1_0() { return cContinuationAssignmentSetParserRuleCall_1_1_0; }
 	}
 
@@ -1376,29 +1366,28 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cExpressionAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cExpressionExpressionParserRuleCall_3_0 = (RuleCall)cExpressionAssignment_3.eContents().get(0);
 		
-		//Assignment:
-		//	"N." variable=ID ASSIGN expression=Expression;
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#XtextFragmentProvider_org.Aioc/Assignment'
 		@Override public ParserRule getRule() { return rule; }
 
-		//"N." variable=ID ASSIGN expression=Expression
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.21/@alternatives'
 		public Group getGroup() { return cGroup; }
 
-		//"N."
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.21/@alternatives/@elements.0'
 		public Keyword getNKeyword_0() { return cNKeyword_0; }
 
-		//variable=ID
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.21/@alternatives/@elements.1'
 		public Assignment getVariableAssignment_1() { return cVariableAssignment_1; }
 
-		//ID
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.21/@alternatives/@elements.1/@terminal'
 		public RuleCall getVariableIDTerminalRuleCall_1_0() { return cVariableIDTerminalRuleCall_1_0; }
 
-		//ASSIGN
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.21/@alternatives/@elements.2'
 		public RuleCall getASSIGNTerminalRuleCall_2() { return cASSIGNTerminalRuleCall_2; }
 
-		//expression=Expression
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.21/@alternatives/@elements.3'
 		public Assignment getExpressionAssignment_3() { return cExpressionAssignment_3; }
 
-		//Expression
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.21/@alternatives/@elements.3/@terminal'
 		public RuleCall getExpressionExpressionParserRuleCall_3_0() { return cExpressionExpressionParserRuleCall_3_0; }
 	}
 
@@ -1407,14 +1396,13 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cSumExpressionAssignment = (Assignment)rule.eContents().get(1);
 		private final RuleCall cSumExpressionSumExpressionParserRuleCall_0 = (RuleCall)cSumExpressionAssignment.eContents().get(0);
 		
-		/// *** Expressions and conditions *** / Expression:
-		//	sumExpression=SumExpression;
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#XtextFragmentProvider_org.Aioc/Expression'
 		@Override public ParserRule getRule() { return rule; }
 
-		//sumExpression=SumExpression
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.22/@alternatives'
 		public Assignment getSumExpressionAssignment() { return cSumExpressionAssignment; }
 
-		//SumExpression
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.22/@alternatives/@terminal'
 		public RuleCall getSumExpressionSumExpressionParserRuleCall_0() { return cSumExpressionSumExpressionParserRuleCall_0; }
 	}
 
@@ -1426,23 +1414,22 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cChildrenAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cChildrenSumExpressionTermParserRuleCall_1_0 = (RuleCall)cChildrenAssignment_1.eContents().get(0);
 		
-		//SumExpression:
-		//	children+=ExpressionBasicTerm children+=SumExpressionTerm*;
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#XtextFragmentProvider_org.Aioc/SumExpression'
 		@Override public ParserRule getRule() { return rule; }
 
-		//children+=ExpressionBasicTerm children+=SumExpressionTerm*
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.23/@alternatives'
 		public Group getGroup() { return cGroup; }
 
-		//children+=ExpressionBasicTerm
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.23/@alternatives/@elements.0'
 		public Assignment getChildrenAssignment_0() { return cChildrenAssignment_0; }
 
-		//ExpressionBasicTerm
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.23/@alternatives/@elements.0/@terminal'
 		public RuleCall getChildrenExpressionBasicTermParserRuleCall_0_0() { return cChildrenExpressionBasicTermParserRuleCall_0_0; }
 
-		//children+=SumExpressionTerm*
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.23/@alternatives/@elements.1'
 		public Assignment getChildrenAssignment_1() { return cChildrenAssignment_1; }
 
-		//SumExpressionTerm
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.23/@alternatives/@elements.1/@terminal'
 		public RuleCall getChildrenSumExpressionTermParserRuleCall_1_0() { return cChildrenSumExpressionTermParserRuleCall_1_0; }
 	}
 
@@ -1459,45 +1446,82 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cMINUSTerminalRuleCall_1_1 = (RuleCall)cGroup_1.eContents().get(1);
 		private final Assignment cExpressionAssignment_1_2 = (Assignment)cGroup_1.eContents().get(2);
 		private final RuleCall cExpressionExpressionBasicTermParserRuleCall_1_2_0 = (RuleCall)cExpressionAssignment_1_2.eContents().get(0);
+		private final Group cGroup_2 = (Group)cAlternatives.eContents().get(2);
+		private final Action cSumExpressionTimesTermAction_2_0 = (Action)cGroup_2.eContents().get(0);
+		private final RuleCall cTIMESTerminalRuleCall_2_1 = (RuleCall)cGroup_2.eContents().get(1);
+		private final Assignment cExpressionAssignment_2_2 = (Assignment)cGroup_2.eContents().get(2);
+		private final RuleCall cExpressionExpressionBasicTermParserRuleCall_2_2_0 = (RuleCall)cExpressionAssignment_2_2.eContents().get(0);
+		private final Group cGroup_3 = (Group)cAlternatives.eContents().get(3);
+		private final Action cSumExpressionDivideTermAction_3_0 = (Action)cGroup_3.eContents().get(0);
+		private final RuleCall cSLASHTerminalRuleCall_3_1 = (RuleCall)cGroup_3.eContents().get(1);
+		private final Assignment cExpressionAssignment_3_2 = (Assignment)cGroup_3.eContents().get(2);
+		private final RuleCall cExpressionExpressionBasicTermParserRuleCall_3_2_0 = (RuleCall)cExpressionAssignment_3_2.eContents().get(0);
 		
-		//SumExpressionTerm:
-		//	{SumExpressionAddTerm} PLUS expression=ExpressionBasicTerm
-		//	| {SumExpressionSubtractTerm} MINUS expression=ExpressionBasicTerm;
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#XtextFragmentProvider_org.Aioc/SumExpressionTerm'
 		@Override public ParserRule getRule() { return rule; }
 
-		//{SumExpressionAddTerm} PLUS expression=ExpressionBasicTerm | {SumExpressionSubtractTerm} MINUS
-		//expression=ExpressionBasicTerm
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives'
 		public Alternatives getAlternatives() { return cAlternatives; }
 
-		//{SumExpressionAddTerm} PLUS expression=ExpressionBasicTerm
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives/@elements.0'
 		public Group getGroup_0() { return cGroup_0; }
 
-		//{SumExpressionAddTerm}
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives/@elements.0/@elements.0'
 		public Action getSumExpressionAddTermAction_0_0() { return cSumExpressionAddTermAction_0_0; }
 
-		//PLUS
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives/@elements.0/@elements.1'
 		public RuleCall getPLUSTerminalRuleCall_0_1() { return cPLUSTerminalRuleCall_0_1; }
 
-		//expression=ExpressionBasicTerm
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives/@elements.0/@elements.2'
 		public Assignment getExpressionAssignment_0_2() { return cExpressionAssignment_0_2; }
 
-		//ExpressionBasicTerm
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives/@elements.0/@elements.2/@terminal'
 		public RuleCall getExpressionExpressionBasicTermParserRuleCall_0_2_0() { return cExpressionExpressionBasicTermParserRuleCall_0_2_0; }
 
-		//{SumExpressionSubtractTerm} MINUS expression=ExpressionBasicTerm
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives/@elements.1'
 		public Group getGroup_1() { return cGroup_1; }
 
-		//{SumExpressionSubtractTerm}
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives/@elements.1/@elements.0'
 		public Action getSumExpressionSubtractTermAction_1_0() { return cSumExpressionSubtractTermAction_1_0; }
 
-		//MINUS
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives/@elements.1/@elements.1'
 		public RuleCall getMINUSTerminalRuleCall_1_1() { return cMINUSTerminalRuleCall_1_1; }
 
-		//expression=ExpressionBasicTerm
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives/@elements.1/@elements.2'
 		public Assignment getExpressionAssignment_1_2() { return cExpressionAssignment_1_2; }
 
-		//ExpressionBasicTerm
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives/@elements.1/@elements.2/@terminal'
 		public RuleCall getExpressionExpressionBasicTermParserRuleCall_1_2_0() { return cExpressionExpressionBasicTermParserRuleCall_1_2_0; }
+
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives/@elements.2'
+		public Group getGroup_2() { return cGroup_2; }
+
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives/@elements.2/@elements.0'
+		public Action getSumExpressionTimesTermAction_2_0() { return cSumExpressionTimesTermAction_2_0; }
+
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives/@elements.2/@elements.1'
+		public RuleCall getTIMESTerminalRuleCall_2_1() { return cTIMESTerminalRuleCall_2_1; }
+
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives/@elements.2/@elements.2'
+		public Assignment getExpressionAssignment_2_2() { return cExpressionAssignment_2_2; }
+
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives/@elements.2/@elements.2/@terminal'
+		public RuleCall getExpressionExpressionBasicTermParserRuleCall_2_2_0() { return cExpressionExpressionBasicTermParserRuleCall_2_2_0; }
+
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives/@elements.3'
+		public Group getGroup_3() { return cGroup_3; }
+
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives/@elements.3/@elements.0'
+		public Action getSumExpressionDivideTermAction_3_0() { return cSumExpressionDivideTermAction_3_0; }
+
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives/@elements.3/@elements.1'
+		public RuleCall getSLASHTerminalRuleCall_3_1() { return cSLASHTerminalRuleCall_3_1; }
+
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives/@elements.3/@elements.2'
+		public Assignment getExpressionAssignment_3_2() { return cExpressionAssignment_3_2; }
+
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.24/@alternatives/@elements.3/@elements.2/@terminal'
+		public RuleCall getExpressionExpressionBasicTermParserRuleCall_3_2_0() { return cExpressionExpressionBasicTermParserRuleCall_3_2_0; }
 	}
 
 	public class ExpressionBasicTermElements extends AbstractParserRuleElementFinder {
@@ -1516,49 +1540,46 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cConditionConditionParserRuleCall_2_1_0 = (RuleCall)cConditionAssignment_2_1.eContents().get(0);
 		private final RuleCall cRRNDTerminalRuleCall_2_2 = (RuleCall)cGroup_2.eContents().get(2);
 		
-		//ExpressionBasicTerm:
-		//	not?=NOT? variable=ID | constant=Constant | LRND condition=Condition RRND;
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#XtextFragmentProvider_org.Aioc/ExpressionBasicTerm'
 		@Override public ParserRule getRule() { return rule; }
 
-		//not?=NOT? variable=ID | constant=Constant | LRND condition=Condition RRND
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.25/@alternatives'
 		public Alternatives getAlternatives() { return cAlternatives; }
 
-		//not?=NOT? variable=ID
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.25/@alternatives/@elements.0'
 		public Group getGroup_0() { return cGroup_0; }
 
-		//not?=NOT?
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.25/@alternatives/@elements.0/@elements.0'
 		public Assignment getNotAssignment_0_0() { return cNotAssignment_0_0; }
 
-		//NOT
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.25/@alternatives/@elements.0/@elements.0/@terminal'
 		public RuleCall getNotNOTTerminalRuleCall_0_0_0() { return cNotNOTTerminalRuleCall_0_0_0; }
 
-		//variable=ID
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.25/@alternatives/@elements.0/@elements.1'
 		public Assignment getVariableAssignment_0_1() { return cVariableAssignment_0_1; }
 
-		//ID
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.25/@alternatives/@elements.0/@elements.1/@terminal'
 		public RuleCall getVariableIDTerminalRuleCall_0_1_0() { return cVariableIDTerminalRuleCall_0_1_0; }
 
-		//constant=Constant
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.25/@alternatives/@elements.1'
 		public Assignment getConstantAssignment_1() { return cConstantAssignment_1; }
 
-		//Constant
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.25/@alternatives/@elements.1/@terminal'
 		public RuleCall getConstantConstantParserRuleCall_1_0() { return cConstantConstantParserRuleCall_1_0; }
 
-		////	LRND expression = Expression RRND
-		//LRND condition=Condition RRND
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.25/@alternatives/@elements.2'
 		public Group getGroup_2() { return cGroup_2; }
 
-		////	LRND expression = Expression RRND
-		//LRND
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.25/@alternatives/@elements.2/@elements.0'
 		public RuleCall getLRNDTerminalRuleCall_2_0() { return cLRNDTerminalRuleCall_2_0; }
 
-		//condition=Condition
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.25/@alternatives/@elements.2/@elements.1'
 		public Assignment getConditionAssignment_2_1() { return cConditionAssignment_2_1; }
 
-		//Condition
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.25/@alternatives/@elements.2/@elements.1/@terminal'
 		public RuleCall getConditionConditionParserRuleCall_2_1_0() { return cConditionConditionParserRuleCall_2_1_0; }
 
-		//RRND
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.25/@alternatives/@elements.2/@elements.2'
 		public RuleCall getRRNDTerminalRuleCall_2_2() { return cRRNDTerminalRuleCall_2_2; }
 	}
 
@@ -1566,7 +1587,7 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.Aioc.Constant");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final Assignment cIntValueAssignment_0 = (Assignment)cAlternatives.eContents().get(0);
-		private final RuleCall cIntValueINTTerminalRuleCall_0_0 = (RuleCall)cIntValueAssignment_0.eContents().get(0);
+		private final RuleCall cIntValueIntegerParserRuleCall_0_0 = (RuleCall)cIntValueAssignment_0.eContents().get(0);
 		private final Assignment cStrValueAssignment_1 = (Assignment)cAlternatives.eContents().get(1);
 		private final RuleCall cStrValueSTRINGTerminalRuleCall_1_0 = (RuleCall)cStrValueAssignment_1.eContents().get(0);
 		private final Assignment cTrueAssignment_2 = (Assignment)cAlternatives.eContents().get(2);
@@ -1574,35 +1595,34 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cFalseAssignment_3 = (Assignment)cAlternatives.eContents().get(3);
 		private final RuleCall cFalseFALSETerminalRuleCall_3_0 = (RuleCall)cFalseAssignment_3.eContents().get(0);
 		
-		//Constant:
-		//	intValue=INT | strValue=STRING | true=TRUE | false=FALSE;
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#XtextFragmentProvider_org.Aioc/Constant'
 		@Override public ParserRule getRule() { return rule; }
 
-		//intValue=INT | strValue=STRING | true=TRUE | false=FALSE
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.26/@alternatives'
 		public Alternatives getAlternatives() { return cAlternatives; }
 
-		//intValue=INT
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.26/@alternatives/@elements.0'
 		public Assignment getIntValueAssignment_0() { return cIntValueAssignment_0; }
 
-		//INT
-		public RuleCall getIntValueINTTerminalRuleCall_0_0() { return cIntValueINTTerminalRuleCall_0_0; }
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.26/@alternatives/@elements.0/@terminal'
+		public RuleCall getIntValueIntegerParserRuleCall_0_0() { return cIntValueIntegerParserRuleCall_0_0; }
 
-		//strValue=STRING
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.26/@alternatives/@elements.1'
 		public Assignment getStrValueAssignment_1() { return cStrValueAssignment_1; }
 
-		//STRING
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.26/@alternatives/@elements.1/@terminal'
 		public RuleCall getStrValueSTRINGTerminalRuleCall_1_0() { return cStrValueSTRINGTerminalRuleCall_1_0; }
 
-		//true=TRUE
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.26/@alternatives/@elements.2'
 		public Assignment getTrueAssignment_2() { return cTrueAssignment_2; }
 
-		//TRUE
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.26/@alternatives/@elements.2/@terminal'
 		public RuleCall getTrueTRUETerminalRuleCall_2_0() { return cTrueTRUETerminalRuleCall_2_0; }
 
-		//false=FALSE
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.26/@alternatives/@elements.3'
 		public Assignment getFalseAssignment_3() { return cFalseAssignment_3; }
 
-		//FALSE
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.26/@alternatives/@elements.3/@terminal'
 		public RuleCall getFalseFALSETerminalRuleCall_3_0() { return cFalseFALSETerminalRuleCall_3_0; }
 	}
 
@@ -1617,32 +1637,31 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cRightAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
 		private final RuleCall cRightConditionParserRuleCall_1_1_0 = (RuleCall)cRightAssignment_1_1.eContents().get(0);
 		
-		//Condition:
-		//	left=Expression (operator=ConditionOperator right=Condition)?;
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#XtextFragmentProvider_org.Aioc/Condition'
 		@Override public ParserRule getRule() { return rule; }
 
-		//left=Expression (operator=ConditionOperator right=Condition)?
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.27/@alternatives'
 		public Group getGroup() { return cGroup; }
 
-		//left=Expression
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.27/@alternatives/@elements.0'
 		public Assignment getLeftAssignment_0() { return cLeftAssignment_0; }
 
-		//Expression
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.27/@alternatives/@elements.0/@terminal'
 		public RuleCall getLeftExpressionParserRuleCall_0_0() { return cLeftExpressionParserRuleCall_0_0; }
 
-		//(operator=ConditionOperator right=Condition)?
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.27/@alternatives/@elements.1'
 		public Group getGroup_1() { return cGroup_1; }
 
-		//operator=ConditionOperator
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.27/@alternatives/@elements.1/@elements.0'
 		public Assignment getOperatorAssignment_1_0() { return cOperatorAssignment_1_0; }
 
-		//ConditionOperator
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.27/@alternatives/@elements.1/@elements.0/@terminal'
 		public RuleCall getOperatorConditionOperatorParserRuleCall_1_0_0() { return cOperatorConditionOperatorParserRuleCall_1_0_0; }
 
-		//right=Condition
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.27/@alternatives/@elements.1/@elements.1'
 		public Assignment getRightAssignment_1_1() { return cRightAssignment_1_1; }
 
-		//Condition
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.27/@alternatives/@elements.1/@elements.1/@terminal'
 		public RuleCall getRightConditionParserRuleCall_1_1_0() { return cRightConditionParserRuleCall_1_1_0; }
 	}
 
@@ -1666,59 +1685,58 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cOrAssignment_7 = (Assignment)cAlternatives.eContents().get(7);
 		private final RuleCall cOrORTerminalRuleCall_7_0 = (RuleCall)cOrAssignment_7.eContents().get(0);
 		
-		//ConditionOperator:
-		//	lt?=LT | leq?=LEQ | equal?=EQUAL | gt?=GT | geq?=GEQ | not_equal?=NOT_EQUAL | and?=AND | or?=OR;
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#XtextFragmentProvider_org.Aioc/ConditionOperator'
 		@Override public ParserRule getRule() { return rule; }
 
-		//lt?=LT | leq?=LEQ | equal?=EQUAL | gt?=GT | geq?=GEQ | not_equal?=NOT_EQUAL | and?=AND | or?=OR
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.28/@alternatives'
 		public Alternatives getAlternatives() { return cAlternatives; }
 
-		//lt?=LT
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.28/@alternatives/@elements.0'
 		public Assignment getLtAssignment_0() { return cLtAssignment_0; }
 
-		//LT
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.28/@alternatives/@elements.0/@terminal'
 		public RuleCall getLtLTTerminalRuleCall_0_0() { return cLtLTTerminalRuleCall_0_0; }
 
-		//leq?=LEQ
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.28/@alternatives/@elements.1'
 		public Assignment getLeqAssignment_1() { return cLeqAssignment_1; }
 
-		//LEQ
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.28/@alternatives/@elements.1/@terminal'
 		public RuleCall getLeqLEQTerminalRuleCall_1_0() { return cLeqLEQTerminalRuleCall_1_0; }
 
-		//equal?=EQUAL
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.28/@alternatives/@elements.2'
 		public Assignment getEqualAssignment_2() { return cEqualAssignment_2; }
 
-		//EQUAL
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.28/@alternatives/@elements.2/@terminal'
 		public RuleCall getEqualEQUALTerminalRuleCall_2_0() { return cEqualEQUALTerminalRuleCall_2_0; }
 
-		//gt?=GT
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.28/@alternatives/@elements.3'
 		public Assignment getGtAssignment_3() { return cGtAssignment_3; }
 
-		//GT
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.28/@alternatives/@elements.3/@terminal'
 		public RuleCall getGtGTTerminalRuleCall_3_0() { return cGtGTTerminalRuleCall_3_0; }
 
-		//geq?=GEQ
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.28/@alternatives/@elements.4'
 		public Assignment getGeqAssignment_4() { return cGeqAssignment_4; }
 
-		//GEQ
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.28/@alternatives/@elements.4/@terminal'
 		public RuleCall getGeqGEQTerminalRuleCall_4_0() { return cGeqGEQTerminalRuleCall_4_0; }
 
-		//not_equal?=NOT_EQUAL
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.28/@alternatives/@elements.5'
 		public Assignment getNot_equalAssignment_5() { return cNot_equalAssignment_5; }
 
-		//NOT_EQUAL
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.28/@alternatives/@elements.5/@terminal'
 		public RuleCall getNot_equalNOT_EQUALTerminalRuleCall_5_0() { return cNot_equalNOT_EQUALTerminalRuleCall_5_0; }
 
-		//and?=AND
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.28/@alternatives/@elements.6'
 		public Assignment getAndAssignment_6() { return cAndAssignment_6; }
 
-		//AND
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.28/@alternatives/@elements.6/@terminal'
 		public RuleCall getAndANDTerminalRuleCall_6_0() { return cAndANDTerminalRuleCall_6_0; }
 
-		//or?=OR
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.28/@alternatives/@elements.7'
 		public Assignment getOrAssignment_7() { return cOrAssignment_7; }
 
-		//OR
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.28/@alternatives/@elements.7/@terminal'
 		public RuleCall getOrORTerminalRuleCall_7_0() { return cOrORTerminalRuleCall_7_0; }
 	}
 
@@ -1737,46 +1755,59 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cParamsExpressionParserRuleCall_2_1_1_0 = (RuleCall)cParamsAssignment_2_1_1.eContents().get(0);
 		private final RuleCall cRRNDTerminalRuleCall_3 = (RuleCall)cGroup.eContents().get(3);
 		
-		//Function:
-		//	name=ID LRND (params+=Expression (COMMA params+=Expression)*)?
-		//	RRND;
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#XtextFragmentProvider_org.Aioc/Function'
 		@Override public ParserRule getRule() { return rule; }
 
-		//name=ID LRND (params+=Expression (COMMA params+=Expression)*)? RRND
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.29/@alternatives'
 		public Group getGroup() { return cGroup; }
 
-		//name=ID
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.29/@alternatives/@elements.0'
 		public Assignment getNameAssignment_0() { return cNameAssignment_0; }
 
-		//ID
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.29/@alternatives/@elements.0/@terminal'
 		public RuleCall getNameIDTerminalRuleCall_0_0() { return cNameIDTerminalRuleCall_0_0; }
 
-		//LRND
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.29/@alternatives/@elements.1'
 		public RuleCall getLRNDTerminalRuleCall_1() { return cLRNDTerminalRuleCall_1; }
 
-		//(params+=Expression (COMMA params+=Expression)*)?
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.29/@alternatives/@elements.2'
 		public Group getGroup_2() { return cGroup_2; }
 
-		//params+=Expression
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.29/@alternatives/@elements.2/@elements.0'
 		public Assignment getParamsAssignment_2_0() { return cParamsAssignment_2_0; }
 
-		//Expression
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.29/@alternatives/@elements.2/@elements.0/@terminal'
 		public RuleCall getParamsExpressionParserRuleCall_2_0_0() { return cParamsExpressionParserRuleCall_2_0_0; }
 
-		//(COMMA params+=Expression)*
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.29/@alternatives/@elements.2/@elements.1'
 		public Group getGroup_2_1() { return cGroup_2_1; }
 
-		//COMMA
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.29/@alternatives/@elements.2/@elements.1/@elements.0'
 		public RuleCall getCOMMATerminalRuleCall_2_1_0() { return cCOMMATerminalRuleCall_2_1_0; }
 
-		//params+=Expression
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.29/@alternatives/@elements.2/@elements.1/@elements.1'
 		public Assignment getParamsAssignment_2_1_1() { return cParamsAssignment_2_1_1; }
 
-		//Expression
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.29/@alternatives/@elements.2/@elements.1/@elements.1/@terminal'
 		public RuleCall getParamsExpressionParserRuleCall_2_1_1_0() { return cParamsExpressionParserRuleCall_2_1_1_0; }
 
-		//RRND
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.29/@alternatives/@elements.3'
 		public RuleCall getRRNDTerminalRuleCall_3() { return cRRNDTerminalRuleCall_3; }
+	}
+
+	public class IntegerElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.Aioc.Integer");
+		private final Assignment cValueAssignment = (Assignment)rule.eContents().get(1);
+		private final RuleCall cValueINTTerminalRuleCall_0 = (RuleCall)cValueAssignment.eContents().get(0);
+		
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#XtextFragmentProvider_org.Aioc/Integer'
+		@Override public ParserRule getRule() { return rule; }
+
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.30/@alternatives'
+		public Assignment getValueAssignment() { return cValueAssignment; }
+
+		//org.eclipse.xtext.resource.ClasspathUriResolutionException: org.eclipse.xtext.resource.FileNotFoundOnClasspathException: Couldn't find resource on classpath. URI was 'classpath:/org/aioc/Aioc.xtext#/0/@rules.30/@alternatives/@terminal'
+		public RuleCall getValueINTTerminalRuleCall_0() { return cValueINTTerminalRuleCall_0; }
 	}
 	
 	
@@ -1810,6 +1841,7 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 	private final ConditionElements pCondition;
 	private final ConditionOperatorElements pConditionOperator;
 	private final FunctionElements pFunction;
+	private final IntegerElements pInteger;
 	private final TerminalRule tLCURLY;
 	private final TerminalRule tRCURLY;
 	private final TerminalRule tARROW;
@@ -1818,6 +1850,8 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 	private final TerminalRule tCOLON;
 	private final TerminalRule tPLUS;
 	private final TerminalRule tMINUS;
+	private final TerminalRule tTIMES;
+	private final TerminalRule tSLASH;
 	private final TerminalRule tAT;
 	private final TerminalRule tASSIGN;
 	private final TerminalRule tDOT;
@@ -1875,6 +1909,7 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		this.pCondition = new ConditionElements();
 		this.pConditionOperator = new ConditionOperatorElements();
 		this.pFunction = new FunctionElements();
+		this.pInteger = new IntegerElements();
 		this.tLCURLY = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.Aioc.LCURLY");
 		this.tRCURLY = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.Aioc.RCURLY");
 		this.tARROW = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.Aioc.ARROW");
@@ -1883,6 +1918,8 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		this.tCOLON = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.Aioc.COLON");
 		this.tPLUS = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.Aioc.PLUS");
 		this.tMINUS = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.Aioc.MINUS");
+		this.tTIMES = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.Aioc.TIMES");
+		this.tSLASH = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.Aioc.SLASH");
 		this.tAT = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.Aioc.AT");
 		this.tASSIGN = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.Aioc.ASSIGN");
 		this.tDOT = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.Aioc.DOT");
@@ -1979,7 +2016,7 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 
 	//WhereCompareCondition:
 	//	left=WhereExpressionBasicTerm operator=ConditionOperator
-	//	right=Expression ((and?=AND | or?=OR) next=Where)?;
+	//	right=WhereExpressionBasicTerm ((and?=AND | or?=OR) next=Where)?;
 	public WhereCompareConditionElements getWhereCompareConditionAccess() {
 		return pWhereCompareCondition;
 	}
@@ -1992,8 +2029,11 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 	//	"N." nVariable=ID
 	//	| "E." eVariable=ID
 	//	| sVariable=ID
-	//	| true?=TRUE
-	//	| false?=FALSE;
+	//	| constant=Constant
+	//	//										| true ?= TRUE
+	//	//										| false ?= FALSE
+	//	//										| 
+	//;
 	public WhereExpressionBasicTermElements getWhereExpressionBasicTermAccess() {
 		return pWhereExpressionBasicTerm;
 	}
@@ -2078,7 +2118,7 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 	//Interaction:
 	//	operation=ID COLON
 	//	sender=ID LRND
-	//	senderExpression=ExpressionBasicTerm?
+	//	senderExpression=SumExpression?
 	//	RRND ARROW
 	//	receiver=ID LRND
 	//	receiverVariable=ID?
@@ -2208,7 +2248,9 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 
 	//SumExpressionTerm:
 	//	{SumExpressionAddTerm} PLUS expression=ExpressionBasicTerm
-	//	| {SumExpressionSubtractTerm} MINUS expression=ExpressionBasicTerm;
+	//	| {SumExpressionSubtractTerm} MINUS expression=ExpressionBasicTerm
+	//	| {SumExpressionTimesTerm} TIMES expression=ExpressionBasicTerm
+	//	| {SumExpressionDivideTerm} SLASH expression=ExpressionBasicTerm;
 	public SumExpressionTermElements getSumExpressionTermAccess() {
 		return pSumExpressionTerm;
 	}
@@ -2228,7 +2270,7 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Constant:
-	//	intValue=INT | strValue=STRING | true=TRUE | false=FALSE;
+	//	intValue=Integer | strValue=STRING | true=TRUE | false=FALSE;
 	public ConstantElements getConstantAccess() {
 		return pConstant;
 	}
@@ -2266,6 +2308,16 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 	
 	public ParserRule getFunctionRule() {
 		return getFunctionAccess().getRule();
+	}
+
+	//Integer:
+	//	value=INT;
+	public IntegerElements getIntegerAccess() {
+		return pInteger;
+	}
+	
+	public ParserRule getIntegerRule() {
+		return getIntegerAccess().getRule();
 	}
 
 	//terminal LCURLY:
@@ -2314,6 +2366,18 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 	//	'-';
 	public TerminalRule getMINUSRule() {
 		return tMINUS;
+	} 
+
+	//terminal TIMES:
+	//	'*';
+	public TerminalRule getTIMESRule() {
+		return tTIMES;
+	} 
+
+	//terminal SLASH:
+	//	'/';
+	public TerminalRule getSLASHRule() {
+		return tSLASH;
 	} 
 
 	//terminal AT:

@@ -87,12 +87,12 @@ public interface Interaction extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Sender Expression</em>' containment reference.
-   * @see #setSenderExpression(ExpressionBasicTerm)
+   * @see #setSenderExpression(SumExpression)
    * @see org.aioc.AiocPackage#getInteraction_SenderExpression()
    * @model containment="true"
    * @generated
    */
-  ExpressionBasicTerm getSenderExpression();
+  SumExpression getSenderExpression();
 
   /**
    * Sets the value of the '{@link org.aioc.Interaction#getSenderExpression <em>Sender Expression</em>}' containment reference.
@@ -102,7 +102,7 @@ public interface Interaction extends EObject
    * @see #getSenderExpression()
    * @generated
    */
-  void setSenderExpression(ExpressionBasicTerm value);
+  void setSenderExpression(SumExpression value);
 
   /**
    * Returns the value of the '<em><b>Receiver</b></em>' attribute.

@@ -3,11 +3,14 @@
 package org.aioc.impl;
 
 import org.aioc.AiocPackage;
+import org.aioc.Constant;
 import org.aioc.WhereExpressionBasicTerm;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
@@ -23,8 +26,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *   <li>{@link org.aioc.impl.WhereExpressionBasicTermImpl#getNVariable <em>NVariable</em>}</li>
  *   <li>{@link org.aioc.impl.WhereExpressionBasicTermImpl#getEVariable <em>EVariable</em>}</li>
  *   <li>{@link org.aioc.impl.WhereExpressionBasicTermImpl#getSVariable <em>SVariable</em>}</li>
- *   <li>{@link org.aioc.impl.WhereExpressionBasicTermImpl#isTrue <em>True</em>}</li>
- *   <li>{@link org.aioc.impl.WhereExpressionBasicTermImpl#isFalse <em>False</em>}</li>
+ *   <li>{@link org.aioc.impl.WhereExpressionBasicTermImpl#getConstant <em>Constant</em>}</li>
  * </ul>
  *
  * @generated
@@ -92,44 +94,14 @@ public class WhereExpressionBasicTermImpl extends MinimalEObjectImpl.Container i
   protected String sVariable = SVARIABLE_EDEFAULT;
 
   /**
-   * The default value of the '{@link #isTrue() <em>True</em>}' attribute.
+   * The cached value of the '{@link #getConstant() <em>Constant</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #isTrue()
+   * @see #getConstant()
    * @generated
    * @ordered
    */
-  protected static final boolean TRUE_EDEFAULT = false;
-
-  /**
-   * The cached value of the '{@link #isTrue() <em>True</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isTrue()
-   * @generated
-   * @ordered
-   */
-  protected boolean true_ = TRUE_EDEFAULT;
-
-  /**
-   * The default value of the '{@link #isFalse() <em>False</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isFalse()
-   * @generated
-   * @ordered
-   */
-  protected static final boolean FALSE_EDEFAULT = false;
-
-  /**
-   * The cached value of the '{@link #isFalse() <em>False</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isFalse()
-   * @generated
-   * @ordered
-   */
-  protected boolean false_ = FALSE_EDEFAULT;
+  protected Constant constant;
 
   /**
    * <!-- begin-user-doc -->
@@ -226,9 +198,9 @@ public class WhereExpressionBasicTermImpl extends MinimalEObjectImpl.Container i
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean isTrue()
+  public Constant getConstant()
   {
-    return true_;
+    return constant;
   }
 
   /**
@@ -236,12 +208,16 @@ public class WhereExpressionBasicTermImpl extends MinimalEObjectImpl.Container i
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setTrue(boolean newTrue)
+  public NotificationChain basicSetConstant(Constant newConstant, NotificationChain msgs)
   {
-    boolean oldTrue = true_;
-    true_ = newTrue;
+    Constant oldConstant = constant;
+    constant = newConstant;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, AiocPackage.WHERE_EXPRESSION_BASIC_TERM__TRUE, oldTrue, true_));
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AiocPackage.WHERE_EXPRESSION_BASIC_TERM__CONSTANT, oldConstant, newConstant);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
   }
 
   /**
@@ -249,9 +225,20 @@ public class WhereExpressionBasicTermImpl extends MinimalEObjectImpl.Container i
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean isFalse()
+  public void setConstant(Constant newConstant)
   {
-    return false_;
+    if (newConstant != constant)
+    {
+      NotificationChain msgs = null;
+      if (constant != null)
+        msgs = ((InternalEObject)constant).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AiocPackage.WHERE_EXPRESSION_BASIC_TERM__CONSTANT, null, msgs);
+      if (newConstant != null)
+        msgs = ((InternalEObject)newConstant).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AiocPackage.WHERE_EXPRESSION_BASIC_TERM__CONSTANT, null, msgs);
+      msgs = basicSetConstant(newConstant, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, AiocPackage.WHERE_EXPRESSION_BASIC_TERM__CONSTANT, newConstant, newConstant));
   }
 
   /**
@@ -259,12 +246,15 @@ public class WhereExpressionBasicTermImpl extends MinimalEObjectImpl.Container i
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setFalse(boolean newFalse)
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    boolean oldFalse = false_;
-    false_ = newFalse;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, AiocPackage.WHERE_EXPRESSION_BASIC_TERM__FALSE, oldFalse, false_));
+    switch (featureID)
+    {
+      case AiocPackage.WHERE_EXPRESSION_BASIC_TERM__CONSTANT:
+        return basicSetConstant(null, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -283,10 +273,8 @@ public class WhereExpressionBasicTermImpl extends MinimalEObjectImpl.Container i
         return getEVariable();
       case AiocPackage.WHERE_EXPRESSION_BASIC_TERM__SVARIABLE:
         return getSVariable();
-      case AiocPackage.WHERE_EXPRESSION_BASIC_TERM__TRUE:
-        return isTrue();
-      case AiocPackage.WHERE_EXPRESSION_BASIC_TERM__FALSE:
-        return isFalse();
+      case AiocPackage.WHERE_EXPRESSION_BASIC_TERM__CONSTANT:
+        return getConstant();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -310,11 +298,8 @@ public class WhereExpressionBasicTermImpl extends MinimalEObjectImpl.Container i
       case AiocPackage.WHERE_EXPRESSION_BASIC_TERM__SVARIABLE:
         setSVariable((String)newValue);
         return;
-      case AiocPackage.WHERE_EXPRESSION_BASIC_TERM__TRUE:
-        setTrue((Boolean)newValue);
-        return;
-      case AiocPackage.WHERE_EXPRESSION_BASIC_TERM__FALSE:
-        setFalse((Boolean)newValue);
+      case AiocPackage.WHERE_EXPRESSION_BASIC_TERM__CONSTANT:
+        setConstant((Constant)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -339,11 +324,8 @@ public class WhereExpressionBasicTermImpl extends MinimalEObjectImpl.Container i
       case AiocPackage.WHERE_EXPRESSION_BASIC_TERM__SVARIABLE:
         setSVariable(SVARIABLE_EDEFAULT);
         return;
-      case AiocPackage.WHERE_EXPRESSION_BASIC_TERM__TRUE:
-        setTrue(TRUE_EDEFAULT);
-        return;
-      case AiocPackage.WHERE_EXPRESSION_BASIC_TERM__FALSE:
-        setFalse(FALSE_EDEFAULT);
+      case AiocPackage.WHERE_EXPRESSION_BASIC_TERM__CONSTANT:
+        setConstant((Constant)null);
         return;
     }
     super.eUnset(featureID);
@@ -365,10 +347,8 @@ public class WhereExpressionBasicTermImpl extends MinimalEObjectImpl.Container i
         return EVARIABLE_EDEFAULT == null ? eVariable != null : !EVARIABLE_EDEFAULT.equals(eVariable);
       case AiocPackage.WHERE_EXPRESSION_BASIC_TERM__SVARIABLE:
         return SVARIABLE_EDEFAULT == null ? sVariable != null : !SVARIABLE_EDEFAULT.equals(sVariable);
-      case AiocPackage.WHERE_EXPRESSION_BASIC_TERM__TRUE:
-        return true_ != TRUE_EDEFAULT;
-      case AiocPackage.WHERE_EXPRESSION_BASIC_TERM__FALSE:
-        return false_ != FALSE_EDEFAULT;
+      case AiocPackage.WHERE_EXPRESSION_BASIC_TERM__CONSTANT:
+        return constant != null;
     }
     return super.eIsSet(featureID);
   }
@@ -390,10 +370,6 @@ public class WhereExpressionBasicTermImpl extends MinimalEObjectImpl.Container i
     result.append(eVariable);
     result.append(", sVariable: ");
     result.append(sVariable);
-    result.append(", true: ");
-    result.append(true_);
-    result.append(", false: ");
-    result.append(false_);
     result.append(')');
     return result.toString();
   }

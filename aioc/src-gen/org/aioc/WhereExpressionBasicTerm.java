@@ -16,8 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.aioc.WhereExpressionBasicTerm#getNVariable <em>NVariable</em>}</li>
  *   <li>{@link org.aioc.WhereExpressionBasicTerm#getEVariable <em>EVariable</em>}</li>
  *   <li>{@link org.aioc.WhereExpressionBasicTerm#getSVariable <em>SVariable</em>}</li>
- *   <li>{@link org.aioc.WhereExpressionBasicTerm#isTrue <em>True</em>}</li>
- *   <li>{@link org.aioc.WhereExpressionBasicTerm#isFalse <em>False</em>}</li>
+ *   <li>{@link org.aioc.WhereExpressionBasicTerm#getConstant <em>Constant</em>}</li>
  * </ul>
  *
  * @see org.aioc.AiocPackage#getWhereExpressionBasicTerm()
@@ -105,55 +104,29 @@ public interface WhereExpressionBasicTerm extends EObject
   void setSVariable(String value);
 
   /**
-   * Returns the value of the '<em><b>True</b></em>' attribute.
+   * Returns the value of the '<em><b>Constant</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>True</em>' attribute isn't clear,
+   * If the meaning of the '<em>Constant</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>True</em>' attribute.
-   * @see #setTrue(boolean)
-   * @see org.aioc.AiocPackage#getWhereExpressionBasicTerm_True()
-   * @model
+   * @return the value of the '<em>Constant</em>' containment reference.
+   * @see #setConstant(Constant)
+   * @see org.aioc.AiocPackage#getWhereExpressionBasicTerm_Constant()
+   * @model containment="true"
    * @generated
    */
-  boolean isTrue();
+  Constant getConstant();
 
   /**
-   * Sets the value of the '{@link org.aioc.WhereExpressionBasicTerm#isTrue <em>True</em>}' attribute.
+   * Sets the value of the '{@link org.aioc.WhereExpressionBasicTerm#getConstant <em>Constant</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>True</em>' attribute.
-   * @see #isTrue()
+   * @param value the new value of the '<em>Constant</em>' containment reference.
+   * @see #getConstant()
    * @generated
    */
-  void setTrue(boolean value);
-
-  /**
-   * Returns the value of the '<em><b>False</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>False</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>False</em>' attribute.
-   * @see #setFalse(boolean)
-   * @see org.aioc.AiocPackage#getWhereExpressionBasicTerm_False()
-   * @model
-   * @generated
-   */
-  boolean isFalse();
-
-  /**
-   * Sets the value of the '{@link org.aioc.WhereExpressionBasicTerm#isFalse <em>False</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>False</em>' attribute.
-   * @see #isFalse()
-   * @generated
-   */
-  void setFalse(boolean value);
+  void setConstant(Constant value);
 
 } // WhereExpressionBasicTerm

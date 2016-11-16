@@ -26,30 +26,30 @@ import org.eclipse.emf.ecore.EObject;
 public interface Constant extends EObject
 {
   /**
-   * Returns the value of the '<em><b>Int Value</b></em>' attribute.
+   * Returns the value of the '<em><b>Int Value</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Int Value</em>' attribute isn't clear,
+   * If the meaning of the '<em>Int Value</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Int Value</em>' attribute.
-   * @see #setIntValue(int)
+   * @return the value of the '<em>Int Value</em>' containment reference.
+   * @see #setIntValue(org.aioc.Integer)
    * @see org.aioc.AiocPackage#getConstant_IntValue()
-   * @model
+   * @model containment="true"
    * @generated
    */
-  int getIntValue();
+  org.aioc.Integer getIntValue();
 
   /**
-   * Sets the value of the '{@link org.aioc.Constant#getIntValue <em>Int Value</em>}' attribute.
+   * Sets the value of the '{@link org.aioc.Constant#getIntValue <em>Int Value</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Int Value</em>' attribute.
+   * @param value the new value of the '<em>Int Value</em>' containment reference.
    * @see #getIntValue()
    * @generated
    */
-  void setIntValue(int value);
+  void setIntValue(org.aioc.Integer value);
 
   /**
    * Returns the value of the '<em><b>Str Value</b></em>' attribute.

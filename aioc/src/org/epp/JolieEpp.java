@@ -922,9 +922,9 @@ public class JolieEpp {
 		NameCollector nc = new NameCollector();
 
 		nc.collect( choreography, null );
-//		if ( !nc.getRoles().contains( scope.getLeader() )){
-//			nc.addRole( scope.getLeader() );
-//		}
+		if ( !nc.getRoles().contains( scope.getLeader() )){
+			nc.addRole( scope.getLeader() );
+		}
 
 		nc.addRoles( scope.getLedRoles() );
 		String mh = embedMessageHandler( thread, jolieProgram, result, leader,	nc,	scope.getKey() );
@@ -1115,10 +1115,9 @@ public class JolieEpp {
 		NameCollector nc = new NameCollector();
 		nc.collect( choreography, null );
 
-		// NO LONGER NEEDED BECAUSE WE HAVE THE LEADER PORT
-//		if ( !nc.getRoles().contains( scope.getLeader() ) ) {
-//			nc.addRole( scope.getLeader() );
-//		}
+		if ( !nc.getRoles().contains( scope.getLeader() ) ) {
+			nc.addRole( scope.getLeader() );
+		}
 
 		nc.addRoles( scope.getLedRoles() );
 		String mh = embedMessageHandler( thread, jolieProgram, result, leader, nc, scope.getKey() );

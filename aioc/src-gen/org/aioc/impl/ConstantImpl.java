@@ -6,8 +6,10 @@ import org.aioc.AiocPackage;
 import org.aioc.Constant;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
@@ -31,24 +33,14 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 public class ConstantImpl extends MinimalEObjectImpl.Container implements Constant
 {
   /**
-   * The default value of the '{@link #getIntValue() <em>Int Value</em>}' attribute.
+   * The cached value of the '{@link #getIntValue() <em>Int Value</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getIntValue()
    * @generated
    * @ordered
    */
-  protected static final int INT_VALUE_EDEFAULT = 0;
-
-  /**
-   * The cached value of the '{@link #getIntValue() <em>Int Value</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getIntValue()
-   * @generated
-   * @ordered
-   */
-  protected int intValue = INT_VALUE_EDEFAULT;
+  protected org.aioc.Integer intValue;
 
   /**
    * The default value of the '{@link #getStrValue() <em>Str Value</em>}' attribute.
@@ -136,7 +128,7 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
    * <!-- end-user-doc -->
    * @generated
    */
-  public int getIntValue()
+  public org.aioc.Integer getIntValue()
   {
     return intValue;
   }
@@ -146,12 +138,37 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setIntValue(int newIntValue)
+  public NotificationChain basicSetIntValue(org.aioc.Integer newIntValue, NotificationChain msgs)
   {
-    int oldIntValue = intValue;
+    org.aioc.Integer oldIntValue = intValue;
     intValue = newIntValue;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, AiocPackage.CONSTANT__INT_VALUE, oldIntValue, intValue));
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AiocPackage.CONSTANT__INT_VALUE, oldIntValue, newIntValue);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setIntValue(org.aioc.Integer newIntValue)
+  {
+    if (newIntValue != intValue)
+    {
+      NotificationChain msgs = null;
+      if (intValue != null)
+        msgs = ((InternalEObject)intValue).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AiocPackage.CONSTANT__INT_VALUE, null, msgs);
+      if (newIntValue != null)
+        msgs = ((InternalEObject)newIntValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AiocPackage.CONSTANT__INT_VALUE, null, msgs);
+      msgs = basicSetIntValue(newIntValue, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, AiocPackage.CONSTANT__INT_VALUE, newIntValue, newIntValue));
   }
 
   /**
@@ -229,6 +246,22 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
    * @generated
    */
   @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case AiocPackage.CONSTANT__INT_VALUE:
+        return basicSetIntValue(null, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -256,7 +289,7 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
     switch (featureID)
     {
       case AiocPackage.CONSTANT__INT_VALUE:
-        setIntValue((Integer)newValue);
+        setIntValue((org.aioc.Integer)newValue);
         return;
       case AiocPackage.CONSTANT__STR_VALUE:
         setStrValue((String)newValue);
@@ -282,7 +315,7 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
     switch (featureID)
     {
       case AiocPackage.CONSTANT__INT_VALUE:
-        setIntValue(INT_VALUE_EDEFAULT);
+        setIntValue((org.aioc.Integer)null);
         return;
       case AiocPackage.CONSTANT__STR_VALUE:
         setStrValue(STR_VALUE_EDEFAULT);
@@ -308,7 +341,7 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
     switch (featureID)
     {
       case AiocPackage.CONSTANT__INT_VALUE:
-        return intValue != INT_VALUE_EDEFAULT;
+        return intValue != null;
       case AiocPackage.CONSTANT__STR_VALUE:
         return STR_VALUE_EDEFAULT == null ? strValue != null : !STR_VALUE_EDEFAULT.equals(strValue);
       case AiocPackage.CONSTANT__TRUE:
@@ -330,9 +363,7 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (intValue: ");
-    result.append(intValue);
-    result.append(", strValue: ");
+    result.append(" (strValue: ");
     result.append(strValue);
     result.append(", true: ");
     result.append(true_);

@@ -51,6 +51,10 @@ public class VarCollector extends AiocSwitch< Boolean >
 		doSwitch( n );
 	}
 	
+	public void collect( SumExpression n ){
+		doSwitch( n );
+	}
+	
 public Boolean caseCondition( Condition n ){
 		if( n.getLeft() != null ){
 			doSwitch( n.getLeft() );
