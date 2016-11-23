@@ -41,10 +41,19 @@ Rule:
 	"rule" LCURLY
 		( locDefinition = LocationDefinition )?
 		( functionLocation += FunctionLocation )*
-		( "newRoles" COLON (newRoles+=ID COMMA)* newRoles+=ID )?
+		( "newRoles" COLON newRoles=NewRole )?
 		"on" LCURLY where = Where RCURLY
 		"do" LCURLY choreography=Choreography RCURLY 
 	RCURLY
+;
+
+NewRole:
+	(
+		( "location" AT role = ID COLON location = STRING )
+		|
+		role=ID
+	)
+	(COMMA nextRole=NewRole)? 
 ;
 
 Where:
@@ -87,14 +96,14 @@ LocationDefinition:
 ;
 
 Choreography:
-	seqBlock = SeqBlock ( PIPE next = Choreography )?
+	seqBlock = SeqBlock ( PIPE par = Choreography )?
 ;
 
 SeqBlock:
 	event = ( Skip | Interaction | LocalCode | IfThenElse | 
 		While | Scope | NestedChoreography
 	) 
-	( SEMICOLON next = SeqBlock )?
+	( SEMICOLON next = Choreography )?
 ;
 
 Skip:

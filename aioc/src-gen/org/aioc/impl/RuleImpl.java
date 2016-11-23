@@ -8,6 +8,7 @@ import org.aioc.AiocPackage;
 import org.aioc.Choreography;
 import org.aioc.FunctionLocation;
 import org.aioc.LocationDefinition;
+import org.aioc.NewRole;
 import org.aioc.Rule;
 import org.aioc.Where;
 
@@ -22,7 +23,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -66,14 +66,14 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
   protected EList<FunctionLocation> functionLocation;
 
   /**
-   * The cached value of the '{@link #getNewRoles() <em>New Roles</em>}' attribute list.
+   * The cached value of the '{@link #getNewRoles() <em>New Roles</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getNewRoles()
    * @generated
    * @ordered
    */
-  protected EList<String> newRoles;
+  protected NewRole newRoles;
 
   /**
    * The cached value of the '{@link #getWhere() <em>Where</em>}' containment reference.
@@ -183,13 +183,47 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<String> getNewRoles()
+  public NewRole getNewRoles()
   {
-    if (newRoles == null)
-    {
-      newRoles = new EDataTypeEList<String>(String.class, this, AiocPackage.RULE__NEW_ROLES);
-    }
     return newRoles;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetNewRoles(NewRole newNewRoles, NotificationChain msgs)
+  {
+    NewRole oldNewRoles = newRoles;
+    newRoles = newNewRoles;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AiocPackage.RULE__NEW_ROLES, oldNewRoles, newNewRoles);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setNewRoles(NewRole newNewRoles)
+  {
+    if (newNewRoles != newRoles)
+    {
+      NotificationChain msgs = null;
+      if (newRoles != null)
+        msgs = ((InternalEObject)newRoles).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AiocPackage.RULE__NEW_ROLES, null, msgs);
+      if (newNewRoles != null)
+        msgs = ((InternalEObject)newNewRoles).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AiocPackage.RULE__NEW_ROLES, null, msgs);
+      msgs = basicSetNewRoles(newNewRoles, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, AiocPackage.RULE__NEW_ROLES, newNewRoles, newNewRoles));
   }
 
   /**
@@ -302,6 +336,8 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
         return basicSetLocDefinition(null, msgs);
       case AiocPackage.RULE__FUNCTION_LOCATION:
         return ((InternalEList<?>)getFunctionLocation()).basicRemove(otherEnd, msgs);
+      case AiocPackage.RULE__NEW_ROLES:
+        return basicSetNewRoles(null, msgs);
       case AiocPackage.RULE__WHERE:
         return basicSetWhere(null, msgs);
       case AiocPackage.RULE__CHOREOGRAPHY:
@@ -353,8 +389,7 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
         getFunctionLocation().addAll((Collection<? extends FunctionLocation>)newValue);
         return;
       case AiocPackage.RULE__NEW_ROLES:
-        getNewRoles().clear();
-        getNewRoles().addAll((Collection<? extends String>)newValue);
+        setNewRoles((NewRole)newValue);
         return;
       case AiocPackage.RULE__WHERE:
         setWhere((Where)newValue);
@@ -383,7 +418,7 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
         getFunctionLocation().clear();
         return;
       case AiocPackage.RULE__NEW_ROLES:
-        getNewRoles().clear();
+        setNewRoles((NewRole)null);
         return;
       case AiocPackage.RULE__WHERE:
         setWhere((Where)null);
@@ -410,30 +445,13 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
       case AiocPackage.RULE__FUNCTION_LOCATION:
         return functionLocation != null && !functionLocation.isEmpty();
       case AiocPackage.RULE__NEW_ROLES:
-        return newRoles != null && !newRoles.isEmpty();
+        return newRoles != null;
       case AiocPackage.RULE__WHERE:
         return where != null;
       case AiocPackage.RULE__CHOREOGRAPHY:
         return choreography != null;
     }
     return super.eIsSet(featureID);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public String toString()
-  {
-    if (eIsProxy()) return super.toString();
-
-    StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (newRoles: ");
-    result.append(newRoles);
-    result.append(')');
-    return result.toString();
   }
 
 } //RuleImpl

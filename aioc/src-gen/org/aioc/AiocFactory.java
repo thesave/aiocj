@@ -50,6 +50,15 @@ public interface AiocFactory extends EFactory
   Rule createRule();
 
   /**
+   * Returns a new object of class '<em>New Role</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>New Role</em>'.
+   * @generated
+   */
+  NewRole createNewRole();
+
+  /**
    * Returns a new object of class '<em>Where</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

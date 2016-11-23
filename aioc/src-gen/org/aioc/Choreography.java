@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link org.aioc.Choreography#getSeqBlock <em>Seq Block</em>}</li>
- *   <li>{@link org.aioc.Choreography#getNext <em>Next</em>}</li>
+ *   <li>{@link org.aioc.Choreography#getPar <em>Par</em>}</li>
  * </ul>
  *
  * @see org.aioc.AiocPackage#getChoreography()
@@ -50,29 +50,29 @@ public interface Choreography extends EObject
   void setSeqBlock(SeqBlock value);
 
   /**
-   * Returns the value of the '<em><b>Next</b></em>' containment reference.
+   * Returns the value of the '<em><b>Par</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Next</em>' containment reference isn't clear,
+   * If the meaning of the '<em>Par</em>' containment reference isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Next</em>' containment reference.
-   * @see #setNext(Choreography)
-   * @see org.aioc.AiocPackage#getChoreography_Next()
+   * @return the value of the '<em>Par</em>' containment reference.
+   * @see #setPar(Choreography)
+   * @see org.aioc.AiocPackage#getChoreography_Par()
    * @model containment="true"
    * @generated
    */
-  Choreography getNext();
+  Choreography getPar();
 
   /**
-   * Sets the value of the '{@link org.aioc.Choreography#getNext <em>Next</em>}' containment reference.
+   * Sets the value of the '{@link org.aioc.Choreography#getPar <em>Par</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Next</em>' containment reference.
-   * @see #getNext()
+   * @param value the new value of the '<em>Par</em>' containment reference.
+   * @see #getPar()
    * @generated
    */
-  void setNext(Choreography value);
+  void setPar(Choreography value);
 
 } // Choreography

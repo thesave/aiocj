@@ -38,6 +38,7 @@ public class AiocParser extends AbstractContentAssistParser {
 				private static final long serialVersionUID = 1L;
 				{
 					put(grammarAccess.getAiocJAccess().getAlternatives(), "rule__AiocJ__Alternatives");
+					put(grammarAccess.getNewRoleAccess().getAlternatives_0(), "rule__NewRole__Alternatives_0");
 					put(grammarAccess.getWhereAccess().getAlternatives(), "rule__Where__Alternatives");
 					put(grammarAccess.getWhereCompareConditionAccess().getAlternatives_3_0(), "rule__WhereCompareCondition__Alternatives_3_0");
 					put(grammarAccess.getWhereExpressionBasicTermAccess().getAlternatives(), "rule__WhereExpressionBasicTerm__Alternatives");
@@ -51,7 +52,9 @@ public class AiocParser extends AbstractContentAssistParser {
 					put(grammarAccess.getAiocAccess().getGroup(), "rule__Aioc__Group__0");
 					put(grammarAccess.getRuleAccess().getGroup(), "rule__Rule__Group__0");
 					put(grammarAccess.getRuleAccess().getGroup_4(), "rule__Rule__Group_4__0");
-					put(grammarAccess.getRuleAccess().getGroup_4_2(), "rule__Rule__Group_4_2__0");
+					put(grammarAccess.getNewRoleAccess().getGroup(), "rule__NewRole__Group__0");
+					put(grammarAccess.getNewRoleAccess().getGroup_0_0(), "rule__NewRole__Group_0_0__0");
+					put(grammarAccess.getNewRoleAccess().getGroup_1(), "rule__NewRole__Group_1__0");
 					put(grammarAccess.getWhereAccess().getGroup_1(), "rule__Where__Group_1__0");
 					put(grammarAccess.getWhereCompareConditionAccess().getGroup(), "rule__WhereCompareCondition__Group__0");
 					put(grammarAccess.getWhereCompareConditionAccess().getGroup_3(), "rule__WhereCompareCondition__Group_3__0");
@@ -105,10 +108,13 @@ public class AiocParser extends AbstractContentAssistParser {
 					put(grammarAccess.getAiocAccess().getChoreographyAssignment_7(), "rule__Aioc__ChoreographyAssignment_7");
 					put(grammarAccess.getRuleAccess().getLocDefinitionAssignment_2(), "rule__Rule__LocDefinitionAssignment_2");
 					put(grammarAccess.getRuleAccess().getFunctionLocationAssignment_3(), "rule__Rule__FunctionLocationAssignment_3");
-					put(grammarAccess.getRuleAccess().getNewRolesAssignment_4_2_0(), "rule__Rule__NewRolesAssignment_4_2_0");
-					put(grammarAccess.getRuleAccess().getNewRolesAssignment_4_3(), "rule__Rule__NewRolesAssignment_4_3");
+					put(grammarAccess.getRuleAccess().getNewRolesAssignment_4_2(), "rule__Rule__NewRolesAssignment_4_2");
 					put(grammarAccess.getRuleAccess().getWhereAssignment_7(), "rule__Rule__WhereAssignment_7");
 					put(grammarAccess.getRuleAccess().getChoreographyAssignment_11(), "rule__Rule__ChoreographyAssignment_11");
+					put(grammarAccess.getNewRoleAccess().getRoleAssignment_0_0_2(), "rule__NewRole__RoleAssignment_0_0_2");
+					put(grammarAccess.getNewRoleAccess().getLocationAssignment_0_0_4(), "rule__NewRole__LocationAssignment_0_0_4");
+					put(grammarAccess.getNewRoleAccess().getRoleAssignment_0_1(), "rule__NewRole__RoleAssignment_0_1");
+					put(grammarAccess.getNewRoleAccess().getNextRoleAssignment_1_1(), "rule__NewRole__NextRoleAssignment_1_1");
 					put(grammarAccess.getWhereAccess().getWhereConditionAssignment_0(), "rule__Where__WhereConditionAssignment_0");
 					put(grammarAccess.getWhereAccess().getParenAssignment_1_0(), "rule__Where__ParenAssignment_1_0");
 					put(grammarAccess.getWhereAccess().getWhereConditionAssignment_1_1(), "rule__Where__WhereConditionAssignment_1_1");
@@ -133,7 +139,7 @@ public class AiocParser extends AbstractContentAssistParser {
 					put(grammarAccess.getLocationDefinitionAccess().getLocationAssignment_4(), "rule__LocationDefinition__LocationAssignment_4");
 					put(grammarAccess.getLocationDefinitionAccess().getContinuationAssignment_5(), "rule__LocationDefinition__ContinuationAssignment_5");
 					put(grammarAccess.getChoreographyAccess().getSeqBlockAssignment_0(), "rule__Choreography__SeqBlockAssignment_0");
-					put(grammarAccess.getChoreographyAccess().getNextAssignment_1_1(), "rule__Choreography__NextAssignment_1_1");
+					put(grammarAccess.getChoreographyAccess().getParAssignment_1_1(), "rule__Choreography__ParAssignment_1_1");
 					put(grammarAccess.getSeqBlockAccess().getEventAssignment_0(), "rule__SeqBlock__EventAssignment_0");
 					put(grammarAccess.getSeqBlockAccess().getNextAssignment_1_1(), "rule__SeqBlock__NextAssignment_1_1");
 					put(grammarAccess.getSkipAccess().getSkipAssignment(), "rule__Skip__SkipAssignment");

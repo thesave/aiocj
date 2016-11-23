@@ -25,6 +25,7 @@ import org.aioc.LocalCode;
 import org.aioc.LocalShowCommand;
 import org.aioc.LocationDefinition;
 import org.aioc.NestedChoreography;
+import org.aioc.NewRole;
 import org.aioc.Preamble;
 import org.aioc.Roles;
 import org.aioc.Rule;
@@ -77,6 +78,13 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
    * @generated
    */
   private EClass ruleEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass newRoleEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -491,9 +499,9 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getRule_NewRoles()
+  public EReference getRule_NewRoles()
   {
-    return (EAttribute)ruleEClass.getEStructuralFeatures().get(2);
+    return (EReference)ruleEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -514,6 +522,46 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
   public EReference getRule_Choreography()
   {
     return (EReference)ruleEClass.getEStructuralFeatures().get(4);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getNewRole()
+  {
+    return newRoleEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getNewRole_Role()
+  {
+    return (EAttribute)newRoleEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getNewRole_Location()
+  {
+    return (EAttribute)newRoleEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getNewRole_NextRole()
+  {
+    return (EReference)newRoleEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -821,7 +869,7 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getChoreography_Next()
+  public EReference getChoreography_Par()
   {
     return (EReference)choreographyEClass.getEStructuralFeatures().get(1);
   }
@@ -1748,9 +1796,14 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
     ruleEClass = createEClass(RULE);
     createEReference(ruleEClass, RULE__LOC_DEFINITION);
     createEReference(ruleEClass, RULE__FUNCTION_LOCATION);
-    createEAttribute(ruleEClass, RULE__NEW_ROLES);
+    createEReference(ruleEClass, RULE__NEW_ROLES);
     createEReference(ruleEClass, RULE__WHERE);
     createEReference(ruleEClass, RULE__CHOREOGRAPHY);
+
+    newRoleEClass = createEClass(NEW_ROLE);
+    createEAttribute(newRoleEClass, NEW_ROLE__ROLE);
+    createEAttribute(newRoleEClass, NEW_ROLE__LOCATION);
+    createEReference(newRoleEClass, NEW_ROLE__NEXT_ROLE);
 
     whereEClass = createEClass(WHERE);
     createEReference(whereEClass, WHERE__WHERE_CONDITION);
@@ -1789,7 +1842,7 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
 
     choreographyEClass = createEClass(CHOREOGRAPHY);
     createEReference(choreographyEClass, CHOREOGRAPHY__SEQ_BLOCK);
-    createEReference(choreographyEClass, CHOREOGRAPHY__NEXT);
+    createEReference(choreographyEClass, CHOREOGRAPHY__PAR);
 
     seqBlockEClass = createEClass(SEQ_BLOCK);
     createEReference(seqBlockEClass, SEQ_BLOCK__EVENT);
@@ -1957,9 +2010,14 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
     initEClass(ruleEClass, Rule.class, "Rule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getRule_LocDefinition(), this.getLocationDefinition(), null, "locDefinition", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getRule_FunctionLocation(), this.getFunctionLocation(), null, "functionLocation", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getRule_NewRoles(), ecorePackage.getEString(), "newRoles", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getRule_NewRoles(), this.getNewRole(), null, "newRoles", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getRule_Where(), this.getWhere(), null, "where", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getRule_Choreography(), this.getChoreography(), null, "choreography", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(newRoleEClass, NewRole.class, "NewRole", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getNewRole_Role(), ecorePackage.getEString(), "role", null, 0, 1, NewRole.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getNewRole_Location(), ecorePackage.getEString(), "location", null, 0, 1, NewRole.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getNewRole_NextRole(), this.getNewRole(), null, "nextRole", null, 0, 1, NewRole.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(whereEClass, Where.class, "Where", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getWhere_WhereCondition(), this.getWhereCompareCondition(), null, "whereCondition", null, 0, 1, Where.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1998,11 +2056,11 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
 
     initEClass(choreographyEClass, Choreography.class, "Choreography", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getChoreography_SeqBlock(), this.getSeqBlock(), null, "seqBlock", null, 0, 1, Choreography.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getChoreography_Next(), this.getChoreography(), null, "next", null, 0, 1, Choreography.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getChoreography_Par(), this.getChoreography(), null, "par", null, 0, 1, Choreography.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(seqBlockEClass, SeqBlock.class, "SeqBlock", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getSeqBlock_Event(), ecorePackage.getEObject(), null, "event", null, 0, 1, SeqBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getSeqBlock_Next(), this.getSeqBlock(), null, "next", null, 0, 1, SeqBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getSeqBlock_Next(), this.getChoreography(), null, "next", null, 0, 1, SeqBlock.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(skipEClass, Skip.class, "Skip", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getSkip_Skip(), ecorePackage.getEBoolean(), "skip", null, 0, 1, Skip.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

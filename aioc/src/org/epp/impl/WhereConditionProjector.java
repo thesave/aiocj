@@ -39,7 +39,6 @@ import org.aioc.WhereCompareCondition;
 import org.aioc.WhereExpressionBasicTerm;
 import org.aioc.util.AiocSwitch;
 import org.eclipse.emf.ecore.EObject;
-import org.w3c.dom.NamedNodeMap;
 
 public class WhereConditionProjector extends AiocSwitch< OLSyntaxNode >
 {

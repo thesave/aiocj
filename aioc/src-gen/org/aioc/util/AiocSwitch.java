@@ -24,6 +24,7 @@ import org.aioc.LocalCode;
 import org.aioc.LocalShowCommand;
 import org.aioc.LocationDefinition;
 import org.aioc.NestedChoreography;
+import org.aioc.NewRole;
 import org.aioc.Preamble;
 import org.aioc.Roles;
 import org.aioc.Rule;
@@ -127,6 +128,13 @@ public class AiocSwitch<T> extends Switch<T>
       {
         Rule rule = (Rule)theEObject;
         T result = caseRule(rule);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case AiocPackage.NEW_ROLE:
+      {
+        NewRole newRole = (NewRole)theEObject;
+        T result = caseNewRole(newRole);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -430,6 +438,22 @@ public class AiocSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseRule(Rule object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>New Role</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>New Role</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseNewRole(NewRole object)
   {
     return null;
   }

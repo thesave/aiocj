@@ -38,8 +38,8 @@ public class CheckAddRules extends AiocSwitch< Boolean >{
 	@Override
 	public Boolean caseChoreography(Choreography n) {
 		doSwitch( n.getSeqBlock() );
-		if( n.getNext() != null ){
-			doSwitch( n.getNext() );
+		if( n.getPar() != null ){
+			doSwitch( n.getPar() );
 		}
 		return true;
 	}

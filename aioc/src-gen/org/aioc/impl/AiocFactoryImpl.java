@@ -25,6 +25,7 @@ import org.aioc.LocalCode;
 import org.aioc.LocalShowCommand;
 import org.aioc.LocationDefinition;
 import org.aioc.NestedChoreography;
+import org.aioc.NewRole;
 import org.aioc.Preamble;
 import org.aioc.Roles;
 import org.aioc.Rule;
@@ -105,6 +106,7 @@ public class AiocFactoryImpl extends EFactoryImpl implements AiocFactory
       case AiocPackage.AIOC_J: return createAiocJ();
       case AiocPackage.AIOC: return createAioc();
       case AiocPackage.RULE: return createRule();
+      case AiocPackage.NEW_ROLE: return createNewRole();
       case AiocPackage.WHERE: return createWhere();
       case AiocPackage.WHERE_COMPARE_CONDITION: return createWhereCompareCondition();
       case AiocPackage.WHERE_EXPRESSION_BASIC_TERM: return createWhereExpressionBasicTerm();
@@ -176,6 +178,17 @@ public class AiocFactoryImpl extends EFactoryImpl implements AiocFactory
   {
     RuleImpl rule = new RuleImpl();
     return rule;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NewRole createNewRole()
+  {
+    NewRoleImpl newRole = new NewRoleImpl();
+    return newRole;
   }
 
   /**

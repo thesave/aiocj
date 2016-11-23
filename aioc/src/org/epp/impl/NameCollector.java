@@ -144,7 +144,7 @@ public class NameCollector extends AiocSwitch< Boolean >
 
 	public Boolean caseChoreography( Choreography n ){
 		doSwitch( n.getSeqBlock() );
-		doSwitchIfNotNull( n.getNext() );
+		doSwitchIfNotNull( n.getPar() );
 		return true;
 	}
 	

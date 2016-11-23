@@ -286,111 +286,199 @@ this_COLON_5=RULE_COLON
     { 
     newLeafNode(this_COLON_5, grammarAccess.getRuleAccess().getCOLONTerminalRuleCall_4_1()); 
     }
-((
 (
-		lv_newRoles_6_0=RULE_ID
-		{
-			newLeafNode(lv_newRoles_6_0, grammarAccess.getRuleAccess().getNewRolesIDTerminalRuleCall_4_2_0_0()); 
-		}
-		{
+(
+		{ 
+	        newCompositeNode(grammarAccess.getRuleAccess().getNewRolesNewRoleParserRuleCall_4_2_0()); 
+	    }
+		lv_newRoles_6_0=ruleNewRole		{
 	        if ($current==null) {
-	            $current = createModelElement(grammarAccess.getRuleRule());
+	            $current = createModelElementForParent(grammarAccess.getRuleRule());
 	        }
-       		addWithLastConsumed(
+       		set(
        			$current, 
        			"newRoles",
         		lv_newRoles_6_0, 
-        		"org.eclipse.xtext.common.Terminals.ID");
+        		"org.Aioc.NewRole");
+	        afterParserOrEnumRuleCall();
 	    }
 
 )
-)this_COMMA_7=RULE_COMMA
-    { 
-    newLeafNode(this_COMMA_7, grammarAccess.getRuleAccess().getCOMMATerminalRuleCall_4_2_1()); 
-    }
-)*(
-(
-		lv_newRoles_8_0=RULE_ID
-		{
-			newLeafNode(lv_newRoles_8_0, grammarAccess.getRuleAccess().getNewRolesIDTerminalRuleCall_4_3_0()); 
-		}
-		{
-	        if ($current==null) {
-	            $current = createModelElement(grammarAccess.getRuleRule());
-	        }
-       		addWithLastConsumed(
-       			$current, 
-       			"newRoles",
-        		lv_newRoles_8_0, 
-        		"org.eclipse.xtext.common.Terminals.ID");
-	    }
-
-)
-))?	otherlv_9='on' 
+))?	otherlv_7='on' 
     {
-    	newLeafNode(otherlv_9, grammarAccess.getRuleAccess().getOnKeyword_5());
+    	newLeafNode(otherlv_7, grammarAccess.getRuleAccess().getOnKeyword_5());
     }
-this_LCURLY_10=RULE_LCURLY
+this_LCURLY_8=RULE_LCURLY
     { 
-    newLeafNode(this_LCURLY_10, grammarAccess.getRuleAccess().getLCURLYTerminalRuleCall_6()); 
+    newLeafNode(this_LCURLY_8, grammarAccess.getRuleAccess().getLCURLYTerminalRuleCall_6()); 
     }
 (
 (
 		{ 
 	        newCompositeNode(grammarAccess.getRuleAccess().getWhereWhereParserRuleCall_7_0()); 
 	    }
-		lv_where_11_0=ruleWhere		{
+		lv_where_9_0=ruleWhere		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getRuleRule());
 	        }
        		set(
        			$current, 
        			"where",
-        		lv_where_11_0, 
+        		lv_where_9_0, 
         		"org.Aioc.Where");
 	        afterParserOrEnumRuleCall();
 	    }
 
 )
-)this_RCURLY_12=RULE_RCURLY
+)this_RCURLY_10=RULE_RCURLY
     { 
-    newLeafNode(this_RCURLY_12, grammarAccess.getRuleAccess().getRCURLYTerminalRuleCall_8()); 
+    newLeafNode(this_RCURLY_10, grammarAccess.getRuleAccess().getRCURLYTerminalRuleCall_8()); 
     }
-	otherlv_13='do' 
+	otherlv_11='do' 
     {
-    	newLeafNode(otherlv_13, grammarAccess.getRuleAccess().getDoKeyword_9());
+    	newLeafNode(otherlv_11, grammarAccess.getRuleAccess().getDoKeyword_9());
     }
-this_LCURLY_14=RULE_LCURLY
+this_LCURLY_12=RULE_LCURLY
     { 
-    newLeafNode(this_LCURLY_14, grammarAccess.getRuleAccess().getLCURLYTerminalRuleCall_10()); 
+    newLeafNode(this_LCURLY_12, grammarAccess.getRuleAccess().getLCURLYTerminalRuleCall_10()); 
     }
 (
 (
 		{ 
 	        newCompositeNode(grammarAccess.getRuleAccess().getChoreographyChoreographyParserRuleCall_11_0()); 
 	    }
-		lv_choreography_15_0=ruleChoreography		{
+		lv_choreography_13_0=ruleChoreography		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getRuleRule());
 	        }
        		set(
        			$current, 
        			"choreography",
-        		lv_choreography_15_0, 
+        		lv_choreography_13_0, 
         		"org.Aioc.Choreography");
 	        afterParserOrEnumRuleCall();
 	    }
 
 )
-)this_RCURLY_16=RULE_RCURLY
+)this_RCURLY_14=RULE_RCURLY
     { 
-    newLeafNode(this_RCURLY_16, grammarAccess.getRuleAccess().getRCURLYTerminalRuleCall_12()); 
+    newLeafNode(this_RCURLY_14, grammarAccess.getRuleAccess().getRCURLYTerminalRuleCall_12()); 
     }
-this_RCURLY_17=RULE_RCURLY
+this_RCURLY_15=RULE_RCURLY
     { 
-    newLeafNode(this_RCURLY_17, grammarAccess.getRuleAccess().getRCURLYTerminalRuleCall_13()); 
+    newLeafNode(this_RCURLY_15, grammarAccess.getRuleAccess().getRCURLYTerminalRuleCall_13()); 
     }
 )
+;
+
+
+
+
+
+// Entry rule entryRuleNewRole
+entryRuleNewRole returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getNewRoleRule()); }
+	 iv_ruleNewRole=ruleNewRole 
+	 { $current=$iv_ruleNewRole.current; } 
+	 EOF 
+;
+
+// Rule NewRole
+ruleNewRole returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+(((	otherlv_0='location' 
+    {
+    	newLeafNode(otherlv_0, grammarAccess.getNewRoleAccess().getLocationKeyword_0_0_0());
+    }
+this_AT_1=RULE_AT
+    { 
+    newLeafNode(this_AT_1, grammarAccess.getNewRoleAccess().getATTerminalRuleCall_0_0_1()); 
+    }
+(
+(
+		lv_role_2_0=RULE_ID
+		{
+			newLeafNode(lv_role_2_0, grammarAccess.getNewRoleAccess().getRoleIDTerminalRuleCall_0_0_2_0()); 
+		}
+		{
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getNewRoleRule());
+	        }
+       		setWithLastConsumed(
+       			$current, 
+       			"role",
+        		lv_role_2_0, 
+        		"org.eclipse.xtext.common.Terminals.ID");
+	    }
+
+)
+)this_COLON_3=RULE_COLON
+    { 
+    newLeafNode(this_COLON_3, grammarAccess.getNewRoleAccess().getCOLONTerminalRuleCall_0_0_3()); 
+    }
+(
+(
+		lv_location_4_0=RULE_STRING
+		{
+			newLeafNode(lv_location_4_0, grammarAccess.getNewRoleAccess().getLocationSTRINGTerminalRuleCall_0_0_4_0()); 
+		}
+		{
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getNewRoleRule());
+	        }
+       		setWithLastConsumed(
+       			$current, 
+       			"location",
+        		lv_location_4_0, 
+        		"org.eclipse.xtext.common.Terminals.STRING");
+	    }
+
+)
+))
+    |(
+(
+		lv_role_5_0=RULE_ID
+		{
+			newLeafNode(lv_role_5_0, grammarAccess.getNewRoleAccess().getRoleIDTerminalRuleCall_0_1_0()); 
+		}
+		{
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getNewRoleRule());
+	        }
+       		setWithLastConsumed(
+       			$current, 
+       			"role",
+        		lv_role_5_0, 
+        		"org.eclipse.xtext.common.Terminals.ID");
+	    }
+
+)
+))(this_COMMA_6=RULE_COMMA
+    { 
+    newLeafNode(this_COMMA_6, grammarAccess.getNewRoleAccess().getCOMMATerminalRuleCall_1_0()); 
+    }
+(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getNewRoleAccess().getNextRoleNewRoleParserRuleCall_1_1_0()); 
+	    }
+		lv_nextRole_7_0=ruleNewRole		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getNewRoleRule());
+	        }
+       		set(
+       			$current, 
+       			"nextRole",
+        		lv_nextRole_7_0, 
+        		"org.Aioc.NewRole");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+))?)
 ;
 
 
@@ -1051,16 +1139,16 @@ ruleChoreography returns [EObject current=null]
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getChoreographyAccess().getNextChoreographyParserRuleCall_1_1_0()); 
+	        newCompositeNode(grammarAccess.getChoreographyAccess().getParChoreographyParserRuleCall_1_1_0()); 
 	    }
-		lv_next_2_0=ruleChoreography		{
+		lv_par_2_0=ruleChoreography		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getChoreographyRule());
 	        }
        		set(
        			$current, 
-       			"next",
-        		lv_next_2_0, 
+       			"par",
+        		lv_par_2_0, 
         		"org.Aioc.Choreography");
 	        afterParserOrEnumRuleCall();
 	    }
@@ -1205,9 +1293,9 @@ ruleSeqBlock returns [EObject current=null]
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getSeqBlockAccess().getNextSeqBlockParserRuleCall_1_1_0()); 
+	        newCompositeNode(grammarAccess.getSeqBlockAccess().getNextChoreographyParserRuleCall_1_1_0()); 
 	    }
-		lv_next_2_0=ruleSeqBlock		{
+		lv_next_2_0=ruleChoreography		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getSeqBlockRule());
 	        }
@@ -1215,7 +1303,7 @@ ruleSeqBlock returns [EObject current=null]
        			$current, 
        			"next",
         		lv_next_2_0, 
-        		"org.Aioc.SeqBlock");
+        		"org.Aioc.Choreography");
 	        afterParserOrEnumRuleCall();
 	    }
 

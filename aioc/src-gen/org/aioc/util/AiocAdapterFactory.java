@@ -24,6 +24,7 @@ import org.aioc.LocalCode;
 import org.aioc.LocalShowCommand;
 import org.aioc.LocationDefinition;
 import org.aioc.NestedChoreography;
+import org.aioc.NewRole;
 import org.aioc.Preamble;
 import org.aioc.Roles;
 import org.aioc.Rule;
@@ -125,6 +126,11 @@ public class AiocAdapterFactory extends AdapterFactoryImpl
       public Adapter caseRule(Rule object)
       {
         return createRuleAdapter();
+      }
+      @Override
+      public Adapter caseNewRole(NewRole object)
+      {
+        return createNewRoleAdapter();
       }
       @Override
       public Adapter caseWhere(Where object)
@@ -364,6 +370,21 @@ public class AiocAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createRuleAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.aioc.NewRole <em>New Role</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.aioc.NewRole
+   * @generated
+   */
+  public Adapter createNewRoleAdapter()
   {
     return null;
   }

@@ -69,7 +69,7 @@ public class FunctionCollector extends AiocSwitch< Boolean >{
 	
 	public Boolean caseChoreography( Choreography n ){
 		doSwitch( n.getSeqBlock() );
-		if( n.getNext() != null ){ doSwitch( n.getNext() ); }
+		if( n.getPar() != null ){ doSwitch( n.getPar() ); }
 		return true;
 	}
 	
@@ -176,7 +176,7 @@ public class FunctionCollector extends AiocSwitch< Boolean >{
 				if( fl.getProtocol() != null ){
 					o.setProtocolId( fl.getProtocol() );
 				} else {
-					o.setProtocolId( "sodep" );
+					o.setProtocolId( "soap" );
 				}
 				for( String fs : fl.getFunctions().getFunctionName() ){									
 					RequestResponseOperationDeclaration r = new RequestResponseOperationDeclaration(

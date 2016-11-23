@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * </p>
  * <ul>
  *   <li>{@link org.aioc.impl.ChoreographyImpl#getSeqBlock <em>Seq Block</em>}</li>
- *   <li>{@link org.aioc.impl.ChoreographyImpl#getNext <em>Next</em>}</li>
+ *   <li>{@link org.aioc.impl.ChoreographyImpl#getPar <em>Par</em>}</li>
  * </ul>
  *
  * @generated
@@ -42,14 +42,14 @@ public class ChoreographyImpl extends MinimalEObjectImpl.Container implements Ch
   protected SeqBlock seqBlock;
 
   /**
-   * The cached value of the '{@link #getNext() <em>Next</em>}' containment reference.
+   * The cached value of the '{@link #getPar() <em>Par</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getNext()
+   * @see #getPar()
    * @generated
    * @ordered
    */
-  protected Choreography next;
+  protected Choreography par;
 
   /**
    * <!-- begin-user-doc -->
@@ -125,9 +125,9 @@ public class ChoreographyImpl extends MinimalEObjectImpl.Container implements Ch
    * <!-- end-user-doc -->
    * @generated
    */
-  public Choreography getNext()
+  public Choreography getPar()
   {
-    return next;
+    return par;
   }
 
   /**
@@ -135,13 +135,13 @@ public class ChoreographyImpl extends MinimalEObjectImpl.Container implements Ch
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetNext(Choreography newNext, NotificationChain msgs)
+  public NotificationChain basicSetPar(Choreography newPar, NotificationChain msgs)
   {
-    Choreography oldNext = next;
-    next = newNext;
+    Choreography oldPar = par;
+    par = newPar;
     if (eNotificationRequired())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AiocPackage.CHOREOGRAPHY__NEXT, oldNext, newNext);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AiocPackage.CHOREOGRAPHY__PAR, oldPar, newPar);
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
@@ -152,20 +152,20 @@ public class ChoreographyImpl extends MinimalEObjectImpl.Container implements Ch
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setNext(Choreography newNext)
+  public void setPar(Choreography newPar)
   {
-    if (newNext != next)
+    if (newPar != par)
     {
       NotificationChain msgs = null;
-      if (next != null)
-        msgs = ((InternalEObject)next).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AiocPackage.CHOREOGRAPHY__NEXT, null, msgs);
-      if (newNext != null)
-        msgs = ((InternalEObject)newNext).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AiocPackage.CHOREOGRAPHY__NEXT, null, msgs);
-      msgs = basicSetNext(newNext, msgs);
+      if (par != null)
+        msgs = ((InternalEObject)par).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AiocPackage.CHOREOGRAPHY__PAR, null, msgs);
+      if (newPar != null)
+        msgs = ((InternalEObject)newPar).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AiocPackage.CHOREOGRAPHY__PAR, null, msgs);
+      msgs = basicSetPar(newPar, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, AiocPackage.CHOREOGRAPHY__NEXT, newNext, newNext));
+      eNotify(new ENotificationImpl(this, Notification.SET, AiocPackage.CHOREOGRAPHY__PAR, newPar, newPar));
   }
 
   /**
@@ -180,8 +180,8 @@ public class ChoreographyImpl extends MinimalEObjectImpl.Container implements Ch
     {
       case AiocPackage.CHOREOGRAPHY__SEQ_BLOCK:
         return basicSetSeqBlock(null, msgs);
-      case AiocPackage.CHOREOGRAPHY__NEXT:
-        return basicSetNext(null, msgs);
+      case AiocPackage.CHOREOGRAPHY__PAR:
+        return basicSetPar(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -198,8 +198,8 @@ public class ChoreographyImpl extends MinimalEObjectImpl.Container implements Ch
     {
       case AiocPackage.CHOREOGRAPHY__SEQ_BLOCK:
         return getSeqBlock();
-      case AiocPackage.CHOREOGRAPHY__NEXT:
-        return getNext();
+      case AiocPackage.CHOREOGRAPHY__PAR:
+        return getPar();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -217,8 +217,8 @@ public class ChoreographyImpl extends MinimalEObjectImpl.Container implements Ch
       case AiocPackage.CHOREOGRAPHY__SEQ_BLOCK:
         setSeqBlock((SeqBlock)newValue);
         return;
-      case AiocPackage.CHOREOGRAPHY__NEXT:
-        setNext((Choreography)newValue);
+      case AiocPackage.CHOREOGRAPHY__PAR:
+        setPar((Choreography)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -237,8 +237,8 @@ public class ChoreographyImpl extends MinimalEObjectImpl.Container implements Ch
       case AiocPackage.CHOREOGRAPHY__SEQ_BLOCK:
         setSeqBlock((SeqBlock)null);
         return;
-      case AiocPackage.CHOREOGRAPHY__NEXT:
-        setNext((Choreography)null);
+      case AiocPackage.CHOREOGRAPHY__PAR:
+        setPar((Choreography)null);
         return;
     }
     super.eUnset(featureID);
@@ -256,8 +256,8 @@ public class ChoreographyImpl extends MinimalEObjectImpl.Container implements Ch
     {
       case AiocPackage.CHOREOGRAPHY__SEQ_BLOCK:
         return seqBlock != null;
-      case AiocPackage.CHOREOGRAPHY__NEXT:
-        return next != null;
+      case AiocPackage.CHOREOGRAPHY__PAR:
+        return par != null;
     }
     return super.eIsSet(featureID);
   }

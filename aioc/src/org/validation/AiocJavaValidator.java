@@ -21,8 +21,8 @@
 
 package org.validation;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-
 import org.aioc.Aioc;
 import org.aioc.AiocPackage;
 import org.aioc.Choreography;
@@ -36,6 +36,7 @@ import org.aioc.SeqBlock;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.validation.Check;
 import org.epp.impl.NameCollector;
+import jolie.util.Pair;
 
 /**
  * Custom validation rules. 
@@ -74,15 +75,17 @@ public class AiocJavaValidator extends org.validation.AbstractAiocJavaValidator 
 	public void checkConnectednessForSequence( SeqBlock n ) {
 		Boolean isConnected = true;
 		if( n.getNext() != null ){
+//			System.out.println( "\n\nChecking connectedness for " + n.getEvent() );
 			TransF transF = new TransF();
-			HashSet< String > transFRoles = transF.getRoles( n );
+			ArrayList< Pair< String, String > > transFRoles = transF.getRoles( n );
 			TransI transI = new TransI();
-			HashSet< String > transIRoles = transI.getRoles( n.getNext() );
+			ArrayList< Pair< String, String > > transIRoles = transI.getRoles( n.getNext() );
 			isConnected = isNonEmptyIntersect( transIRoles, transFRoles );
 			if( !isConnected ){
+//				System.out.println( "THE SEQUENCE IS NOT CONNECTED" );
 				error("The sequence is not connected",
 						n.getNext(),
-						AiocPackage.Literals.SEQ_BLOCK__EVENT);
+						AiocPackage.Literals.CHOREOGRAPHY__SEQ_BLOCK);
 			}
 		}
 	}
@@ -213,17 +216,41 @@ public class AiocJavaValidator extends org.validation.AbstractAiocJavaValidator 
 	}
 	
 	private Boolean isNonEmptyIntersect( 
-			HashSet< String > transIRoles, 
-			HashSet< String > transFRoles ){
-		Boolean isNonEmpty = false;
+			ArrayList< Pair <String, String> > transIRoles, 
+			ArrayList< Pair <String, String> > transFRoles ){
+//		System.out.println( "CHECKING isNonEmptyIntersect" );
+//		System.out.println( "transFRoles" );
+//		for (Pair<String, String> roles : transFRoles) {
+//			System.out.println( roles.key() + " -> " + roles.value() );
+//		}
+//		System.out.println( "transIRoles" );
+//		for (Pair< String, String > roles : transIRoles) {
+//			System.out.println( roles.key() + " -> " + roles.value() );
+//		}
+//		System.out.println( "= = = = = = = = = =" );
 		if( transFRoles.size() == 0 || transIRoles.size() == 0 ){
-			isNonEmpty = true;
+			return true;
 		} else {
-			for( String role : transIRoles ){
-				isNonEmpty = isNonEmpty || transFRoles.contains( role );
-			}			
+			for( Pair<String, String> fRoles : transFRoles ){
+				for( Pair<String, String> iRoles : transIRoles ){
+					if ( !matchingPair( fRoles, iRoles) ){
+						return false;
+					}
+				}
+			}
+			return true;
 		}
-		return isNonEmpty;
 	}
 	
+	
+	private Boolean matchingPair( Pair< String, String > fRoles, Pair< String, String > iRoles ){
+		HashSet< String > fSet = new HashSet< String >();
+		fSet.add( fRoles.key() );
+		fSet.add( fRoles.value() );
+//		System.out.println( "checking " + 
+//				fRoles.key() +  " -> " + fRoles.value() 
+//				+ " against " + 
+//				iRoles.key() + " -> " + iRoles.value() );
+		return ( fSet.contains( iRoles.key() ) || fSet.contains( iRoles.value() ) );
+	}
 }

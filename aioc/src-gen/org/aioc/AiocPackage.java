@@ -168,7 +168,7 @@ public interface AiocPackage extends EPackage
   int RULE__FUNCTION_LOCATION = 1;
 
   /**
-   * The feature id for the '<em><b>New Roles</b></em>' attribute list.
+   * The feature id for the '<em><b>New Roles</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -204,6 +204,52 @@ public interface AiocPackage extends EPackage
   int RULE_FEATURE_COUNT = 5;
 
   /**
+   * The meta object id for the '{@link org.aioc.impl.NewRoleImpl <em>New Role</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.aioc.impl.NewRoleImpl
+   * @see org.aioc.impl.AiocPackageImpl#getNewRole()
+   * @generated
+   */
+  int NEW_ROLE = 3;
+
+  /**
+   * The feature id for the '<em><b>Role</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NEW_ROLE__ROLE = 0;
+
+  /**
+   * The feature id for the '<em><b>Location</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NEW_ROLE__LOCATION = 1;
+
+  /**
+   * The feature id for the '<em><b>Next Role</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NEW_ROLE__NEXT_ROLE = 2;
+
+  /**
+   * The number of structural features of the '<em>New Role</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NEW_ROLE_FEATURE_COUNT = 3;
+
+  /**
    * The meta object id for the '{@link org.aioc.impl.WhereImpl <em>Where</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -211,7 +257,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getWhere()
    * @generated
    */
-  int WHERE = 3;
+  int WHERE = 4;
 
   /**
    * The feature id for the '<em><b>Where Condition</b></em>' containment reference.
@@ -248,7 +294,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getWhereCompareCondition()
    * @generated
    */
-  int WHERE_COMPARE_CONDITION = 4;
+  int WHERE_COMPARE_CONDITION = 5;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -321,7 +367,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getWhereExpressionBasicTerm()
    * @generated
    */
-  int WHERE_EXPRESSION_BASIC_TERM = 5;
+  int WHERE_EXPRESSION_BASIC_TERM = 6;
 
   /**
    * The feature id for the '<em><b>NVariable</b></em>' attribute.
@@ -376,7 +422,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getPreamble()
    * @generated
    */
-  int PREAMBLE = 6;
+  int PREAMBLE = 7;
 
   /**
    * The feature id for the '<em><b>Starter</b></em>' attribute.
@@ -413,7 +459,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getFunctionLocation()
    * @generated
    */
-  int FUNCTION_LOCATION = 7;
+  int FUNCTION_LOCATION = 8;
 
   /**
    * The feature id for the '<em><b>Functions</b></em>' containment reference.
@@ -459,7 +505,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getFunctionList()
    * @generated
    */
-  int FUNCTION_LIST = 8;
+  int FUNCTION_LIST = 9;
 
   /**
    * The feature id for the '<em><b>Function Name</b></em>' attribute list.
@@ -487,7 +533,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getLocationDefinition()
    * @generated
    */
-  int LOCATION_DEFINITION = 9;
+  int LOCATION_DEFINITION = 10;
 
   /**
    * The feature id for the '<em><b>Role</b></em>' attribute.
@@ -533,7 +579,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getChoreography()
    * @generated
    */
-  int CHOREOGRAPHY = 10;
+  int CHOREOGRAPHY = 11;
 
   /**
    * The feature id for the '<em><b>Seq Block</b></em>' containment reference.
@@ -545,13 +591,13 @@ public interface AiocPackage extends EPackage
   int CHOREOGRAPHY__SEQ_BLOCK = 0;
 
   /**
-   * The feature id for the '<em><b>Next</b></em>' containment reference.
+   * The feature id for the '<em><b>Par</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int CHOREOGRAPHY__NEXT = 1;
+  int CHOREOGRAPHY__PAR = 1;
 
   /**
    * The number of structural features of the '<em>Choreography</em>' class.
@@ -570,7 +616,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getSeqBlock()
    * @generated
    */
-  int SEQ_BLOCK = 11;
+  int SEQ_BLOCK = 12;
 
   /**
    * The feature id for the '<em><b>Event</b></em>' containment reference.
@@ -607,7 +653,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getSkip()
    * @generated
    */
-  int SKIP = 12;
+  int SKIP = 13;
 
   /**
    * The feature id for the '<em><b>Skip</b></em>' attribute.
@@ -635,7 +681,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getInteraction()
    * @generated
    */
-  int INTERACTION = 13;
+  int INTERACTION = 14;
 
   /**
    * The feature id for the '<em><b>Operation</b></em>' attribute.
@@ -699,7 +745,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getLocalCode()
    * @generated
    */
-  int LOCAL_CODE = 14;
+  int LOCAL_CODE = 15;
 
   /**
    * The feature id for the '<em><b>Thread</b></em>' attribute.
@@ -727,7 +773,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getIfThenElse()
    * @generated
    */
-  int IF_THEN_ELSE = 15;
+  int IF_THEN_ELSE = 16;
 
   /**
    * The feature id for the '<em><b>Key</b></em>' attribute.
@@ -791,7 +837,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getWhile()
    * @generated
    */
-  int WHILE = 16;
+  int WHILE = 17;
 
   /**
    * The feature id for the '<em><b>Condition</b></em>' containment reference.
@@ -846,7 +892,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getScope()
    * @generated
    */
-  int SCOPE = 17;
+  int SCOPE = 18;
 
   /**
    * The feature id for the '<em><b>Thread</b></em>' attribute.
@@ -910,7 +956,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getRoles()
    * @generated
    */
-  int ROLES = 18;
+  int ROLES = 19;
 
   /**
    * The feature id for the '<em><b>Roles</b></em>' attribute list.
@@ -938,7 +984,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getNestedChoreography()
    * @generated
    */
-  int NESTED_CHOREOGRAPHY = 19;
+  int NESTED_CHOREOGRAPHY = 20;
 
   /**
    * The feature id for the '<em><b>Choreography</b></em>' containment reference.
@@ -966,7 +1012,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getAssignmentSet()
    * @generated
    */
-  int ASSIGNMENT_SET = 20;
+  int ASSIGNMENT_SET = 21;
 
   /**
    * The feature id for the '<em><b>Assignment</b></em>' containment reference.
@@ -1003,7 +1049,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getAssignment()
    * @generated
    */
-  int ASSIGNMENT = 21;
+  int ASSIGNMENT = 22;
 
   /**
    * The feature id for the '<em><b>Variable</b></em>' attribute.
@@ -1040,7 +1086,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getExpression()
    * @generated
    */
-  int EXPRESSION = 22;
+  int EXPRESSION = 23;
 
   /**
    * The feature id for the '<em><b>Sum Expression</b></em>' containment reference.
@@ -1068,7 +1114,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getSumExpression()
    * @generated
    */
-  int SUM_EXPRESSION = 23;
+  int SUM_EXPRESSION = 24;
 
   /**
    * The feature id for the '<em><b>Children</b></em>' containment reference list.
@@ -1096,7 +1142,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getSumExpressionTerm()
    * @generated
    */
-  int SUM_EXPRESSION_TERM = 24;
+  int SUM_EXPRESSION_TERM = 25;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -1124,7 +1170,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getExpressionBasicTerm()
    * @generated
    */
-  int EXPRESSION_BASIC_TERM = 25;
+  int EXPRESSION_BASIC_TERM = 26;
 
   /**
    * The feature id for the '<em><b>Not</b></em>' attribute.
@@ -1179,7 +1225,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getConstant()
    * @generated
    */
-  int CONSTANT = 26;
+  int CONSTANT = 27;
 
   /**
    * The feature id for the '<em><b>Int Value</b></em>' containment reference.
@@ -1234,7 +1280,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getCondition()
    * @generated
    */
-  int CONDITION = 27;
+  int CONDITION = 28;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -1280,7 +1326,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getConditionOperator()
    * @generated
    */
-  int CONDITION_OPERATOR = 28;
+  int CONDITION_OPERATOR = 29;
 
   /**
    * The feature id for the '<em><b>Lt</b></em>' attribute.
@@ -1371,7 +1417,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getFunction()
    * @generated
    */
-  int FUNCTION = 29;
+  int FUNCTION = 30;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1408,7 +1454,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getInteger()
    * @generated
    */
-  int INTEGER = 30;
+  int INTEGER = 31;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -1436,7 +1482,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getLocalAskCommand()
    * @generated
    */
-  int LOCAL_ASK_COMMAND = 31;
+  int LOCAL_ASK_COMMAND = 32;
 
   /**
    * The feature id for the '<em><b>Thread</b></em>' attribute.
@@ -1482,7 +1528,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getLocalShowCommand()
    * @generated
    */
-  int LOCAL_SHOW_COMMAND = 32;
+  int LOCAL_SHOW_COMMAND = 33;
 
   /**
    * The feature id for the '<em><b>Thread</b></em>' attribute.
@@ -1528,7 +1574,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getLocalAssignmentCommand()
    * @generated
    */
-  int LOCAL_ASSIGNMENT_COMMAND = 33;
+  int LOCAL_ASSIGNMENT_COMMAND = 34;
 
   /**
    * The feature id for the '<em><b>Thread</b></em>' attribute.
@@ -1583,7 +1629,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getSumExpressionAddTerm()
    * @generated
    */
-  int SUM_EXPRESSION_ADD_TERM = 34;
+  int SUM_EXPRESSION_ADD_TERM = 35;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -1611,7 +1657,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getSumExpressionSubtractTerm()
    * @generated
    */
-  int SUM_EXPRESSION_SUBTRACT_TERM = 35;
+  int SUM_EXPRESSION_SUBTRACT_TERM = 36;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -1639,7 +1685,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getSumExpressionTimesTerm()
    * @generated
    */
-  int SUM_EXPRESSION_TIMES_TERM = 36;
+  int SUM_EXPRESSION_TIMES_TERM = 37;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -1667,7 +1713,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getSumExpressionDivideTerm()
    * @generated
    */
-  int SUM_EXPRESSION_DIVIDE_TERM = 37;
+  int SUM_EXPRESSION_DIVIDE_TERM = 38;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -1796,15 +1842,15 @@ public interface AiocPackage extends EPackage
   EReference getRule_FunctionLocation();
 
   /**
-   * Returns the meta object for the attribute list '{@link org.aioc.Rule#getNewRoles <em>New Roles</em>}'.
+   * Returns the meta object for the containment reference '{@link org.aioc.Rule#getNewRoles <em>New Roles</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute list '<em>New Roles</em>'.
+   * @return the meta object for the containment reference '<em>New Roles</em>'.
    * @see org.aioc.Rule#getNewRoles()
    * @see #getRule()
    * @generated
    */
-  EAttribute getRule_NewRoles();
+  EReference getRule_NewRoles();
 
   /**
    * Returns the meta object for the containment reference '{@link org.aioc.Rule#getWhere <em>Where</em>}'.
@@ -1827,6 +1873,49 @@ public interface AiocPackage extends EPackage
    * @generated
    */
   EReference getRule_Choreography();
+
+  /**
+   * Returns the meta object for class '{@link org.aioc.NewRole <em>New Role</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>New Role</em>'.
+   * @see org.aioc.NewRole
+   * @generated
+   */
+  EClass getNewRole();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.aioc.NewRole#getRole <em>Role</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Role</em>'.
+   * @see org.aioc.NewRole#getRole()
+   * @see #getNewRole()
+   * @generated
+   */
+  EAttribute getNewRole_Role();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.aioc.NewRole#getLocation <em>Location</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Location</em>'.
+   * @see org.aioc.NewRole#getLocation()
+   * @see #getNewRole()
+   * @generated
+   */
+  EAttribute getNewRole_Location();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.aioc.NewRole#getNextRole <em>Next Role</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Next Role</em>'.
+   * @see org.aioc.NewRole#getNextRole()
+   * @see #getNewRole()
+   * @generated
+   */
+  EReference getNewRole_NextRole();
 
   /**
    * Returns the meta object for class '{@link org.aioc.Where <em>Where</em>}'.
@@ -2151,15 +2240,15 @@ public interface AiocPackage extends EPackage
   EReference getChoreography_SeqBlock();
 
   /**
-   * Returns the meta object for the containment reference '{@link org.aioc.Choreography#getNext <em>Next</em>}'.
+   * Returns the meta object for the containment reference '{@link org.aioc.Choreography#getPar <em>Par</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Next</em>'.
-   * @see org.aioc.Choreography#getNext()
+   * @return the meta object for the containment reference '<em>Par</em>'.
+   * @see org.aioc.Choreography#getPar()
    * @see #getChoreography()
    * @generated
    */
-  EReference getChoreography_Next();
+  EReference getChoreography_Par();
 
   /**
    * Returns the meta object for class '{@link org.aioc.SeqBlock <em>Seq Block</em>}'.
@@ -3212,12 +3301,12 @@ public interface AiocPackage extends EPackage
     EReference RULE__FUNCTION_LOCATION = eINSTANCE.getRule_FunctionLocation();
 
     /**
-     * The meta object literal for the '<em><b>New Roles</b></em>' attribute list feature.
+     * The meta object literal for the '<em><b>New Roles</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute RULE__NEW_ROLES = eINSTANCE.getRule_NewRoles();
+    EReference RULE__NEW_ROLES = eINSTANCE.getRule_NewRoles();
 
     /**
      * The meta object literal for the '<em><b>Where</b></em>' containment reference feature.
@@ -3234,6 +3323,40 @@ public interface AiocPackage extends EPackage
      * @generated
      */
     EReference RULE__CHOREOGRAPHY = eINSTANCE.getRule_Choreography();
+
+    /**
+     * The meta object literal for the '{@link org.aioc.impl.NewRoleImpl <em>New Role</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.aioc.impl.NewRoleImpl
+     * @see org.aioc.impl.AiocPackageImpl#getNewRole()
+     * @generated
+     */
+    EClass NEW_ROLE = eINSTANCE.getNewRole();
+
+    /**
+     * The meta object literal for the '<em><b>Role</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute NEW_ROLE__ROLE = eINSTANCE.getNewRole_Role();
+
+    /**
+     * The meta object literal for the '<em><b>Location</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute NEW_ROLE__LOCATION = eINSTANCE.getNewRole_Location();
+
+    /**
+     * The meta object literal for the '<em><b>Next Role</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference NEW_ROLE__NEXT_ROLE = eINSTANCE.getNewRole_NextRole();
 
     /**
      * The meta object literal for the '{@link org.aioc.impl.WhereImpl <em>Where</em>}' class.
@@ -3492,12 +3615,12 @@ public interface AiocPackage extends EPackage
     EReference CHOREOGRAPHY__SEQ_BLOCK = eINSTANCE.getChoreography_SeqBlock();
 
     /**
-     * The meta object literal for the '<em><b>Next</b></em>' containment reference feature.
+     * The meta object literal for the '<em><b>Par</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference CHOREOGRAPHY__NEXT = eINSTANCE.getChoreography_Next();
+    EReference CHOREOGRAPHY__PAR = eINSTANCE.getChoreography_Par();
 
     /**
      * The meta object literal for the '{@link org.aioc.impl.SeqBlockImpl <em>Seq Block</em>}' class.

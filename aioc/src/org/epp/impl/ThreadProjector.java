@@ -121,11 +121,11 @@ public class ThreadProjector extends AiocSwitch<ThreadProjectionResult> {
 			result = seqBlockResult;
 		}
 		
-		if( n.getNext() != null ){
+		if( n.getPar() != null ){
 			NameCollector nextNC = new NameCollector();
-			nextNC.collect( n.getNext(), null);
+			nextNC.collect( n.getPar(), null);
 			if( nextNC.getRoles().contains( thread ) ){
-				ThreadProjectionResult nextResult = doSwitch( n.getNext() );
+				ThreadProjectionResult nextResult = doSwitch( n.getPar() );
 				result.mergeNamesOnly( nextResult );
 				if(	seqBlockResult.jolieNode() != null ){
 					ParallelStatement p = new ParallelStatement( JolieEppUtils.PARSING_CONTEXT );

@@ -19,11 +19,17 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="functionLocation" upperBound="-1"
         eType="#//FunctionLocation" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="newRoles" unique="false"
-        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="newRoles" eType="#//NewRole"
+        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="where" eType="#//Where"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="choreography" eType="#//Choreography"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NewRole">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="role" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nextRole" eType="#//NewRole"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Where">
@@ -74,13 +80,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="Choreography">
     <eStructuralFeatures xsi:type="ecore:EReference" name="seqBlock" eType="#//SeqBlock"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="next" eType="#//Choreography"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="par" eType="#//Choreography"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SeqBlock">
     <eStructuralFeatures xsi:type="ecore:EReference" name="event" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="next" eType="#//SeqBlock"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="next" eType="#//Choreography"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Skip">

@@ -84,6 +84,7 @@ import org.aioc.AiocJ;
 import org.aioc.AssignmentSet;
 import org.aioc.Choreography;
 import org.aioc.LocationDefinition;
+import org.aioc.NewRole;
 import org.aioc.Rule;
 import org.epp.impl.ExpressionProjector;
 import org.epp.impl.FileUtils;
@@ -717,16 +718,19 @@ public class JolieEpp {
 			));
 		}
 		// newRoles
-		for ( String newRole : rule.getNewRoles() ){
+		NewRole nextNewRole = rule.getNewRoles();
+		while( nextNewRole != null ){
 			dataInitSequence.addChild(
-					new AssignStatement(
-						JolieEppUtils.PARSING_CONTEXT,
-						JolieEppUtils.toPath(
-								"rule.newRoles[ #rule.newRoles ]"
-						),
-						new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, newRole)
+				new AssignStatement(
+					JolieEppUtils.PARSING_CONTEXT,
+					JolieEppUtils.toPath(
+							"rule.newRoles[ #rule.newRoles ]"
+					),
+					new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, nextNewRole.getRole() )
 			));
+			nextNewRole = nextNewRole.getNextRole();
 		}
+		
 		// scope keys
 		for ( ScopeStructure scope : scopes ){
 			dataInitSequence.addChild(

@@ -58,12 +58,12 @@ public interface SeqBlock extends EObject
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Next</em>' containment reference.
-   * @see #setNext(SeqBlock)
+   * @see #setNext(Choreography)
    * @see org.aioc.AiocPackage#getSeqBlock_Next()
    * @model containment="true"
    * @generated
    */
-  SeqBlock getNext();
+  Choreography getNext();
 
   /**
    * Sets the value of the '{@link org.aioc.SeqBlock#getNext <em>Next</em>}' containment reference.
@@ -73,6 +73,6 @@ public interface SeqBlock extends EObject
    * @see #getNext()
    * @generated
    */
-  void setNext(SeqBlock value);
+  void setNext(Choreography value);
 
 } // SeqBlock

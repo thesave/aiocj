@@ -21,7 +21,7 @@
 
 package org.validation;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import org.aioc.Choreography;
 import org.aioc.IfThenElse;
 import org.aioc.Interaction;
@@ -33,19 +33,29 @@ import org.aioc.Skip;
 import org.aioc.While;
 import org.aioc.util.AiocSwitch;
 
+import jolie.util.Pair;
+
 public class TransI extends AiocSwitch< Boolean > {
 
-	private HashSet<String> roles = new HashSet<String>();
+	private ArrayList< Pair< String, String > > roles = new ArrayList< Pair< String, String > >();
 	
 	public TransI() {}
 	
 	@Override
 	public Boolean caseChoreography( Choreography n ) {
 		doSwitch( n.getSeqBlock() );
+		if ( n.getPar() != null ){
+			doSwitch( n.getPar() );
+		}
 		return true;
 	}
 	
-	public HashSet< String > getRoles( SeqBlock n ){
+	public ArrayList< Pair< String, String > > getRoles( SeqBlock n ){
+		doSwitch( n );
+		return roles;
+	}
+	
+	public ArrayList< Pair< String, String > > getRoles( Choreography n ){
 		doSwitch( n );
 		return roles;
 	}
@@ -64,20 +74,19 @@ public class TransI extends AiocSwitch< Boolean > {
 	
 	@Override
 	public Boolean caseInteraction( Interaction n ){
-		roles.add( n.getSender() );
-		roles.add( n.getReceiver() );
+		roles.add( new Pair<String, String>( n.getSender(), n.getReceiver() ) );
 		return true;
 	}
 	
 	@Override
 	public Boolean caseLocalCode( LocalCode n ){
-		roles.add( n.getThread() );
+		roles.add( new Pair<String, String>( n.getThread(), n.getThread() ) );
 		return true;
 	}
 	
 	@Override
 	public Boolean caseScope( Scope n ){
-		roles.add( n.getThread() );
+		roles.add( new Pair<String, String>( n.getThread(), n.getThread() ) );
 		return true;
 	}
 	
@@ -89,13 +98,13 @@ public class TransI extends AiocSwitch< Boolean > {
 
 	@Override
 	public Boolean caseIfThenElse( IfThenElse n ){
-		roles.add( n.getThread() );
+		roles.add( new Pair<String, String>( n.getThread(), n.getThread() ) );
 		return true;
 	}
 	
 	@Override
 	public Boolean caseWhile( While n ){
-		roles.add( n.getThread() ); 
+		roles.add( new Pair<String, String>( n.getThread(), n.getThread() ) );
 		return true;
 	}
 

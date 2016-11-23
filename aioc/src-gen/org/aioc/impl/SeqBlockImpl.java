@@ -3,6 +3,7 @@
 package org.aioc.impl;
 
 import org.aioc.AiocPackage;
+import org.aioc.Choreography;
 import org.aioc.SeqBlock;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -49,7 +50,7 @@ public class SeqBlockImpl extends MinimalEObjectImpl.Container implements SeqBlo
    * @generated
    * @ordered
    */
-  protected SeqBlock next;
+  protected Choreography next;
 
   /**
    * <!-- begin-user-doc -->
@@ -125,7 +126,7 @@ public class SeqBlockImpl extends MinimalEObjectImpl.Container implements SeqBlo
    * <!-- end-user-doc -->
    * @generated
    */
-  public SeqBlock getNext()
+  public Choreography getNext()
   {
     return next;
   }
@@ -135,9 +136,9 @@ public class SeqBlockImpl extends MinimalEObjectImpl.Container implements SeqBlo
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetNext(SeqBlock newNext, NotificationChain msgs)
+  public NotificationChain basicSetNext(Choreography newNext, NotificationChain msgs)
   {
-    SeqBlock oldNext = next;
+    Choreography oldNext = next;
     next = newNext;
     if (eNotificationRequired())
     {
@@ -152,7 +153,7 @@ public class SeqBlockImpl extends MinimalEObjectImpl.Container implements SeqBlo
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setNext(SeqBlock newNext)
+  public void setNext(Choreography newNext)
   {
     if (newNext != next)
     {
@@ -218,7 +219,7 @@ public class SeqBlockImpl extends MinimalEObjectImpl.Container implements SeqBlo
         setEvent((EObject)newValue);
         return;
       case AiocPackage.SEQ_BLOCK__NEXT:
-        setNext((SeqBlock)newValue);
+        setNext((Choreography)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -238,7 +239,7 @@ public class SeqBlockImpl extends MinimalEObjectImpl.Container implements SeqBlo
         setEvent((EObject)null);
         return;
       case AiocPackage.SEQ_BLOCK__NEXT:
-        setNext((SeqBlock)null);
+        setNext((Choreography)null);
         return;
     }
     super.eUnset(featureID);
