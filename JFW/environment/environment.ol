@@ -80,7 +80,7 @@ define set
 		store.( var ) = val;
 		undef( var ); undef( val );
 		writeStore
-	} else if ( command = "D" || command == "d" ){
+	} else if ( command == "D" || command == "d" ){
 		print@Console( "Insert the name of the variable you want to delete \n > " )();
 		registerForInput@Console()();
 		in( var );

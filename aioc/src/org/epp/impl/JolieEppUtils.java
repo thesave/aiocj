@@ -296,7 +296,7 @@ public class JolieEppUtils
 		return UUID.randomUUID().toString();
 	}
 	
-	private static int rulesNumber = 0;
+	private static int rulesNumber = 1;
 	
 	public static String getRuleNumber() {
 		return "rule" + rulesNumber++;
