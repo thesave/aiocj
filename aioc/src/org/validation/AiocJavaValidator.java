@@ -238,6 +238,13 @@ public class AiocJavaValidator extends org.validation.AbstractAiocJavaValidator 
 					}
 				}
 			}
+			for( Pair<String, String> iRoles : transIRoles ){
+				for( Pair<String, String> fRoles : transFRoles ){
+					if ( !matchingPair( iRoles, fRoles) ){
+						return false;
+					}
+				}
+			}
 			return true;
 		}
 	}

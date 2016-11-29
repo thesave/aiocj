@@ -17,15 +17,14 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Aioc.ecore#//Aioc/choreography"/>
     </genClasses>
     <genClasses ecoreClass="Aioc.ecore#//Rule">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Aioc.ecore#//Rule/locDefinition"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Aioc.ecore#//Rule/functionLocation"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Aioc.ecore#//Rule/newRoles"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Aioc.ecore#//Rule/locDefinition"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Aioc.ecore#//Rule/where"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Aioc.ecore#//Rule/choreography"/>
     </genClasses>
     <genClasses ecoreClass="Aioc.ecore#//NewRole">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//NewRole/role"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//NewRole/location"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Aioc.ecore#//NewRole/nextRole"/>
     </genClasses>
     <genClasses ecoreClass="Aioc.ecore#//Where">

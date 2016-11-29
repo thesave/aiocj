@@ -245,66 +245,66 @@ this_LCURLY_1=RULE_LCURLY
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getRuleAccess().getLocDefinitionLocationDefinitionParserRuleCall_2_0()); 
+	        newCompositeNode(grammarAccess.getRuleAccess().getFunctionLocationFunctionLocationParserRuleCall_2_0()); 
 	    }
-		lv_locDefinition_2_0=ruleLocationDefinition		{
-	        if ($current==null) {
-	            $current = createModelElementForParent(grammarAccess.getRuleRule());
-	        }
-       		set(
-       			$current, 
-       			"locDefinition",
-        		lv_locDefinition_2_0, 
-        		"org.Aioc.LocationDefinition");
-	        afterParserOrEnumRuleCall();
-	    }
-
-)
-)?(
-(
-		{ 
-	        newCompositeNode(grammarAccess.getRuleAccess().getFunctionLocationFunctionLocationParserRuleCall_3_0()); 
-	    }
-		lv_functionLocation_3_0=ruleFunctionLocation		{
+		lv_functionLocation_2_0=ruleFunctionLocation		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getRuleRule());
 	        }
        		add(
        			$current, 
        			"functionLocation",
-        		lv_functionLocation_3_0, 
+        		lv_functionLocation_2_0, 
         		"org.Aioc.FunctionLocation");
 	        afterParserOrEnumRuleCall();
 	    }
 
 )
-)*(	otherlv_4='newRoles' 
+)*(	otherlv_3='newRoles' 
     {
-    	newLeafNode(otherlv_4, grammarAccess.getRuleAccess().getNewRolesKeyword_4_0());
+    	newLeafNode(otherlv_3, grammarAccess.getRuleAccess().getNewRolesKeyword_3_0());
     }
-this_COLON_5=RULE_COLON
+this_COLON_4=RULE_COLON
     { 
-    newLeafNode(this_COLON_5, grammarAccess.getRuleAccess().getCOLONTerminalRuleCall_4_1()); 
+    newLeafNode(this_COLON_4, grammarAccess.getRuleAccess().getCOLONTerminalRuleCall_3_1()); 
     }
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getRuleAccess().getNewRolesNewRoleParserRuleCall_4_2_0()); 
+	        newCompositeNode(grammarAccess.getRuleAccess().getNewRolesNewRoleParserRuleCall_3_2_0()); 
 	    }
-		lv_newRoles_6_0=ruleNewRole		{
+		lv_newRoles_5_0=ruleNewRole		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getRuleRule());
 	        }
        		set(
        			$current, 
        			"newRoles",
-        		lv_newRoles_6_0, 
+        		lv_newRoles_5_0, 
         		"org.Aioc.NewRole");
 	        afterParserOrEnumRuleCall();
 	    }
 
 )
-))?	otherlv_7='on' 
+))?(
+(
+		{ 
+	        newCompositeNode(grammarAccess.getRuleAccess().getLocDefinitionLocationDefinitionParserRuleCall_4_0()); 
+	    }
+		lv_locDefinition_6_0=ruleLocationDefinition		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getRuleRule());
+	        }
+       		set(
+       			$current, 
+       			"locDefinition",
+        		lv_locDefinition_6_0, 
+        		"org.Aioc.LocationDefinition");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)?	otherlv_7='on' 
     {
     	newLeafNode(otherlv_7, grammarAccess.getRuleAccess().getOnKeyword_5());
     }
@@ -389,19 +389,11 @@ ruleNewRole returns [EObject current=null]
     @init { enterRule(); 
     }
     @after { leaveRule(); }:
-(((	otherlv_0='location' 
-    {
-    	newLeafNode(otherlv_0, grammarAccess.getNewRoleAccess().getLocationKeyword_0_0_0());
-    }
-this_AT_1=RULE_AT
-    { 
-    newLeafNode(this_AT_1, grammarAccess.getNewRoleAccess().getATTerminalRuleCall_0_0_1()); 
-    }
+((
 (
-(
-		lv_role_2_0=RULE_ID
+		lv_role_0_0=RULE_ID
 		{
-			newLeafNode(lv_role_2_0, grammarAccess.getNewRoleAccess().getRoleIDTerminalRuleCall_0_0_2_0()); 
+			newLeafNode(lv_role_0_0, grammarAccess.getNewRoleAccess().getRoleIDTerminalRuleCall_0_0()); 
 		}
 		{
 	        if ($current==null) {
@@ -410,69 +402,28 @@ this_AT_1=RULE_AT
        		setWithLastConsumed(
        			$current, 
        			"role",
-        		lv_role_2_0, 
+        		lv_role_0_0, 
         		"org.eclipse.xtext.common.Terminals.ID");
 	    }
 
 )
-)this_COLON_3=RULE_COLON
+)(this_COMMA_1=RULE_COMMA
     { 
-    newLeafNode(this_COLON_3, grammarAccess.getNewRoleAccess().getCOLONTerminalRuleCall_0_0_3()); 
-    }
-(
-(
-		lv_location_4_0=RULE_STRING
-		{
-			newLeafNode(lv_location_4_0, grammarAccess.getNewRoleAccess().getLocationSTRINGTerminalRuleCall_0_0_4_0()); 
-		}
-		{
-	        if ($current==null) {
-	            $current = createModelElement(grammarAccess.getNewRoleRule());
-	        }
-       		setWithLastConsumed(
-       			$current, 
-       			"location",
-        		lv_location_4_0, 
-        		"org.eclipse.xtext.common.Terminals.STRING");
-	    }
-
-)
-))
-    |(
-(
-		lv_role_5_0=RULE_ID
-		{
-			newLeafNode(lv_role_5_0, grammarAccess.getNewRoleAccess().getRoleIDTerminalRuleCall_0_1_0()); 
-		}
-		{
-	        if ($current==null) {
-	            $current = createModelElement(grammarAccess.getNewRoleRule());
-	        }
-       		setWithLastConsumed(
-       			$current, 
-       			"role",
-        		lv_role_5_0, 
-        		"org.eclipse.xtext.common.Terminals.ID");
-	    }
-
-)
-))(this_COMMA_6=RULE_COMMA
-    { 
-    newLeafNode(this_COMMA_6, grammarAccess.getNewRoleAccess().getCOMMATerminalRuleCall_1_0()); 
+    newLeafNode(this_COMMA_1, grammarAccess.getNewRoleAccess().getCOMMATerminalRuleCall_1_0()); 
     }
 (
 (
 		{ 
 	        newCompositeNode(grammarAccess.getNewRoleAccess().getNextRoleNewRoleParserRuleCall_1_1_0()); 
 	    }
-		lv_nextRole_7_0=ruleNewRole		{
+		lv_nextRole_2_0=ruleNewRole		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getNewRoleRule());
 	        }
        		set(
        			$current, 
        			"nextRole",
-        		lv_nextRole_7_0, 
+        		lv_nextRole_2_0, 
         		"org.Aioc.NewRole");
 	        afterParserOrEnumRuleCall();
 	    }

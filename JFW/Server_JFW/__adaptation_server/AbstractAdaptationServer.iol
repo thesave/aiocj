@@ -188,8 +188,12 @@ define sendRule {
 
   // create the newRoles and store their locations
   for ( newRole in rule.newRoles ) {
+    if( is_defined( newRole.location ) ) {
+      RoleSupporter.location = newRole.location
+    };
     createRole@RoleSupporter( newRole )( roleID );
-    newRolesLocations.( newRole ) = Location_RoleSupporter + "/!/" + roleID
+    newRolesLocations.( newRole ) = RoleSupporter.location + "/!/" + roleID;
+    RoleSupporter.location = Location_RoleSupporter
   };
   
   // send the code to the newRoles

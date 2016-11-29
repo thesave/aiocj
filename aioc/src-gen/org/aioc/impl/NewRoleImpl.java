@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * </p>
  * <ul>
  *   <li>{@link org.aioc.impl.NewRoleImpl#getRole <em>Role</em>}</li>
- *   <li>{@link org.aioc.impl.NewRoleImpl#getLocation <em>Location</em>}</li>
  *   <li>{@link org.aioc.impl.NewRoleImpl#getNextRole <em>Next Role</em>}</li>
  * </ul>
  *
@@ -50,26 +49,6 @@ public class NewRoleImpl extends MinimalEObjectImpl.Container implements NewRole
    * @ordered
    */
   protected String role = ROLE_EDEFAULT;
-
-  /**
-   * The default value of the '{@link #getLocation() <em>Location</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getLocation()
-   * @generated
-   * @ordered
-   */
-  protected static final String LOCATION_EDEFAULT = null;
-
-  /**
-   * The cached value of the '{@link #getLocation() <em>Location</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getLocation()
-   * @generated
-   * @ordered
-   */
-  protected String location = LOCATION_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getNextRole() <em>Next Role</em>}' containment reference.
@@ -123,29 +102,6 @@ public class NewRoleImpl extends MinimalEObjectImpl.Container implements NewRole
     role = newRole;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, AiocPackage.NEW_ROLE__ROLE, oldRole, role));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String getLocation()
-  {
-    return location;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setLocation(String newLocation)
-  {
-    String oldLocation = location;
-    location = newLocation;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, AiocPackage.NEW_ROLE__LOCATION, oldLocation, location));
   }
 
   /**
@@ -224,8 +180,6 @@ public class NewRoleImpl extends MinimalEObjectImpl.Container implements NewRole
     {
       case AiocPackage.NEW_ROLE__ROLE:
         return getRole();
-      case AiocPackage.NEW_ROLE__LOCATION:
-        return getLocation();
       case AiocPackage.NEW_ROLE__NEXT_ROLE:
         return getNextRole();
     }
@@ -244,9 +198,6 @@ public class NewRoleImpl extends MinimalEObjectImpl.Container implements NewRole
     {
       case AiocPackage.NEW_ROLE__ROLE:
         setRole((String)newValue);
-        return;
-      case AiocPackage.NEW_ROLE__LOCATION:
-        setLocation((String)newValue);
         return;
       case AiocPackage.NEW_ROLE__NEXT_ROLE:
         setNextRole((NewRole)newValue);
@@ -268,9 +219,6 @@ public class NewRoleImpl extends MinimalEObjectImpl.Container implements NewRole
       case AiocPackage.NEW_ROLE__ROLE:
         setRole(ROLE_EDEFAULT);
         return;
-      case AiocPackage.NEW_ROLE__LOCATION:
-        setLocation(LOCATION_EDEFAULT);
-        return;
       case AiocPackage.NEW_ROLE__NEXT_ROLE:
         setNextRole((NewRole)null);
         return;
@@ -290,8 +238,6 @@ public class NewRoleImpl extends MinimalEObjectImpl.Container implements NewRole
     {
       case AiocPackage.NEW_ROLE__ROLE:
         return ROLE_EDEFAULT == null ? role != null : !ROLE_EDEFAULT.equals(role);
-      case AiocPackage.NEW_ROLE__LOCATION:
-        return LOCATION_EDEFAULT == null ? location != null : !LOCATION_EDEFAULT.equals(location);
       case AiocPackage.NEW_ROLE__NEXT_ROLE:
         return nextRole != null;
     }
@@ -311,8 +257,6 @@ public class NewRoleImpl extends MinimalEObjectImpl.Container implements NewRole
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (role: ");
     result.append(role);
-    result.append(", location: ");
-    result.append(location);
     result.append(')');
     return result.toString();
   }

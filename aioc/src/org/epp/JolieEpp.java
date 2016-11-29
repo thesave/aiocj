@@ -523,18 +523,19 @@ public class JolieEpp {
 			}
 		} else if ( aiocJ.getRuleSet() != null ) {
 			System.out.println( "Found rule set, projecting...");
+			File projectionDirectory = targetDirectory;
 			targetDirectory = new File(targetDirectory + File.separator + "epp_rules");
 			FileUtils.deleteDirectory(targetDirectory);
 			targetDirectory.mkdir();
 			JolieEppUtils.deployJorbaServerFramework( targetDirectory );
 			ls.writeRulesLaunchScript( targetDirectory );
-			JolieEppUtils.deployRoleSupporter( targetDirectory.getParent() );
-			ls.writeRoleSuppoterLaunchScript( new File( targetDirectory.getParent() ) );
-			targetDirectory = new File(srcGenDirectory.getAbsolutePath()
+			JolieEppUtils.deployRoleSupporter( projectionDirectory.getAbsolutePath() );
+			ls.writeRoleSuppoterLaunchScript( new File( projectionDirectory.getAbsolutePath() ) );
+			targetDirectory = new File( srcGenDirectory.getAbsolutePath()
 					+ File.separator + "epp_rules" + File.separator
 					+ "__adaptation_server" + File.separator + "servers" + File.separator
 					+ "server" + File.separator + "rules");
-			FileUtils.deleteDirectory(targetDirectory);
+			FileUtils.deleteDirectory( targetDirectory );
 			targetDirectory.mkdir();
 			for ( Rule rule : aiocJ.getRuleSet() ) {
 				System.out.println( "Projecting rule " + aiocJ.getRuleSet().indexOf( rule ));
@@ -543,11 +544,21 @@ public class JolieEpp {
 				nameCollector.collectRule( rule.getChoreography(), rule.getFunctionLocation() );
 				HashSet<String> ledRoles = new HashSet<String>();
 				for ( String role : nameCollector.getRoles() ) {
-						ledRoles.add(role);
+					ledRoles.add(role);
+				}
+				String ruleNumber = JolieEppUtils.getRuleNumber();
+				LocationDefinition locationDefinition = rule.getLocDefinition();
+				if ( locationDefinition != null ){
+					do {
+						JolieEppUtils.deployRoleSupporter( projectionDirectory.getAbsolutePath(), ruleNumber, 
+								locationDefinition.getRole(), locationDefinition.getLocation() );
+						locationDefinition = locationDefinition.getContinuation();
+					} while ( locationDefinition != null );
 				}
 				try {
 					ScopeStructure ruleStructure = new ScopeStructure(
-							JolieEppUtils.getCookie(),
+//							JolieEppUtils.getCookie(),
+							ruleNumber,
 							null, 
 							ledRoles,
 							rule.getChoreography(), null);
@@ -718,6 +729,15 @@ public class JolieEpp {
 			));
 		}
 		// newRoles
+		HashMap< String, String > newRolesLocations = new HashMap< String, String >();
+		LocationDefinition locationDefinition = rule.getLocDefinition();
+		if ( locationDefinition != null ){
+			do {
+				newRolesLocations.put( locationDefinition.getRole(), locationDefinition.getLocation() );
+				locationDefinition = locationDefinition.getContinuation();
+			} while ( locationDefinition != null );
+		}
+		
 		NewRole nextNewRole = rule.getNewRoles();
 		while( nextNewRole != null ){
 			dataInitSequence.addChild(
@@ -726,8 +746,18 @@ public class JolieEpp {
 					JolieEppUtils.toPath(
 							"rule.newRoles[ #rule.newRoles ]"
 					),
-					new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, nextNewRole.getRole() )
+					new ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, nextNewRole.getRole() )
 			));
+			if ( newRolesLocations.containsKey( nextNewRole.getRole() )){
+				dataInitSequence.addChild(
+						new AssignStatement(
+							JolieEppUtils.PARSING_CONTEXT,
+							JolieEppUtils.toPath(
+									"rule.newRoles[ #rule.newRoles-1 ].location"
+							),
+							new ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, newRolesLocations.get( nextNewRole.getRole() ) )
+					));
+			}
 			nextNewRole = nextNewRole.getNextRole();
 		}
 		

@@ -34,9 +34,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.aioc.impl.RuleImpl#getLocDefinition <em>Loc Definition</em>}</li>
  *   <li>{@link org.aioc.impl.RuleImpl#getFunctionLocation <em>Function Location</em>}</li>
  *   <li>{@link org.aioc.impl.RuleImpl#getNewRoles <em>New Roles</em>}</li>
+ *   <li>{@link org.aioc.impl.RuleImpl#getLocDefinition <em>Loc Definition</em>}</li>
  *   <li>{@link org.aioc.impl.RuleImpl#getWhere <em>Where</em>}</li>
  *   <li>{@link org.aioc.impl.RuleImpl#getChoreography <em>Choreography</em>}</li>
  * </ul>
@@ -45,16 +45,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
 {
-  /**
-   * The cached value of the '{@link #getLocDefinition() <em>Loc Definition</em>}' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getLocDefinition()
-   * @generated
-   * @ordered
-   */
-  protected LocationDefinition locDefinition;
-
   /**
    * The cached value of the '{@link #getFunctionLocation() <em>Function Location</em>}' containment reference list.
    * <!-- begin-user-doc -->
@@ -74,6 +64,16 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
    * @ordered
    */
   protected NewRole newRoles;
+
+  /**
+   * The cached value of the '{@link #getLocDefinition() <em>Loc Definition</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getLocDefinition()
+   * @generated
+   * @ordered
+   */
+  protected LocationDefinition locDefinition;
 
   /**
    * The cached value of the '{@link #getWhere() <em>Where</em>}' containment reference.
@@ -114,54 +114,6 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
   protected EClass eStaticClass()
   {
     return AiocPackage.Literals.RULE;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public LocationDefinition getLocDefinition()
-  {
-    return locDefinition;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain basicSetLocDefinition(LocationDefinition newLocDefinition, NotificationChain msgs)
-  {
-    LocationDefinition oldLocDefinition = locDefinition;
-    locDefinition = newLocDefinition;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AiocPackage.RULE__LOC_DEFINITION, oldLocDefinition, newLocDefinition);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setLocDefinition(LocationDefinition newLocDefinition)
-  {
-    if (newLocDefinition != locDefinition)
-    {
-      NotificationChain msgs = null;
-      if (locDefinition != null)
-        msgs = ((InternalEObject)locDefinition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AiocPackage.RULE__LOC_DEFINITION, null, msgs);
-      if (newLocDefinition != null)
-        msgs = ((InternalEObject)newLocDefinition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AiocPackage.RULE__LOC_DEFINITION, null, msgs);
-      msgs = basicSetLocDefinition(newLocDefinition, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, AiocPackage.RULE__LOC_DEFINITION, newLocDefinition, newLocDefinition));
   }
 
   /**
@@ -224,6 +176,54 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
     }
     else if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, AiocPackage.RULE__NEW_ROLES, newNewRoles, newNewRoles));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public LocationDefinition getLocDefinition()
+  {
+    return locDefinition;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetLocDefinition(LocationDefinition newLocDefinition, NotificationChain msgs)
+  {
+    LocationDefinition oldLocDefinition = locDefinition;
+    locDefinition = newLocDefinition;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AiocPackage.RULE__LOC_DEFINITION, oldLocDefinition, newLocDefinition);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setLocDefinition(LocationDefinition newLocDefinition)
+  {
+    if (newLocDefinition != locDefinition)
+    {
+      NotificationChain msgs = null;
+      if (locDefinition != null)
+        msgs = ((InternalEObject)locDefinition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AiocPackage.RULE__LOC_DEFINITION, null, msgs);
+      if (newLocDefinition != null)
+        msgs = ((InternalEObject)newLocDefinition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AiocPackage.RULE__LOC_DEFINITION, null, msgs);
+      msgs = basicSetLocDefinition(newLocDefinition, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, AiocPackage.RULE__LOC_DEFINITION, newLocDefinition, newLocDefinition));
   }
 
   /**
@@ -332,12 +332,12 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
   {
     switch (featureID)
     {
-      case AiocPackage.RULE__LOC_DEFINITION:
-        return basicSetLocDefinition(null, msgs);
       case AiocPackage.RULE__FUNCTION_LOCATION:
         return ((InternalEList<?>)getFunctionLocation()).basicRemove(otherEnd, msgs);
       case AiocPackage.RULE__NEW_ROLES:
         return basicSetNewRoles(null, msgs);
+      case AiocPackage.RULE__LOC_DEFINITION:
+        return basicSetLocDefinition(null, msgs);
       case AiocPackage.RULE__WHERE:
         return basicSetWhere(null, msgs);
       case AiocPackage.RULE__CHOREOGRAPHY:
@@ -356,12 +356,12 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
   {
     switch (featureID)
     {
-      case AiocPackage.RULE__LOC_DEFINITION:
-        return getLocDefinition();
       case AiocPackage.RULE__FUNCTION_LOCATION:
         return getFunctionLocation();
       case AiocPackage.RULE__NEW_ROLES:
         return getNewRoles();
+      case AiocPackage.RULE__LOC_DEFINITION:
+        return getLocDefinition();
       case AiocPackage.RULE__WHERE:
         return getWhere();
       case AiocPackage.RULE__CHOREOGRAPHY:
@@ -381,15 +381,15 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
   {
     switch (featureID)
     {
-      case AiocPackage.RULE__LOC_DEFINITION:
-        setLocDefinition((LocationDefinition)newValue);
-        return;
       case AiocPackage.RULE__FUNCTION_LOCATION:
         getFunctionLocation().clear();
         getFunctionLocation().addAll((Collection<? extends FunctionLocation>)newValue);
         return;
       case AiocPackage.RULE__NEW_ROLES:
         setNewRoles((NewRole)newValue);
+        return;
+      case AiocPackage.RULE__LOC_DEFINITION:
+        setLocDefinition((LocationDefinition)newValue);
         return;
       case AiocPackage.RULE__WHERE:
         setWhere((Where)newValue);
@@ -411,14 +411,14 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
   {
     switch (featureID)
     {
-      case AiocPackage.RULE__LOC_DEFINITION:
-        setLocDefinition((LocationDefinition)null);
-        return;
       case AiocPackage.RULE__FUNCTION_LOCATION:
         getFunctionLocation().clear();
         return;
       case AiocPackage.RULE__NEW_ROLES:
         setNewRoles((NewRole)null);
+        return;
+      case AiocPackage.RULE__LOC_DEFINITION:
+        setLocDefinition((LocationDefinition)null);
         return;
       case AiocPackage.RULE__WHERE:
         setWhere((Where)null);
@@ -440,12 +440,12 @@ public class RuleImpl extends MinimalEObjectImpl.Container implements Rule
   {
     switch (featureID)
     {
-      case AiocPackage.RULE__LOC_DEFINITION:
-        return locDefinition != null;
       case AiocPackage.RULE__FUNCTION_LOCATION:
         return functionLocation != null && !functionLocation.isEmpty();
       case AiocPackage.RULE__NEW_ROLES:
         return newRoles != null;
+      case AiocPackage.RULE__LOC_DEFINITION:
+        return locDefinition != null;
       case AiocPackage.RULE__WHERE:
         return where != null;
       case AiocPackage.RULE__CHOREOGRAPHY:

@@ -479,7 +479,7 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getRule_LocDefinition()
+  public EReference getRule_FunctionLocation()
   {
     return (EReference)ruleEClass.getEStructuralFeatures().get(0);
   }
@@ -489,7 +489,7 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getRule_FunctionLocation()
+  public EReference getRule_NewRoles()
   {
     return (EReference)ruleEClass.getEStructuralFeatures().get(1);
   }
@@ -499,7 +499,7 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getRule_NewRoles()
+  public EReference getRule_LocDefinition()
   {
     return (EReference)ruleEClass.getEStructuralFeatures().get(2);
   }
@@ -549,19 +549,9 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getNewRole_Location()
-  {
-    return (EAttribute)newRoleEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public EReference getNewRole_NextRole()
   {
-    return (EReference)newRoleEClass.getEStructuralFeatures().get(2);
+    return (EReference)newRoleEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -1794,15 +1784,14 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
     createEReference(aiocEClass, AIOC__CHOREOGRAPHY);
 
     ruleEClass = createEClass(RULE);
-    createEReference(ruleEClass, RULE__LOC_DEFINITION);
     createEReference(ruleEClass, RULE__FUNCTION_LOCATION);
     createEReference(ruleEClass, RULE__NEW_ROLES);
+    createEReference(ruleEClass, RULE__LOC_DEFINITION);
     createEReference(ruleEClass, RULE__WHERE);
     createEReference(ruleEClass, RULE__CHOREOGRAPHY);
 
     newRoleEClass = createEClass(NEW_ROLE);
     createEAttribute(newRoleEClass, NEW_ROLE__ROLE);
-    createEAttribute(newRoleEClass, NEW_ROLE__LOCATION);
     createEReference(newRoleEClass, NEW_ROLE__NEXT_ROLE);
 
     whereEClass = createEClass(WHERE);
@@ -2008,15 +1997,14 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
     initEReference(getAioc_Choreography(), this.getChoreography(), null, "choreography", null, 0, 1, Aioc.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(ruleEClass, Rule.class, "Rule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getRule_LocDefinition(), this.getLocationDefinition(), null, "locDefinition", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getRule_FunctionLocation(), this.getFunctionLocation(), null, "functionLocation", null, 0, -1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getRule_NewRoles(), this.getNewRole(), null, "newRoles", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getRule_LocDefinition(), this.getLocationDefinition(), null, "locDefinition", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getRule_Where(), this.getWhere(), null, "where", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getRule_Choreography(), this.getChoreography(), null, "choreography", null, 0, 1, Rule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(newRoleEClass, NewRole.class, "NewRole", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getNewRole_Role(), ecorePackage.getEString(), "role", null, 0, 1, NewRole.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getNewRole_Location(), ecorePackage.getEString(), "location", null, 0, 1, NewRole.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getNewRole_NextRole(), this.getNewRole(), null, "nextRole", null, 0, 1, NewRole.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(whereEClass, Where.class, "Where", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

@@ -1,0 +1,14 @@
+[2016-11-28 16:15:04] Executing startup tasks
+[2016-11-28 16:15:04] Product self.product.version
+[2016-11-28 16:15:04] Bundle org.eclipse.oomph.setup 1.2.0.v20150915-0926, build=1789, branch=ff5f7c46aa57e08f831c3cd10fd3ed7606b75cd6, commit=ff5f7c46aa57e08f831c3cd10fd3ed7606b75cd6
+[2016-11-28 16:15:04] Bundle org.eclipse.oomph.setup.core 1.2.0.v20150915-0926, build=1789, branch=ff5f7c46aa57e08f831c3cd10fd3ed7606b75cd6, commit=ff5f7c46aa57e08f831c3cd10fd3ed7606b75cd6
+[2016-11-28 16:15:04] Bundle org.eclipse.oomph.setup.p2 1.2.0.v20150915-0926, build=1789, branch=ff5f7c46aa57e08f831c3cd10fd3ed7606b75cd6, commit=ff5f7c46aa57e08f831c3cd10fd3ed7606b75cd6
+[2016-11-28 16:15:04] Performing Preference /instance/org.Aioc/org.Aioc.syntaxColorer.tokenStyles.comment.bgColor = 41,49,52
+[2016-11-28 16:15:04] Performing Preference /instance/org.Aioc/org.Aioc.syntaxColorer.tokenStyles.default.bgColor = 41,49,52
+[2016-11-28 16:15:05] Performing Preference /instance/org.Aioc/org.Aioc.syntaxColorer.tokenStyles.error.bgColor = 41,49,52
+[2016-11-28 16:15:05] Performing Preference /instance/org.Aioc/org.Aioc.syntaxColorer.tokenStyles.keyword.bgColor = 41,49,52
+[2016-11-28 16:15:05] Performing Preference /instance/org.Aioc/org.Aioc.syntaxColorer.tokenStyles.number.bgColor = 41,49,52
+[2016-11-28 16:15:05] Performing Preference /instance/org.Aioc/org.Aioc.syntaxColorer.tokenStyles.punctuation.bgColor = 41,49,52
+[2016-11-28 16:15:05] Performing Preference /instance/org.Aioc/org.Aioc.syntaxColorer.tokenStyles.string.bgColor = 41,49,52
+[2016-11-28 16:15:05] Performing Preference /instance/org.Aioc/org.Aioc.syntaxColorer.tokenStyles.task.bgColor = 41,49,52
+[2016-11-28 16:15:06] 

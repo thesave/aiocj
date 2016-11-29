@@ -15,9 +15,9 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.aioc.Rule#getLocDefinition <em>Loc Definition</em>}</li>
  *   <li>{@link org.aioc.Rule#getFunctionLocation <em>Function Location</em>}</li>
  *   <li>{@link org.aioc.Rule#getNewRoles <em>New Roles</em>}</li>
+ *   <li>{@link org.aioc.Rule#getLocDefinition <em>Loc Definition</em>}</li>
  *   <li>{@link org.aioc.Rule#getWhere <em>Where</em>}</li>
  *   <li>{@link org.aioc.Rule#getChoreography <em>Choreography</em>}</li>
  * </ul>
@@ -28,32 +28,6 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Rule extends EObject
 {
-  /**
-   * Returns the value of the '<em><b>Loc Definition</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Loc Definition</em>' containment reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Loc Definition</em>' containment reference.
-   * @see #setLocDefinition(LocationDefinition)
-   * @see org.aioc.AiocPackage#getRule_LocDefinition()
-   * @model containment="true"
-   * @generated
-   */
-  LocationDefinition getLocDefinition();
-
-  /**
-   * Sets the value of the '{@link org.aioc.Rule#getLocDefinition <em>Loc Definition</em>}' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Loc Definition</em>' containment reference.
-   * @see #getLocDefinition()
-   * @generated
-   */
-  void setLocDefinition(LocationDefinition value);
-
   /**
    * Returns the value of the '<em><b>Function Location</b></em>' containment reference list.
    * The list contents are of type {@link org.aioc.FunctionLocation}.
@@ -95,6 +69,32 @@ public interface Rule extends EObject
    * @generated
    */
   void setNewRoles(NewRole value);
+
+  /**
+   * Returns the value of the '<em><b>Loc Definition</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Loc Definition</em>' containment reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Loc Definition</em>' containment reference.
+   * @see #setLocDefinition(LocationDefinition)
+   * @see org.aioc.AiocPackage#getRule_LocDefinition()
+   * @model containment="true"
+   * @generated
+   */
+  LocationDefinition getLocDefinition();
+
+  /**
+   * Sets the value of the '{@link org.aioc.Rule#getLocDefinition <em>Loc Definition</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Loc Definition</em>' containment reference.
+   * @see #getLocDefinition()
+   * @generated
+   */
+  void setLocDefinition(LocationDefinition value);
 
   /**
    * Returns the value of the '<em><b>Where</b></em>' containment reference.

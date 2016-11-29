@@ -48,7 +48,7 @@ public class LaunchScripts {
 		String s = getInit();
 		s += getRoleSupportLaunchString();
 		OutputStream ostream = new FileOutputStream( 
-				targetDirectory.getAbsolutePath() + File.separator + "role_supporter" + File.separator + "role_supporter_launcher.sh" );
+				targetDirectory.getAbsolutePath() + File.separator + "default_role_supporter" + File.separator + "role_supporter_launcher.sh" );
 		Writer fileWriter = new OutputStreamWriter( ostream );
 		fileWriter.write( s );
 		fileWriter.flush();

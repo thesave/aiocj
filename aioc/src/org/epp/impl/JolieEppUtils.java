@@ -32,7 +32,11 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.UUID;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -70,6 +74,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.framework.Bundle;
 
+import com.ibm.icu.text.ChineseDateFormat.Field;
+
 public class JolieEppUtils
 {
 	public static final ParsingContext PARSING_CONTEXT = new URIParsingContext( URI.create( "aioc" ), 0 );
@@ -104,18 +110,33 @@ public class JolieEppUtils
 		deployJFWElement( targetDirectory, "adaptation_manager", JolieEppUtils.JFW_ADAPTATIONMANAGER );
 	}
 	
-	public static void deployRoleSupporter( String targetDirectory ) throws IOException {
-		File path = new File( targetDirectory + File.separator + "role_supporter" );
+	public static void deployRoleSupporter( String targetDirectory, String ruleName, String roleName, String location ) throws IOException {
+		String subDir = "role_supporter" + File.separator + ruleName + File.separator + roleName;
+		File path = new File( targetDirectory + File.separator + subDir );
 		System.out.println( path.toString() );
 		FileUtils.deleteDirectory( path );
-		deployJFWElement( targetDirectory, "role_supporter", JolieEppUtils.JFW_ROLESUPPORTER );
+		deployJFWElement( targetDirectory, subDir, JolieEppUtils.JFW_ROLESUPPORTER );
+		String locationsFile = targetDirectory + File.separator + subDir + File.separator 
+				+ "config" + File.separator + "locations.iol";
+	    PrintWriter writer = new PrintWriter( locationsFile, "UTF-8" );
+	    writer.println( "constants { " );
+	    writer.println( "\tLocation_RoleSupporter=\"" + location + "\"");
+	    writer.print( "}");
+	    writer.close();
+	}
+	
+	public static void deployRoleSupporter( String targetDirectory ) throws IOException {
+		File path = new File( targetDirectory + File.separator + "default_role_supporter" );
+		System.out.println( path.toString() );
+		FileUtils.deleteDirectory( path );
+		deployJFWElement( targetDirectory, "default_role_supporter", JolieEppUtils.JFW_ROLESUPPORTER );
 	}
 	
 	public static void deployJFWElement(String targetDirectory, String folderName, String JFW_Element) throws IOException {
 		Bundle bundle = Platform.getBundle("aioc");
-		File destFolder = new File(targetDirectory + File.separator + folderName);
-		if (!destFolder.exists()) {
-			destFolder.mkdir();
+		File destFolder = new File( targetDirectory + File.separator + folderName);
+		if ( !destFolder.exists() ) {
+			destFolder.mkdirs();
 		}
 		Path path = new Path("src/org/epp/" + JFW_Element);
 		URL fileUrl = FileLocator.find(bundle, path, null);
@@ -273,6 +294,12 @@ public class JolieEppUtils
 	
 	public static String getCookie(){
 		return UUID.randomUUID().toString();
+	}
+	
+	private static int rulesNumber = 0;
+	
+	public static String getRuleNumber() {
+		return "rule" + rulesNumber++;
 	}
 	
 	public static String getOperationFromUUID(String s){

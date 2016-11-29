@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link org.aioc.NewRole#getRole <em>Role</em>}</li>
- *   <li>{@link org.aioc.NewRole#getLocation <em>Location</em>}</li>
  *   <li>{@link org.aioc.NewRole#getNextRole <em>Next Role</em>}</li>
  * </ul>
  *
@@ -49,32 +48,6 @@ public interface NewRole extends EObject
    * @generated
    */
   void setRole(String value);
-
-  /**
-   * Returns the value of the '<em><b>Location</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Location</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Location</em>' attribute.
-   * @see #setLocation(String)
-   * @see org.aioc.AiocPackage#getNewRole_Location()
-   * @model
-   * @generated
-   */
-  String getLocation();
-
-  /**
-   * Sets the value of the '{@link org.aioc.NewRole#getLocation <em>Location</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Location</em>' attribute.
-   * @see #getLocation()
-   * @generated
-   */
-  void setLocation(String value);
 
   /**
    * Returns the value of the '<em><b>Next Role</b></em>' containment reference.

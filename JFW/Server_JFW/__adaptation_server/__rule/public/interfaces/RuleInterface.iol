@@ -22,17 +22,19 @@
 
 include "../../../public/types/JorbaTypes.iol"
 
-type EvaluateConstraintRequest:undefined
+type EvaluateConstraintRequest: undefined
 
-type EvaluateConstraintResponse:int
+type EvaluateConstraintResponse: int
 
-type RuleDescription:void {
-	.activityDirectory: string
-	.stateVariables?: VariableNamesList
-	.properties?: VariableNamesList
-	.envVariables?: VariableNamesList
-	.subscopes?: VariableNamesList
-  .newRoles*: string
+type RuleDescription: void {
+  .activityDirectory: string
+  .stateVariables?: VariableNamesList
+  .properties?: VariableNamesList
+  .envVariables?: VariableNamesList
+  .subscopes?: VariableNamesList
+  .newRoles*: string {
+    .location?: string
+  }
 }
 
 interface RuleInterface {

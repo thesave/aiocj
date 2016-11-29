@@ -28,7 +28,7 @@ grammar org.Aioc with org.eclipse.xtext.common.Terminals
 generate aioc "http://www.aioc.org"
 
 AiocJ:
-	( aioc = Aioc	| ruleSet+=Rule* )
+	( aioc = Aioc | ruleSet+=Rule* )
 ;
 
 Aioc:
@@ -39,21 +39,16 @@ Aioc:
 
 Rule:
 	"rule" LCURLY
-		( locDefinition = LocationDefinition )?
 		( functionLocation += FunctionLocation )*
 		( "newRoles" COLON newRoles=NewRole )?
+		( locDefinition = LocationDefinition )?
 		"on" LCURLY where = Where RCURLY
 		"do" LCURLY choreography=Choreography RCURLY 
 	RCURLY
 ;
 
 NewRole:
-	(
-		( "location" AT role = ID COLON location = STRING )
-		|
-		role=ID
-	)
-	(COMMA nextRole=NewRole)? 
+	role=ID (COMMA nextRole=NewRole)? 
 ;
 
 Where:
