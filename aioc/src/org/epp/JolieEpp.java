@@ -523,14 +523,15 @@ public class JolieEpp {
 			}
 		} else if ( aiocJ.getRuleSet() != null ) {
 			System.out.println( "Found rule set, projecting...");
+			JolieEppUtils.resetRuleNumbers();
 			File projectionDirectory = targetDirectory;
 			targetDirectory = new File(targetDirectory + File.separator + "epp_rules");
 			FileUtils.deleteDirectory(targetDirectory);
+			FileUtils.deleteDirectory( new File ( targetDirectory.getParentFile() + File.separator + "role_supporter" ) );
+			FileUtils.deleteDirectory( new File ( targetDirectory.getParentFile() + File.separator + "default_role_supporter" ) );
 			targetDirectory.mkdir();
 			JolieEppUtils.deployJorbaServerFramework( targetDirectory );
 			ls.writeRulesLaunchScript( targetDirectory );
-			JolieEppUtils.deployRoleSupporter( projectionDirectory.getAbsolutePath() );
-			ls.writeRoleSuppoterLaunchScript( new File( projectionDirectory.getAbsolutePath() ) );
 			targetDirectory = new File( srcGenDirectory.getAbsolutePath()
 					+ File.separator + "epp_rules" + File.separator
 					+ "__adaptation_server" + File.separator + "servers" + File.separator
@@ -548,13 +549,25 @@ public class JolieEpp {
 				}
 				String ruleNumber = JolieEppUtils.getRuleNumber();
 				LocationDefinition locationDefinition = rule.getLocDefinition();
+				HashSet< String > localisedRoles = new HashSet< String >();
 				if ( locationDefinition != null ){
 					do {
 						JolieEppUtils.deployRoleSupporter( projectionDirectory.getAbsolutePath(), ruleNumber, 
 								locationDefinition.getRole(), locationDefinition.getLocation() );
+						localisedRoles.add( locationDefinition.getRole() );
 						locationDefinition = locationDefinition.getContinuation();
 					} while ( locationDefinition != null );
+					ls.writeRoleSuppoterLaunchScript( new File( projectionDirectory.getAbsolutePath() ) );
 				}
+				// check if some newRole does not have an assigned location
+				for ( NewRole r = rule.getNewRoles();  r != null ; r = r.getNextRole() ) {
+					if( !localisedRoles.contains( r.getRole() ) ){
+						JolieEppUtils.deployRoleSupporter( projectionDirectory.getAbsolutePath() );
+						ls.writeDefaultRoleSuppoterLaunchScript( new File( projectionDirectory.getAbsolutePath() ) );
+						break;
+					}
+				}
+				
 				try {
 					ScopeStructure ruleStructure = new ScopeStructure(
 //							JolieEppUtils.getCookie(),

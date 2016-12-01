@@ -44,11 +44,22 @@ public class LaunchScripts {
 		ostream.close();
 	}
 	
+	public void writeDefaultRoleSuppoterLaunchScript( File targetDirectory ) throws IOException{
+		String s = getInit();
+		s += getDefaultRoleSupportLaunchString();
+		OutputStream ostream = new FileOutputStream( 
+				targetDirectory.getAbsolutePath() + File.separator + "default_role_supporter" + File.separator + "role_supporter_launcher.sh" );
+		Writer fileWriter = new OutputStreamWriter( ostream );
+		fileWriter.write( s );
+		fileWriter.flush();
+		ostream.close();
+	}
+	
 	public void writeRoleSuppoterLaunchScript( File targetDirectory ) throws IOException{
 		String s = getInit();
 		s += getRoleSupportLaunchString();
 		OutputStream ostream = new FileOutputStream( 
-				targetDirectory.getAbsolutePath() + File.separator + "default_role_supporter" + File.separator + "role_supporter_launcher.sh" );
+				targetDirectory.getAbsolutePath() + File.separator + "role_supporter" + File.separator + "role_supporter_launcher.sh" );
 		Writer fileWriter = new OutputStreamWriter( ostream );
 		fileWriter.write( s );
 		fileWriter.flush();
@@ -105,7 +116,12 @@ public class LaunchScripts {
 				"sh mid_launcher.sh",
 				"if [[ $rule_server == \"y\" ]]; then",
 					"sh epp_rules/rules_launcher.sh",
-					"sh role_supporter/role_supporter_launcher.sh",
+					"if [[ -d \"default_role_supporter\" ]]; then",
+						"sh default_role_supporter/role_supporter_launcher.sh",
+					"fi",
+					"if [[ -d \"role_supporter\" ]]; then",
+						"sh role_supporter/role_supporter_launcher.sh",
+					"fi",
 				"fi",
 				"sh epp_aioc/aioc_launcher.sh"
 		);
@@ -173,9 +189,26 @@ public class LaunchScripts {
 				"\n" + "launcher \"$adaptation_server_launcher\"";
 	}
 	
-	private String getRoleSupportLaunchString(){
+	private String getDefaultRoleSupportLaunchString(){
 		return "\n" + "role_support_launcher=\"cd $dir; jolie RoleSupporter.ol\"" +
 				"\n" + "launcher \"$role_support_launcher\"";
+	}
+	
+	private String getRoleSupportLaunchString(){
+		String s = appendNewLine( "" ,	
+			"cd $dir",
+			"for rule in */ ; do",
+			    "cd $rule",
+			    "for role in */ ; do",
+			      "cd $role",
+			        "role_support_launcher=\"cd $dir/$rule$role; jolie RoleSupporter.ol\"",
+			        "launcher \"$role_support_launcher\"",
+			        "cd \"..\"",
+			    "done",
+			    "cd \"..\"",
+			"done"
+		);
+		return s;
 	}
 	
 	private String getInit(){

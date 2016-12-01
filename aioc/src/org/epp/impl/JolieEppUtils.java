@@ -32,15 +32,10 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.UUID;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-
 import jolie.lang.NativeType;
 import jolie.lang.parse.OLParseTreeOptimizer;
 import jolie.lang.parse.ast.AssignStatement;
@@ -64,7 +59,6 @@ import jolie.lang.parse.context.ParsingContext;
 import jolie.lang.parse.context.URIParsingContext;
 import jolie.util.Pair;
 import jolie.util.Range;
-
 import org.aioc.Expression;
 import org.aioc.ExpressionBasicTerm;
 import org.eclipse.core.runtime.FileLocator;
@@ -73,8 +67,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.osgi.framework.Bundle;
-
-import com.ibm.icu.text.ChineseDateFormat.Field;
 
 public class JolieEppUtils
 {
@@ -300,6 +292,10 @@ public class JolieEppUtils
 	
 	public static String getRuleNumber() {
 		return "rule" + rulesNumber++;
+	}
+	
+	public static void resetRuleNumbers() {
+		rulesNumber = 1;
 	}
 	
 	public static String getOperationFromUUID(String s){

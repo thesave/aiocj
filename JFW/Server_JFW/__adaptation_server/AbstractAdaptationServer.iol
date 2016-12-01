@@ -191,7 +191,8 @@ define sendRule {
     if( is_defined( newRole.location ) ) {
       RoleSupporter.location = newRole.location
     };
-    createRole@RoleSupporter( newRole )( roleID );
+    roleName = newRole;
+    createRole@RoleSupporter( roleName )( roleID );
     newRolesLocations.( newRole ) = RoleSupporter.location + "/!/" + roleID;
     RoleSupporter.location = Location_RoleSupporter
   };
