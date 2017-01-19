@@ -2,17 +2,46 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JoliePluginSupport
 Bundle-SymbolicName: jolie.plugin.support
-Bundle-Version: 0.1
+Bundle-Version: 0.2
 Bundle-ClassPath: libjolie.jar
-Export-Package: jolie.lang,
- jolie.lang.parse,
- jolie.lang.parse.ast,
- jolie.lang.parse.ast.courier,
- jolie.lang.parse.ast.expression,
- jolie.lang.parse.ast.types,
+Export-Package: jolie.lang;uses:="jolie.lang.parse,jolie.util",
+ jolie.lang.parse;
+  uses:="jolie.lang.parse.ast.types,
+   jolie.lang.parse.ast,
+   jolie.lang.parse.ast.courier,
+   jolie.util,
+   jolie.lang.parse.ast.expression,
+   jolie.lang.parse.context,
+   jolie.lang",
+ jolie.lang.parse.ast;
+  uses:="jolie.lang.parse.ast.types,
+   jolie.lang.parse,
+   jolie.util,
+   jolie.lang.parse.context,
+   jolie.lang",
+ jolie.lang.parse.ast.courier;uses:="jolie.lang.parse.ast,jolie.lang.parse,jolie.lang.parse.context",
+ jolie.lang.parse.ast.expression;
+  uses:="jolie.lang.parse.ast.types,
+   jolie.lang.parse.ast,
+   jolie.lang.parse,
+   jolie.util,
+   jolie.lang.parse.context",
+ jolie.lang.parse.ast.types;
+  uses:="jolie.lang.parse.ast,
+   jolie.util,
+   jolie.lang.parse,
+   new jolie.lang.parse.ast.types,
+   jolie.lang.parse.context,
+   jolie.lang",
  jolie.lang.parse.context,
- jolie.lang.parse.util,
- jolie.lang.parse.util.impl,
+ jolie.lang.parse.util;uses:="jolie.lang.parse.ast.types,jolie.lang.parse.ast,jolie.lang.parse",
+ jolie.lang.parse.util.impl;
+  uses:="jolie.lang.parse.ast.types,
+   jolie.lang.parse.ast,
+   jolie.lang.parse.util,
+   jolie.lang.parse.ast.courier,
+   jolie.lang.parse,
+   jolie.lang.parse.ast.expression",
  jolie.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-Vendor: Fabrizio Montesi
+Bundle-Vendor: Fabrizio Montesi Saverio Giallorenzo
