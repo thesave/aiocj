@@ -143,7 +143,9 @@ public class LaunchScripts {
 	
 	public void writeChoreographyLauncherScript( File targetDirectory ) throws IOException{
 		String s = "#!/bin/bash";
-		s = appendNewLine( s ,	
+		s = appendNewLine( s ,
+				"dir=$(cd `dirname \"${BASH_SOURCE[0]}\"` && pwd)",
+				"cd $dir",
 				"echo \"--- AIOCJ test choreography launcher ---\"",
 				"echo \"Do you want to launch also the rule server?[y/any]\"",
 				"read rule_server",
