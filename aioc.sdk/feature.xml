@@ -2,7 +2,7 @@
 <feature
       id="org.aioc.sdk"
       label="AIOC Language Plugin Feature"
-      version="1.3.2"
+      version="1.3.3"
       provider-name="Saverio Giallorenzo &lt;sgiallor@cs.unibo.it&gt;">
 
    <description url="http://www.cs.unibo.it/projects/jolie/aiocj.html">
@@ -51,17 +51,17 @@ and automatic endpoint generation.
          unpack="false"/>
 
    <plugin
+         id="jolie.plugin.support"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
          id="aioc"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
-   <plugin
-         id="jolie.plugin.support"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
 
    <data
          id=".project"
