@@ -699,9 +699,12 @@ public class ThreadProjector extends AiocSwitch<ThreadProjectionResult> {
 			}
 			seq.addChild(new SolicitResponseOperationStatement(
 					JolieEppUtils.PARSING_CONTEXT, "showInputDialog",
-					"SwingUI", ExpressionProjector.project(n.getQuestion()),
-					JolieEppUtils.toPath(n
-							.getResultVariable()), null));
+					"SwingUI", 
+					JolieEppUtils.getSumExpression(
+						new jolie.lang.parse.ast.expression.ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, this.thread + ": " ),
+						ExpressionProjector.project( n.getQuestion() ) 
+					),
+					JolieEppUtils.toPath( n.getResultVariable()), null) );
 			seq.addChild( setAtStateProcedure( n.getResultVariable() ));
 			result.addInclude("ui/swing_ui");
 			result.setJolieNode(seq);
@@ -780,11 +783,16 @@ public class ThreadProjector extends AiocSwitch<ThreadProjectionResult> {
 			for( String vname : vc.getVarNames() ){
 				seq.addChild( getAtStateProcedure( vname ) );
 			}
+			// add name of the role
 			seq.addChild(new SolicitResponseOperationStatement(
 					JolieEppUtils.PARSING_CONTEXT, "showMessageDialog",
-					"SwingUI", new TypeCastExpressionNode(
+					"SwingUI",
+					JolieEppUtils.getSumExpression(
+						new jolie.lang.parse.ast.expression.ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, this.thread + ": " ),
+						new TypeCastExpressionNode(
 							JolieEppUtils.PARSING_CONTEXT, NativeType.STRING,
-							ExpressionProjector.project(n.getExpression())),
+							ExpressionProjector.project( n.getExpression() ) )
+					),
 					JolieEppUtils.toPath( n.getVariable() ), null));
 			seq.addChild( setAtStateProcedure( n.getVariable() ));
 			result.addInclude("ui/swing_ui");

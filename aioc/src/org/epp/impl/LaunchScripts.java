@@ -27,55 +27,90 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.attribute.PosixFilePermission;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.aioc.Aioc;
 
 public class LaunchScripts {
+	
+	private static Set<PosixFilePermission> lncPerms = new HashSet<PosixFilePermission>();
+	static {
+		// owner
+		lncPerms.add( PosixFilePermission.OWNER_READ );
+		lncPerms.add( PosixFilePermission.OWNER_WRITE );
+		lncPerms.add( PosixFilePermission.OWNER_EXECUTE );
+		// group
+		lncPerms.add( PosixFilePermission.GROUP_READ );
+		lncPerms.add( PosixFilePermission.GROUP_EXECUTE );
+		// others
+		lncPerms.add( PosixFilePermission.OTHERS_READ );
+	}
+	
+	public void setPermits( File targetFile ){
+		try {
+			Files.setPosixFilePermissions( Paths.get( targetFile.getAbsolutePath() ) , lncPerms );
+		} catch (IOException e) {
+			System.out.println( "An error occurred while trying to set permissions to launcher " + targetFile.getAbsolutePath() );
+			e.printStackTrace();
+		}
+	}
 
 	public void writeRulesLaunchScript( File targetDirectory ) throws IOException{
 		String s = getInit();
 		s += getAdaptationServerLaunchString();
-		OutputStream ostream = new FileOutputStream( 
-				targetDirectory.getAbsolutePath() + "/"+ File.separator + "rules_launcher.sh" );
+		// TODO: THIS FILEPATH SEEMS WRONG, DOUBLE // ( / + File.separator )
+		File launcherFile = new File( targetDirectory.getAbsolutePath() + "/" + File.separator + "rules_launcher.sh" ); 
+		OutputStream ostream = new FileOutputStream( launcherFile.getAbsolutePath() );
 		Writer fileWriter = new OutputStreamWriter( ostream );
 		fileWriter.write( s );
 		fileWriter.flush();
 		ostream.close();
+		setPermits( launcherFile );
 	}
 	
 	public void writeDefaultRoleSuppoterLaunchScript( File targetDirectory ) throws IOException{
 		String s = getInit();
 		s += getDefaultRoleSupportLaunchString();
-		OutputStream ostream = new FileOutputStream( 
-				targetDirectory.getAbsolutePath() + File.separator + "default_role_supporter" + File.separator + "role_supporter_launcher.sh" );
+		File launcherFile = new File( 
+				targetDirectory.getAbsolutePath() + File.separator + "default_role_supporter" + 
+				File.separator + "role_supporter_launcher.sh" );
+		OutputStream ostream = new FileOutputStream( launcherFile.getAbsolutePath() );
 		Writer fileWriter = new OutputStreamWriter( ostream );
 		fileWriter.write( s );
 		fileWriter.flush();
 		ostream.close();
+		setPermits( launcherFile );
 	}
 	
 	public void writeRoleSuppoterLaunchScript( File targetDirectory ) throws IOException{
 		String s = getInit();
 		s += getRoleSupportLaunchString();
-		OutputStream ostream = new FileOutputStream( 
-				targetDirectory.getAbsolutePath() + File.separator + "role_supporter" + File.separator + "role_supporter_launcher.sh" );
+		File launcherFile = new File( 
+			targetDirectory.getAbsolutePath() + File.separator + "role_supporter" + 
+			File.separator + "role_supporter_launcher.sh" );
+		OutputStream ostream = new FileOutputStream( launcherFile.getAbsolutePath() );
 		Writer fileWriter = new OutputStreamWriter( ostream );
 		fileWriter.write( s );
 		fileWriter.flush();
 		ostream.close();
+		setPermits( launcherFile );
 	}
 	
 	public void writeMidLaunchScript( File targetDirectory ) throws IOException{
 		String s = getInit();
 		s += getAdapationManagerLaunchString();
 		s += getEnvironmentLaunchString();
-		OutputStream ostream = new FileOutputStream( 
-				targetDirectory.getAbsolutePath() + File.separator + "mid_launcher.sh" );
+		File launcherFile = new File ( targetDirectory.getAbsolutePath() + File.separator + "mid_launcher.sh" );
+		OutputStream ostream = new FileOutputStream( launcherFile.getAbsolutePath() );
 		Writer fileWriter = new OutputStreamWriter( ostream );
 		fileWriter.write( s );
 		fileWriter.flush();
 		ostream.close();
+		setPermits( launcherFile );
 	}
 		
 	public void writeAIOCLaunchScript( Aioc aioc, File targetDirectory ) throws IOException{
@@ -97,13 +132,13 @@ public class LaunchScripts {
 			s += getRoleLaunchString( role );
 			remainingRoles--;
 		}
-		
-		OutputStream ostream = new FileOutputStream( 
-				targetDirectory.getAbsolutePath() + "/"+ File.separator + "aioc_launcher.sh" );
+		File launcherFile = new File ( targetDirectory.getAbsolutePath() + "/"+ File.separator + "aioc_launcher.sh" );
+		OutputStream ostream = new FileOutputStream( launcherFile.getAbsolutePath() );
 		Writer fileWriter = new OutputStreamWriter( ostream );
 		fileWriter.write( s );
 		fileWriter.flush();
 		ostream.close();
+		setPermits( launcherFile );
 	}
 	
 	public void writeChoreographyLauncherScript( File targetDirectory ) throws IOException{
@@ -125,12 +160,13 @@ public class LaunchScripts {
 				"fi",
 				"sh epp_aioc/aioc_launcher.sh"
 		);
-		OutputStream ostream = new FileOutputStream( 
-				targetDirectory.getAbsolutePath() + "/"+ File.separator + "choreography_launcher.sh" );
+		File launcherFile = new File ( targetDirectory.getAbsolutePath() + "/"+ File.separator + "choreography_launcher.sh" );
+		OutputStream ostream = new FileOutputStream( launcherFile.getAbsolutePath() );
 		Writer fileWriter = new OutputStreamWriter( ostream );
 		fileWriter.write( s );
 		fileWriter.flush();
 		ostream.close();
+		setPermits( launcherFile );
 	}
 	
 	public void writeServiceLauncherScript( File targetDirectory ) throws IOException{
@@ -138,12 +174,13 @@ public class LaunchScripts {
 		if( !f.exists() ){
 			String s = getInit();
 			s += getServiceLaunchString();
-			OutputStream ostream = new FileOutputStream( 
-					targetDirectory.getAbsolutePath() + File.separator + "service_launcher.sh" );
+			File launcherFile = new File( targetDirectory.getAbsolutePath() + File.separator + "service_launcher.sh" );
+			OutputStream ostream = new FileOutputStream( launcherFile.getAbsolutePath() );
 			Writer fileWriter = new OutputStreamWriter( ostream );
 			fileWriter.write( s );
 			fileWriter.flush();
 			ostream.close();
+			setPermits( launcherFile );
 		}
 	}
 	
