@@ -154,7 +154,7 @@ public class LaunchScripts {
 				"if [[ $rule_server == \"y\" ]]; then",
 					"bash epp_rules/rules_launcher.sh",
 					"if [[ -d \"default_role_supporter\" ]]; then",
-						"sh default_role_supporter/role_supporter_launcher.sh",
+						"bash default_role_supporter/role_supporter_launcher.sh",
 					"fi",
 					"if [[ -d \"role_supporter\" ]]; then",
 						"bash role_supporter/role_supporter_launcher.sh",
@@ -260,7 +260,7 @@ public class LaunchScripts {
 						"\t" + "end tell" + "\n" +
 				"END" + "\n" +
 				"\t" + "else" + "\n" +
-				"\t\t" + "xterm -hold -e \"$1\" &" + "\n" +
+				"\t\t" + "xterm -e \"$1; echo 'execution terminated, press a key to close.'; read\" &" + "\n" +
 				"\t" + "fi" + "\n" +
 				"}"+ "\n\n" + 
 				"dir=$(cd `dirname \"${BASH_SOURCE[0]}\"` && pwd)";
