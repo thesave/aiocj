@@ -2,7 +2,7 @@
 <feature
       id="org.aioc.sdk"
       label="AIOC Language Plugin Feature"
-      version="1.3.4"
+      version="1.3.5"
       provider-name="Saverio Giallorenzo &lt;sgiallor@cs.unibo.it&gt;">
 
    <description url="http://www.cs.unibo.it/projects/jolie/aiocj.html">
