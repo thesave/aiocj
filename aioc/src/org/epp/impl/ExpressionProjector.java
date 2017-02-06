@@ -123,10 +123,8 @@ public class ExpressionProjector extends AiocSwitch< OLSyntaxNode >
 		} if( n.getFalse() != null ){
 			return new ConstantBoolExpression( JolieEppUtils.PARSING_CONTEXT, false );
 		} if( n.getFloatValue() != null ){
-			System.out.println( "Found double: " + n.getFloatValue().getValue() );
 			return new ConstantDoubleExpression( JolieEppUtils.PARSING_CONTEXT, Double.parseDouble( n.getFloatValue().getValue() ) );
 		} else {
-			System.out.println( "Found integer: " + n.getIntValue().getValue() );
 			return new ConstantIntegerExpression( JolieEppUtils.PARSING_CONTEXT, n.getIntValue().getValue() );
 		}
 	}
