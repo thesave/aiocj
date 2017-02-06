@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: aioc
-Bundle-Version: 1.3.6
+Bundle-Version: 1.3.7
 Bundle-SymbolicName: aioc;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext;visibility:=reexport,
