@@ -4,7 +4,7 @@
     modelPluginID="aioc" forceOverwrite="true" modelName="Aioc" updateClasspath="false"
     rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" complianceLevel="6.0"
     copyrightFields="false" editPluginID="aioc.edit" editorPluginID="aioc.editor"
-    runtimeVersion="2.11">
+    runtimeVersion="2.12">
   <genPackages prefix="Aioc" basePackage="org" disposableProviderFactory="true" fileExtensions="ioc"
       ecorePackage="Aioc.ecore#/">
     <genClasses ecoreClass="Aioc.ecore#//AiocJ">

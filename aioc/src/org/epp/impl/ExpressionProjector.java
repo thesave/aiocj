@@ -61,24 +61,24 @@ public class ExpressionProjector extends AiocSwitch< OLSyntaxNode >
 	{
 		SumExpressionNode jolieSumExpression = new SumExpressionNode( JolieEppUtils.PARSING_CONTEXT );
 		OLSyntaxNode jolieTerm;
-		Boolean castToInt = false;
-		for (EObject term : n.getChildren() ){
-			jolieTerm = doSwitch( term );
-			if (!( term instanceof SumExpressionAddTerm ) && !( term instanceof ExpressionBasicTerm )) {
-				castToInt = castToInt || true;
-			}
-		}
+//		Boolean castToInt = false;
+//		for (EObject term : n.getChildren() ){
+//			jolieTerm = doSwitch( term );
+//			if (!( term instanceof SumExpressionAddTerm ) && !( term instanceof ExpressionBasicTerm )) {
+//				castToInt = castToInt || true;
+//			}
+//		}
 		
 		for( EObject term : n.getChildren() ) {
 			jolieTerm = doSwitch( term );
 			if ( term instanceof SumExpressionAddTerm || term instanceof ExpressionBasicTerm ) {
-				if( term instanceof SumExpressionAddTerm ){
-					jolieSumExpression.add( jolieTerm );					
-				} else if ( castToInt && ((ExpressionBasicTerm) term).getVariable() != null  ){
-					jolieSumExpression.add( JolieEppUtils.toPath( "int( " + ((ExpressionBasicTerm) term).getVariable() + " )" ) );
-				} else {
+//				if( term instanceof SumExpressionAddTerm ){
+//					jolieSumExpression.add( jolieTerm );					
+//				} else if ( castToInt && ((ExpressionBasicTerm) term).getVariable() != null  ){
+//					jolieSumExpression.add( JolieEppUtils.toPath( "int( " + ((ExpressionBasicTerm) term).getVariable() + " )" ) );
+//				} else {
 					jolieSumExpression.add( jolieTerm );
-				}
+//				}
 			} else if( term instanceof SumExpressionSubtractTerm ){
 				jolieSumExpression.operands().add( new Pair< OperandType, OLSyntaxNode >( OperandType.SUBTRACT, jolieTerm  ) );
 			} else if( term instanceof SumExpressionTimesTerm ){
