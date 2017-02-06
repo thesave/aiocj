@@ -431,7 +431,8 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 	
 	public void visit( ConstantIntegerExpression n )
 	{
-		printer.write( new Integer( n.value() ).toString() );
+		System.out.println( "Projecting integer: " + n.value() );
+		printer.write( String.valueOf( n.value() ) );
 	}
 
 	
@@ -958,13 +959,16 @@ public class JolieProcessPrettyPrinterVisitor implements OLVisitor
 		
 	}
 
-	// ATTENTION USING THIS CLASS FOR SUB-EXPRESSIONS
+	// ATTENTION HACK: USING THIS CLASS FOR SUB-EXPRESSIONS
 	public void visit(ConstantDoubleExpression arg0) {
 		if( arg0 instanceof SubExpression ){
 			SubExpression s = ( SubExpression ) arg0;
 			printer.write( "( " );
 			prettyPrint( s.getExpressionNode() );
 			printer.write( " )");
+		} else {
+			System.out.println( "Projecting double:" + arg0.value() );
+			printer.write( String.valueOf( arg0.value() ) );
 		}
 	}
 

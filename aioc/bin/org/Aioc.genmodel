@@ -4,7 +4,7 @@
     modelPluginID="aioc" forceOverwrite="true" modelName="Aioc" updateClasspath="false"
     rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" complianceLevel="6.0"
     copyrightFields="false" editPluginID="aioc.edit" editorPluginID="aioc.editor"
-    runtimeVersion="2.12">
+    runtimeVersion="2.11">
   <genPackages prefix="Aioc" basePackage="org" disposableProviderFactory="true" fileExtensions="ioc"
       ecorePackage="Aioc.ecore#/">
     <genClasses ecoreClass="Aioc.ecore#//AiocJ">
@@ -134,6 +134,7 @@
     </genClasses>
     <genClasses ecoreClass="Aioc.ecore#//Constant">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Aioc.ecore#//Constant/intValue"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Aioc.ecore#//Constant/floatValue"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//Constant/strValue"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//Constant/true"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//Constant/false"/>
@@ -159,6 +160,9 @@
     </genClasses>
     <genClasses ecoreClass="Aioc.ecore#//Integer">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//Integer/value"/>
+    </genClasses>
+    <genClasses ecoreClass="Aioc.ecore#//Float">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//Float/value"/>
     </genClasses>
     <genClasses ecoreClass="Aioc.ecore#//LocalAskCommand">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Aioc.ecore#//LocalAskCommand/resultVariable"/>

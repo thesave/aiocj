@@ -287,6 +287,13 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  private EClass floatEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   private EClass localAskCommandEClass = null;
 
   /**
@@ -1399,9 +1406,9 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getConstant_StrValue()
+  public EReference getConstant_FloatValue()
   {
-    return (EAttribute)constantEClass.getEStructuralFeatures().get(1);
+    return (EReference)constantEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -1409,7 +1416,7 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getConstant_True()
+  public EAttribute getConstant_StrValue()
   {
     return (EAttribute)constantEClass.getEStructuralFeatures().get(2);
   }
@@ -1419,9 +1426,19 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getConstant_False()
+  public EAttribute getConstant_True()
   {
     return (EAttribute)constantEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getConstant_False()
+  {
+    return (EAttribute)constantEClass.getEStructuralFeatures().get(4);
   }
 
   /**
@@ -1602,6 +1619,26 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
   public EAttribute getInteger_Value()
   {
     return (EAttribute)integerEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getFloat()
+  {
+    return floatEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getFloat_Value()
+  {
+    return (EAttribute)floatEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -1901,6 +1938,7 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
 
     constantEClass = createEClass(CONSTANT);
     createEReference(constantEClass, CONSTANT__INT_VALUE);
+    createEReference(constantEClass, CONSTANT__FLOAT_VALUE);
     createEAttribute(constantEClass, CONSTANT__STR_VALUE);
     createEAttribute(constantEClass, CONSTANT__TRUE);
     createEAttribute(constantEClass, CONSTANT__FALSE);
@@ -1926,6 +1964,9 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
 
     integerEClass = createEClass(INTEGER);
     createEAttribute(integerEClass, INTEGER__VALUE);
+
+    floatEClass = createEClass(FLOAT);
+    createEAttribute(floatEClass, FLOAT__VALUE);
 
     localAskCommandEClass = createEClass(LOCAL_ASK_COMMAND);
     createEAttribute(localAskCommandEClass, LOCAL_ASK_COMMAND__RESULT_VARIABLE);
@@ -2114,6 +2155,7 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
 
     initEClass(constantEClass, Constant.class, "Constant", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getConstant_IntValue(), this.getInteger(), null, "intValue", null, 0, 1, Constant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getConstant_FloatValue(), this.getFloat(), null, "floatValue", null, 0, 1, Constant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getConstant_StrValue(), ecorePackage.getEString(), "strValue", null, 0, 1, Constant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getConstant_True(), ecorePackage.getEString(), "true", null, 0, 1, Constant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getConstant_False(), ecorePackage.getEString(), "false", null, 0, 1, Constant.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2139,6 +2181,9 @@ public class AiocPackageImpl extends EPackageImpl implements AiocPackage
 
     initEClass(integerEClass, org.aioc.Integer.class, "Integer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getInteger_Value(), ecorePackage.getEInt(), "value", null, 0, 1, org.aioc.Integer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(floatEClass, org.aioc.Float.class, "Float", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getFloat_Value(), ecorePackage.getEString(), "value", null, 0, 1, org.aioc.Float.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(localAskCommandEClass, LocalAskCommand.class, "LocalAskCommand", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getLocalAskCommand_ResultVariable(), ecorePackage.getEString(), "resultVariable", null, 0, 1, LocalAskCommand.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

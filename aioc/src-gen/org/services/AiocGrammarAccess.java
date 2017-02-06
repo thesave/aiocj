@@ -1626,18 +1626,20 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final Assignment cIntValueAssignment_0 = (Assignment)cAlternatives.eContents().get(0);
 		private final RuleCall cIntValueIntegerParserRuleCall_0_0 = (RuleCall)cIntValueAssignment_0.eContents().get(0);
-		private final Assignment cStrValueAssignment_1 = (Assignment)cAlternatives.eContents().get(1);
-		private final RuleCall cStrValueSTRINGTerminalRuleCall_1_0 = (RuleCall)cStrValueAssignment_1.eContents().get(0);
-		private final Assignment cTrueAssignment_2 = (Assignment)cAlternatives.eContents().get(2);
-		private final RuleCall cTrueTRUETerminalRuleCall_2_0 = (RuleCall)cTrueAssignment_2.eContents().get(0);
-		private final Assignment cFalseAssignment_3 = (Assignment)cAlternatives.eContents().get(3);
-		private final RuleCall cFalseFALSETerminalRuleCall_3_0 = (RuleCall)cFalseAssignment_3.eContents().get(0);
+		private final Assignment cFloatValueAssignment_1 = (Assignment)cAlternatives.eContents().get(1);
+		private final RuleCall cFloatValueFloatParserRuleCall_1_0 = (RuleCall)cFloatValueAssignment_1.eContents().get(0);
+		private final Assignment cStrValueAssignment_2 = (Assignment)cAlternatives.eContents().get(2);
+		private final RuleCall cStrValueSTRINGTerminalRuleCall_2_0 = (RuleCall)cStrValueAssignment_2.eContents().get(0);
+		private final Assignment cTrueAssignment_3 = (Assignment)cAlternatives.eContents().get(3);
+		private final RuleCall cTrueTRUETerminalRuleCall_3_0 = (RuleCall)cTrueAssignment_3.eContents().get(0);
+		private final Assignment cFalseAssignment_4 = (Assignment)cAlternatives.eContents().get(4);
+		private final RuleCall cFalseFALSETerminalRuleCall_4_0 = (RuleCall)cFalseAssignment_4.eContents().get(0);
 		
 		//Constant:
-		//	intValue=Integer | strValue=STRING | true=TRUE | false=FALSE;
+		//	intValue=Integer | floatValue=Float | strValue=STRING | true=TRUE | false=FALSE;
 		@Override public ParserRule getRule() { return rule; }
 
-		//intValue=Integer | strValue=STRING | true=TRUE | false=FALSE
+		//intValue=Integer | floatValue=Float | strValue=STRING | true=TRUE | false=FALSE
 		public Alternatives getAlternatives() { return cAlternatives; }
 
 		//intValue=Integer
@@ -1646,23 +1648,29 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		//Integer
 		public RuleCall getIntValueIntegerParserRuleCall_0_0() { return cIntValueIntegerParserRuleCall_0_0; }
 
+		//floatValue=Float
+		public Assignment getFloatValueAssignment_1() { return cFloatValueAssignment_1; }
+
+		//Float
+		public RuleCall getFloatValueFloatParserRuleCall_1_0() { return cFloatValueFloatParserRuleCall_1_0; }
+
 		//strValue=STRING
-		public Assignment getStrValueAssignment_1() { return cStrValueAssignment_1; }
+		public Assignment getStrValueAssignment_2() { return cStrValueAssignment_2; }
 
 		//STRING
-		public RuleCall getStrValueSTRINGTerminalRuleCall_1_0() { return cStrValueSTRINGTerminalRuleCall_1_0; }
+		public RuleCall getStrValueSTRINGTerminalRuleCall_2_0() { return cStrValueSTRINGTerminalRuleCall_2_0; }
 
 		//true=TRUE
-		public Assignment getTrueAssignment_2() { return cTrueAssignment_2; }
+		public Assignment getTrueAssignment_3() { return cTrueAssignment_3; }
 
 		//TRUE
-		public RuleCall getTrueTRUETerminalRuleCall_2_0() { return cTrueTRUETerminalRuleCall_2_0; }
+		public RuleCall getTrueTRUETerminalRuleCall_3_0() { return cTrueTRUETerminalRuleCall_3_0; }
 
 		//false=FALSE
-		public Assignment getFalseAssignment_3() { return cFalseAssignment_3; }
+		public Assignment getFalseAssignment_4() { return cFalseAssignment_4; }
 
 		//FALSE
-		public RuleCall getFalseFALSETerminalRuleCall_3_0() { return cFalseFALSETerminalRuleCall_3_0; }
+		public RuleCall getFalseFALSETerminalRuleCall_4_0() { return cFalseFALSETerminalRuleCall_4_0; }
 	}
 
 	public class ConditionElements extends AbstractParserRuleElementFinder {
@@ -1853,6 +1861,22 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		//INT
 		public RuleCall getValueINTTerminalRuleCall_0() { return cValueINTTerminalRuleCall_0; }
 	}
+
+	public class FloatElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.Aioc.Float");
+		private final Assignment cValueAssignment = (Assignment)rule.eContents().get(1);
+		private final RuleCall cValueDOUBLETerminalRuleCall_0 = (RuleCall)cValueAssignment.eContents().get(0);
+		
+		//Float:
+		//	value=DOUBLE;
+		@Override public ParserRule getRule() { return rule; }
+
+		//value=DOUBLE
+		public Assignment getValueAssignment() { return cValueAssignment; }
+
+		//DOUBLE
+		public RuleCall getValueDOUBLETerminalRuleCall_0() { return cValueDOUBLETerminalRuleCall_0; }
+	}
 	
 	
 	private final AiocJElements pAiocJ;
@@ -1887,6 +1911,8 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 	private final ConditionOperatorElements pConditionOperator;
 	private final FunctionElements pFunction;
 	private final IntegerElements pInteger;
+	private final FloatElements pFloat;
+	private final TerminalRule tDOUBLE;
 	private final TerminalRule tLCURLY;
 	private final TerminalRule tRCURLY;
 	private final TerminalRule tARROW;
@@ -1956,6 +1982,8 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		this.pConditionOperator = new ConditionOperatorElements();
 		this.pFunction = new FunctionElements();
 		this.pInteger = new IntegerElements();
+		this.pFloat = new FloatElements();
+		this.tDOUBLE = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.Aioc.DOUBLE");
 		this.tLCURLY = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.Aioc.LCURLY");
 		this.tRCURLY = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.Aioc.RCURLY");
 		this.tARROW = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "org.Aioc.ARROW");
@@ -2327,7 +2355,7 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 	}
 
 	//Constant:
-	//	intValue=Integer | strValue=STRING | true=TRUE | false=FALSE;
+	//	intValue=Integer | floatValue=Float | strValue=STRING | true=TRUE | false=FALSE;
 	public ConstantElements getConstantAccess() {
 		return pConstant;
 	}
@@ -2376,6 +2404,22 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 	public ParserRule getIntegerRule() {
 		return getIntegerAccess().getRule();
 	}
+
+	//Float:
+	//	value=DOUBLE;
+	public FloatElements getFloatAccess() {
+		return pFloat;
+	}
+	
+	public ParserRule getFloatRule() {
+		return getFloatAccess().getRule();
+	}
+
+	//terminal DOUBLE:
+	//	INT? DOT INT;
+	public TerminalRule getDOUBLERule() {
+		return tDOUBLE;
+	} 
 
 	//terminal LCURLY:
 	//	'{';

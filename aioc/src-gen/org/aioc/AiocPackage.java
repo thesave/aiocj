@@ -1228,13 +1228,22 @@ public interface AiocPackage extends EPackage
   int CONSTANT__INT_VALUE = 0;
 
   /**
+   * The feature id for the '<em><b>Float Value</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int CONSTANT__FLOAT_VALUE = 1;
+
+  /**
    * The feature id for the '<em><b>Str Value</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int CONSTANT__STR_VALUE = 1;
+  int CONSTANT__STR_VALUE = 2;
 
   /**
    * The feature id for the '<em><b>True</b></em>' attribute.
@@ -1243,7 +1252,7 @@ public interface AiocPackage extends EPackage
    * @generated
    * @ordered
    */
-  int CONSTANT__TRUE = 2;
+  int CONSTANT__TRUE = 3;
 
   /**
    * The feature id for the '<em><b>False</b></em>' attribute.
@@ -1252,7 +1261,7 @@ public interface AiocPackage extends EPackage
    * @generated
    * @ordered
    */
-  int CONSTANT__FALSE = 3;
+  int CONSTANT__FALSE = 4;
 
   /**
    * The number of structural features of the '<em>Constant</em>' class.
@@ -1261,7 +1270,7 @@ public interface AiocPackage extends EPackage
    * @generated
    * @ordered
    */
-  int CONSTANT_FEATURE_COUNT = 4;
+  int CONSTANT_FEATURE_COUNT = 5;
 
   /**
    * The meta object id for the '{@link org.aioc.impl.ConditionImpl <em>Condition</em>}' class.
@@ -1466,6 +1475,34 @@ public interface AiocPackage extends EPackage
   int INTEGER_FEATURE_COUNT = 1;
 
   /**
+   * The meta object id for the '{@link org.aioc.impl.FloatImpl <em>Float</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.aioc.impl.FloatImpl
+   * @see org.aioc.impl.AiocPackageImpl#getFloat()
+   * @generated
+   */
+  int FLOAT = 32;
+
+  /**
+   * The feature id for the '<em><b>Value</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int FLOAT__VALUE = 0;
+
+  /**
+   * The number of structural features of the '<em>Float</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int FLOAT_FEATURE_COUNT = 1;
+
+  /**
    * The meta object id for the '{@link org.aioc.impl.LocalAskCommandImpl <em>Local Ask Command</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1473,7 +1510,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getLocalAskCommand()
    * @generated
    */
-  int LOCAL_ASK_COMMAND = 32;
+  int LOCAL_ASK_COMMAND = 33;
 
   /**
    * The feature id for the '<em><b>Thread</b></em>' attribute.
@@ -1519,7 +1556,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getLocalShowCommand()
    * @generated
    */
-  int LOCAL_SHOW_COMMAND = 33;
+  int LOCAL_SHOW_COMMAND = 34;
 
   /**
    * The feature id for the '<em><b>Thread</b></em>' attribute.
@@ -1565,7 +1602,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getLocalAssignmentCommand()
    * @generated
    */
-  int LOCAL_ASSIGNMENT_COMMAND = 34;
+  int LOCAL_ASSIGNMENT_COMMAND = 35;
 
   /**
    * The feature id for the '<em><b>Thread</b></em>' attribute.
@@ -1620,7 +1657,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getSumExpressionAddTerm()
    * @generated
    */
-  int SUM_EXPRESSION_ADD_TERM = 35;
+  int SUM_EXPRESSION_ADD_TERM = 36;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -1648,7 +1685,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getSumExpressionSubtractTerm()
    * @generated
    */
-  int SUM_EXPRESSION_SUBTRACT_TERM = 36;
+  int SUM_EXPRESSION_SUBTRACT_TERM = 37;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -1676,7 +1713,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getSumExpressionTimesTerm()
    * @generated
    */
-  int SUM_EXPRESSION_TIMES_TERM = 37;
+  int SUM_EXPRESSION_TIMES_TERM = 38;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -1704,7 +1741,7 @@ public interface AiocPackage extends EPackage
    * @see org.aioc.impl.AiocPackageImpl#getSumExpressionDivideTerm()
    * @generated
    */
-  int SUM_EXPRESSION_DIVIDE_TERM = 38;
+  int SUM_EXPRESSION_DIVIDE_TERM = 39;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -2798,6 +2835,17 @@ public interface AiocPackage extends EPackage
   EReference getConstant_IntValue();
 
   /**
+   * Returns the meta object for the containment reference '{@link org.aioc.Constant#getFloatValue <em>Float Value</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Float Value</em>'.
+   * @see org.aioc.Constant#getFloatValue()
+   * @see #getConstant()
+   * @generated
+   */
+  EReference getConstant_FloatValue();
+
+  /**
    * Returns the meta object for the attribute '{@link org.aioc.Constant#getStrValue <em>Str Value</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3023,6 +3071,27 @@ public interface AiocPackage extends EPackage
    * @generated
    */
   EAttribute getInteger_Value();
+
+  /**
+   * Returns the meta object for class '{@link org.aioc.Float <em>Float</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Float</em>'.
+   * @see org.aioc.Float
+   * @generated
+   */
+  EClass getFloat();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.aioc.Float#getValue <em>Value</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Value</em>'.
+   * @see org.aioc.Float#getValue()
+   * @see #getFloat()
+   * @generated
+   */
+  EAttribute getFloat_Value();
 
   /**
    * Returns the meta object for class '{@link org.aioc.LocalAskCommand <em>Local Ask Command</em>}'.
@@ -4051,6 +4120,14 @@ public interface AiocPackage extends EPackage
     EReference CONSTANT__INT_VALUE = eINSTANCE.getConstant_IntValue();
 
     /**
+     * The meta object literal for the '<em><b>Float Value</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference CONSTANT__FLOAT_VALUE = eINSTANCE.getConstant_FloatValue();
+
+    /**
      * The meta object literal for the '<em><b>Str Value</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4225,6 +4302,24 @@ public interface AiocPackage extends EPackage
      * @generated
      */
     EAttribute INTEGER__VALUE = eINSTANCE.getInteger_Value();
+
+    /**
+     * The meta object literal for the '{@link org.aioc.impl.FloatImpl <em>Float</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.aioc.impl.FloatImpl
+     * @see org.aioc.impl.AiocPackageImpl#getFloat()
+     * @generated
+     */
+    EClass FLOAT = eINSTANCE.getFloat();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute FLOAT__VALUE = eINSTANCE.getFloat_Value();
 
     /**
      * The meta object literal for the '{@link org.aioc.impl.LocalAskCommandImpl <em>Local Ask Command</em>}' class.

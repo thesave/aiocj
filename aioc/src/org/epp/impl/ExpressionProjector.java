@@ -25,6 +25,7 @@ package org.epp.impl;
 import jolie.lang.Constants.OperandType;
 import jolie.lang.parse.ast.OLSyntaxNode;
 import jolie.lang.parse.ast.expression.ConstantBoolExpression;
+import jolie.lang.parse.ast.expression.ConstantDoubleExpression;
 import jolie.lang.parse.ast.expression.ConstantIntegerExpression;
 import jolie.lang.parse.ast.expression.ConstantStringExpression;
 import jolie.lang.parse.ast.expression.SumExpressionNode;
@@ -73,8 +74,8 @@ public class ExpressionProjector extends AiocSwitch< OLSyntaxNode >
 			if ( term instanceof SumExpressionAddTerm || term instanceof ExpressionBasicTerm ) {
 				if( term instanceof SumExpressionAddTerm ){
 					jolieSumExpression.add( jolieTerm );					
-				} else if ( castToInt ){
-					jolieSumExpression.add( JolieEppUtils.toPath( "int( " + ( ( ExpressionBasicTerm ) term ).getVariable() + " )" ) );						
+				} else if ( castToInt && ((ExpressionBasicTerm) term).getVariable() != null  ){
+					jolieSumExpression.add( JolieEppUtils.toPath( "int( " + ((ExpressionBasicTerm) term).getVariable() + " )" ) );
 				} else {
 					jolieSumExpression.add( jolieTerm );
 				}
@@ -121,9 +122,13 @@ public class ExpressionProjector extends AiocSwitch< OLSyntaxNode >
 			return new ConstantBoolExpression( JolieEppUtils.PARSING_CONTEXT, true );
 		} if( n.getFalse() != null ){
 			return new ConstantBoolExpression( JolieEppUtils.PARSING_CONTEXT, false );
-		}	else {
+		} if( n.getFloatValue() != null ){
+			System.out.println( "Found double: " + n.getFloatValue().getValue() );
+			return new ConstantDoubleExpression( JolieEppUtils.PARSING_CONTEXT, Double.parseDouble( n.getFloatValue().getValue() ) );
+		} else {
+			System.out.println( "Found integer: " + n.getIntValue().getValue() );
 			return new ConstantIntegerExpression( JolieEppUtils.PARSING_CONTEXT, n.getIntValue().getValue() );
-		} 
+		}
 	}
 	
 	private OLSyntaxNode doSwitchIfNotNull( EObject e )

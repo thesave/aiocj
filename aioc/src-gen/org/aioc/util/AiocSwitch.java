@@ -334,6 +334,13 @@ public class AiocSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case AiocPackage.FLOAT:
+      {
+        org.aioc.Float float_ = (org.aioc.Float)theEObject;
+        T result = caseFloat(float_);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case AiocPackage.LOCAL_ASK_COMMAND:
       {
         LocalAskCommand localAskCommand = (LocalAskCommand)theEObject;
@@ -902,6 +909,22 @@ public class AiocSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseInteger(org.aioc.Integer object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Float</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Float</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseFloat(org.aioc.Float object)
   {
     return null;
   }

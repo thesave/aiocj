@@ -187,9 +187,10 @@ public class AiocParser extends AbstractContentAssistParser {
 					put(grammarAccess.getExpressionBasicTermAccess().getConstantAssignment_1(), "rule__ExpressionBasicTerm__ConstantAssignment_1");
 					put(grammarAccess.getExpressionBasicTermAccess().getConditionAssignment_2_1(), "rule__ExpressionBasicTerm__ConditionAssignment_2_1");
 					put(grammarAccess.getConstantAccess().getIntValueAssignment_0(), "rule__Constant__IntValueAssignment_0");
-					put(grammarAccess.getConstantAccess().getStrValueAssignment_1(), "rule__Constant__StrValueAssignment_1");
-					put(grammarAccess.getConstantAccess().getTrueAssignment_2(), "rule__Constant__TrueAssignment_2");
-					put(grammarAccess.getConstantAccess().getFalseAssignment_3(), "rule__Constant__FalseAssignment_3");
+					put(grammarAccess.getConstantAccess().getFloatValueAssignment_1(), "rule__Constant__FloatValueAssignment_1");
+					put(grammarAccess.getConstantAccess().getStrValueAssignment_2(), "rule__Constant__StrValueAssignment_2");
+					put(grammarAccess.getConstantAccess().getTrueAssignment_3(), "rule__Constant__TrueAssignment_3");
+					put(grammarAccess.getConstantAccess().getFalseAssignment_4(), "rule__Constant__FalseAssignment_4");
 					put(grammarAccess.getConditionAccess().getLeftAssignment_0(), "rule__Condition__LeftAssignment_0");
 					put(grammarAccess.getConditionAccess().getOperatorAssignment_1_0(), "rule__Condition__OperatorAssignment_1_0");
 					put(grammarAccess.getConditionAccess().getRightAssignment_1_1(), "rule__Condition__RightAssignment_1_1");
@@ -205,6 +206,7 @@ public class AiocParser extends AbstractContentAssistParser {
 					put(grammarAccess.getFunctionAccess().getParamsAssignment_2_0(), "rule__Function__ParamsAssignment_2_0");
 					put(grammarAccess.getFunctionAccess().getParamsAssignment_2_1_1(), "rule__Function__ParamsAssignment_2_1_1");
 					put(grammarAccess.getIntegerAccess().getValueAssignment(), "rule__Integer__ValueAssignment");
+					put(grammarAccess.getFloatAccess().getValueAssignment(), "rule__Float__ValueAssignment");
 				}
 			};
 		}

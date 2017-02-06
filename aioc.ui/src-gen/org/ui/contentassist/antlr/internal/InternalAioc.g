@@ -953,6 +953,34 @@ finally {
 
 
 
+// Entry rule entryRuleFloat
+entryRuleFloat 
+:
+{ before(grammarAccess.getFloatRule()); }
+	 ruleFloat
+{ after(grammarAccess.getFloatRule()); } 
+	 EOF 
+;
+
+// Rule Float
+ruleFloat
+    @init {
+		int stackSize = keepStackSize();
+    }
+	:
+(
+{ before(grammarAccess.getFloatAccess().getValueAssignment()); }
+(rule__Float__ValueAssignment)
+{ after(grammarAccess.getFloatAccess().getValueAssignment()); }
+)
+
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+
+
 
 rule__AiocJ__Alternatives
     @init {
@@ -1230,21 +1258,27 @@ rule__Constant__Alternatives
 )
 
     |(
-{ before(grammarAccess.getConstantAccess().getStrValueAssignment_1()); }
-(rule__Constant__StrValueAssignment_1)
-{ after(grammarAccess.getConstantAccess().getStrValueAssignment_1()); }
+{ before(grammarAccess.getConstantAccess().getFloatValueAssignment_1()); }
+(rule__Constant__FloatValueAssignment_1)
+{ after(grammarAccess.getConstantAccess().getFloatValueAssignment_1()); }
 )
 
     |(
-{ before(grammarAccess.getConstantAccess().getTrueAssignment_2()); }
-(rule__Constant__TrueAssignment_2)
-{ after(grammarAccess.getConstantAccess().getTrueAssignment_2()); }
+{ before(grammarAccess.getConstantAccess().getStrValueAssignment_2()); }
+(rule__Constant__StrValueAssignment_2)
+{ after(grammarAccess.getConstantAccess().getStrValueAssignment_2()); }
 )
 
     |(
-{ before(grammarAccess.getConstantAccess().getFalseAssignment_3()); }
-(rule__Constant__FalseAssignment_3)
-{ after(grammarAccess.getConstantAccess().getFalseAssignment_3()); }
+{ before(grammarAccess.getConstantAccess().getTrueAssignment_3()); }
+(rule__Constant__TrueAssignment_3)
+{ after(grammarAccess.getConstantAccess().getTrueAssignment_3()); }
+)
+
+    |(
+{ before(grammarAccess.getConstantAccess().getFalseAssignment_4()); }
+(rule__Constant__FalseAssignment_4)
+{ after(grammarAccess.getConstantAccess().getFalseAssignment_4()); }
 )
 
 ;
@@ -8911,14 +8945,14 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Constant__StrValueAssignment_1
+rule__Constant__FloatValueAssignment_1
     @init {
 		int stackSize = keepStackSize();
     }
 :
 (
-{ before(grammarAccess.getConstantAccess().getStrValueSTRINGTerminalRuleCall_1_0()); }
-	RULE_STRING{ after(grammarAccess.getConstantAccess().getStrValueSTRINGTerminalRuleCall_1_0()); }
+{ before(grammarAccess.getConstantAccess().getFloatValueFloatParserRuleCall_1_0()); }
+	ruleFloat{ after(grammarAccess.getConstantAccess().getFloatValueFloatParserRuleCall_1_0()); }
 )
 
 ;
@@ -8926,14 +8960,14 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Constant__TrueAssignment_2
+rule__Constant__StrValueAssignment_2
     @init {
 		int stackSize = keepStackSize();
     }
 :
 (
-{ before(grammarAccess.getConstantAccess().getTrueTRUETerminalRuleCall_2_0()); }
-	RULE_TRUE{ after(grammarAccess.getConstantAccess().getTrueTRUETerminalRuleCall_2_0()); }
+{ before(grammarAccess.getConstantAccess().getStrValueSTRINGTerminalRuleCall_2_0()); }
+	RULE_STRING{ after(grammarAccess.getConstantAccess().getStrValueSTRINGTerminalRuleCall_2_0()); }
 )
 
 ;
@@ -8941,14 +8975,29 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Constant__FalseAssignment_3
+rule__Constant__TrueAssignment_3
     @init {
 		int stackSize = keepStackSize();
     }
 :
 (
-{ before(grammarAccess.getConstantAccess().getFalseFALSETerminalRuleCall_3_0()); }
-	RULE_FALSE{ after(grammarAccess.getConstantAccess().getFalseFALSETerminalRuleCall_3_0()); }
+{ before(grammarAccess.getConstantAccess().getTrueTRUETerminalRuleCall_3_0()); }
+	RULE_TRUE{ after(grammarAccess.getConstantAccess().getTrueTRUETerminalRuleCall_3_0()); }
+)
+
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__Constant__FalseAssignment_4
+    @init {
+		int stackSize = keepStackSize();
+    }
+:
+(
+{ before(grammarAccess.getConstantAccess().getFalseFALSETerminalRuleCall_4_0()); }
+	RULE_FALSE{ after(grammarAccess.getConstantAccess().getFalseFALSETerminalRuleCall_4_0()); }
 )
 
 ;
@@ -9181,6 +9230,23 @@ finally {
 	restoreStackSize(stackSize);
 }
 
+rule__Float__ValueAssignment
+    @init {
+		int stackSize = keepStackSize();
+    }
+:
+(
+{ before(grammarAccess.getFloatAccess().getValueDOUBLETerminalRuleCall_0()); }
+	RULE_DOUBLE{ after(grammarAccess.getFloatAccess().getValueDOUBLETerminalRuleCall_0()); }
+)
+
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+
+RULE_DOUBLE : RULE_INT? RULE_DOT RULE_INT;
 
 RULE_LCURLY : '{';
 
@@ -9206,7 +9272,7 @@ RULE_AT : '@';
 
 RULE_ASSIGN : '=';
 
-RULE_DOT : '.';
+fragment RULE_DOT : '.';
 
 RULE_NOT : '!';
 

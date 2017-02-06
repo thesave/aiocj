@@ -62,6 +62,7 @@ protected class ThisRootNode extends RootToken {
 			case 29: return new ConditionOperator_Alternatives(this, this, 29, inst);
 			case 30: return new Function_Group(this, this, 30, inst);
 			case 31: return new Integer_ValueAssignment(this, this, 31, inst);
+			case 32: return new Float_ValueAssignment(this, this, 32, inst);
 			default: return null;
 		}	
 	}	
@@ -7700,11 +7701,11 @@ protected class ExpressionBasicTerm_RRNDTerminalRuleCall_2_2 extends UnassignedT
 /************ begin Rule Constant ****************
  *
  * Constant:
- * 	intValue=Integer | strValue=STRING | true=TRUE | false=FALSE;
+ * 	intValue=Integer | floatValue=Float | strValue=STRING | true=TRUE | false=FALSE;
  *
  **/
 
-// intValue=Integer | strValue=STRING | true=TRUE | false=FALSE
+// intValue=Integer | floatValue=Float | strValue=STRING | true=TRUE | false=FALSE
 protected class Constant_Alternatives extends AlternativesToken {
 
 	public Constant_Alternatives(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -7720,9 +7721,10 @@ protected class Constant_Alternatives extends AlternativesToken {
 	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
 		switch(index) {
 			case 0: return new Constant_IntValueAssignment_0(lastRuleCallOrigin, this, 0, inst);
-			case 1: return new Constant_StrValueAssignment_1(lastRuleCallOrigin, this, 1, inst);
-			case 2: return new Constant_TrueAssignment_2(lastRuleCallOrigin, this, 2, inst);
-			case 3: return new Constant_FalseAssignment_3(lastRuleCallOrigin, this, 3, inst);
+			case 1: return new Constant_FloatValueAssignment_1(lastRuleCallOrigin, this, 1, inst);
+			case 2: return new Constant_StrValueAssignment_2(lastRuleCallOrigin, this, 2, inst);
+			case 3: return new Constant_TrueAssignment_3(lastRuleCallOrigin, this, 3, inst);
+			case 4: return new Constant_FalseAssignment_4(lastRuleCallOrigin, this, 4, inst);
 			default: return null;
 		}	
 	}
@@ -7781,16 +7783,61 @@ protected class Constant_IntValueAssignment_0 extends AssignmentToken  {
 	}	
 }
 
-// strValue=STRING
-protected class Constant_StrValueAssignment_1 extends AssignmentToken  {
+// floatValue=Float
+protected class Constant_FloatValueAssignment_1 extends AssignmentToken  {
 	
-	public Constant_StrValueAssignment_1(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+	public Constant_FloatValueAssignment_1(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
 		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
 	}
 	
 	@Override
 	public Assignment getGrammarElement() {
-		return grammarAccess.getConstantAccess().getStrValueAssignment_1();
+		return grammarAccess.getConstantAccess().getFloatValueAssignment_1();
+	}
+
+    @Override
+	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
+		switch(index) {
+			case 0: return new Float_ValueAssignment(this, this, 0, inst);
+			default: return null;
+		}	
+	}
+
+    @Override	
+	public IEObjectConsumer tryConsume() {
+		if((value = eObjectConsumer.getConsumable("floatValue",true)) == null) return null;
+		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("floatValue");
+		if(value instanceof EObject) { // org::eclipse::xtext::impl::RuleCallImpl
+			IEObjectConsumer param = createEObjectConsumer((EObject)value);
+			if(param.isInstanceOf(grammarAccess.getFloatRule().getType().getClassifier())) {
+				type = AssignmentType.PARSER_RULE_CALL;
+				element = grammarAccess.getConstantAccess().getFloatValueFloatParserRuleCall_1_0(); 
+				consumed = obj;
+				return param;
+			}
+		}
+		return null;
+	}
+
+    @Override
+	public AbstractToken createFollowerAfterReturn(AbstractToken next,	int actIndex, int index, IEObjectConsumer inst) {
+		if(value == inst.getEObject() && !inst.isConsumed()) return null;
+		switch(index) {
+			default: return lastRuleCallOrigin.createFollowerAfterReturn(next, actIndex , index, consumed);
+		}	
+	}	
+}
+
+// strValue=STRING
+protected class Constant_StrValueAssignment_2 extends AssignmentToken  {
+	
+	public Constant_StrValueAssignment_2(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
+	}
+	
+	@Override
+	public Assignment getGrammarElement() {
+		return grammarAccess.getConstantAccess().getStrValueAssignment_2();
 	}
 
     @Override
@@ -7804,9 +7851,9 @@ protected class Constant_StrValueAssignment_1 extends AssignmentToken  {
 	public IEObjectConsumer tryConsume() {
 		if((value = eObjectConsumer.getConsumable("strValue",true)) == null) return null;
 		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("strValue");
-		if(valueSerializer.isValid(obj.getEObject(), grammarAccess.getConstantAccess().getStrValueSTRINGTerminalRuleCall_1_0(), value, null)) {
+		if(valueSerializer.isValid(obj.getEObject(), grammarAccess.getConstantAccess().getStrValueSTRINGTerminalRuleCall_2_0(), value, null)) {
 			type = AssignmentType.TERMINAL_RULE_CALL;
-			element = grammarAccess.getConstantAccess().getStrValueSTRINGTerminalRuleCall_1_0();
+			element = grammarAccess.getConstantAccess().getStrValueSTRINGTerminalRuleCall_2_0();
 			return obj;
 		}
 		return null;
@@ -7815,15 +7862,15 @@ protected class Constant_StrValueAssignment_1 extends AssignmentToken  {
 }
 
 // true=TRUE
-protected class Constant_TrueAssignment_2 extends AssignmentToken  {
+protected class Constant_TrueAssignment_3 extends AssignmentToken  {
 	
-	public Constant_TrueAssignment_2(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+	public Constant_TrueAssignment_3(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
 		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
 	}
 	
 	@Override
 	public Assignment getGrammarElement() {
-		return grammarAccess.getConstantAccess().getTrueAssignment_2();
+		return grammarAccess.getConstantAccess().getTrueAssignment_3();
 	}
 
     @Override
@@ -7837,9 +7884,9 @@ protected class Constant_TrueAssignment_2 extends AssignmentToken  {
 	public IEObjectConsumer tryConsume() {
 		if((value = eObjectConsumer.getConsumable("true",true)) == null) return null;
 		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("true");
-		if(valueSerializer.isValid(obj.getEObject(), grammarAccess.getConstantAccess().getTrueTRUETerminalRuleCall_2_0(), value, null)) {
+		if(valueSerializer.isValid(obj.getEObject(), grammarAccess.getConstantAccess().getTrueTRUETerminalRuleCall_3_0(), value, null)) {
 			type = AssignmentType.TERMINAL_RULE_CALL;
-			element = grammarAccess.getConstantAccess().getTrueTRUETerminalRuleCall_2_0();
+			element = grammarAccess.getConstantAccess().getTrueTRUETerminalRuleCall_3_0();
 			return obj;
 		}
 		return null;
@@ -7848,15 +7895,15 @@ protected class Constant_TrueAssignment_2 extends AssignmentToken  {
 }
 
 // false=FALSE
-protected class Constant_FalseAssignment_3 extends AssignmentToken  {
+protected class Constant_FalseAssignment_4 extends AssignmentToken  {
 	
-	public Constant_FalseAssignment_3(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+	public Constant_FalseAssignment_4(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
 		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
 	}
 	
 	@Override
 	public Assignment getGrammarElement() {
-		return grammarAccess.getConstantAccess().getFalseAssignment_3();
+		return grammarAccess.getConstantAccess().getFalseAssignment_4();
 	}
 
     @Override
@@ -7870,9 +7917,9 @@ protected class Constant_FalseAssignment_3 extends AssignmentToken  {
 	public IEObjectConsumer tryConsume() {
 		if((value = eObjectConsumer.getConsumable("false",true)) == null) return null;
 		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("false");
-		if(valueSerializer.isValid(obj.getEObject(), grammarAccess.getConstantAccess().getFalseFALSETerminalRuleCall_3_0(), value, null)) {
+		if(valueSerializer.isValid(obj.getEObject(), grammarAccess.getConstantAccess().getFalseFALSETerminalRuleCall_4_0(), value, null)) {
 			type = AssignmentType.TERMINAL_RULE_CALL;
-			element = grammarAccess.getConstantAccess().getFalseFALSETerminalRuleCall_3_0();
+			element = grammarAccess.getConstantAccess().getFalseFALSETerminalRuleCall_4_0();
 			return obj;
 		}
 		return null;
@@ -8720,5 +8767,50 @@ protected class Integer_ValueAssignment extends AssignmentToken  {
 }
 
 /************ end Rule Integer ****************/
+
+
+/************ begin Rule Float ****************
+ *
+ * Float:
+ * 	value=DOUBLE;
+ *
+ **/
+
+// value=DOUBLE
+protected class Float_ValueAssignment extends AssignmentToken  {
+	
+	public Float_ValueAssignment(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
+	}
+	
+	@Override
+	public Assignment getGrammarElement() {
+		return grammarAccess.getFloatAccess().getValueAssignment();
+	}
+
+    @Override
+	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
+		switch(index) {
+			default: return lastRuleCallOrigin.createFollowerAfterReturn(this, index, index, inst);
+		}	
+	}
+
+    @Override	
+	public IEObjectConsumer tryConsume() {
+		if(getEObject().eClass() != grammarAccess.getFloatRule().getType().getClassifier())
+			return null;
+		if((value = eObjectConsumer.getConsumable("value",true)) == null) return null;
+		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("value");
+		if(valueSerializer.isValid(obj.getEObject(), grammarAccess.getFloatAccess().getValueDOUBLETerminalRuleCall_0(), value, null)) {
+			type = AssignmentType.TERMINAL_RULE_CALL;
+			element = grammarAccess.getFloatAccess().getValueDOUBLETerminalRuleCall_0();
+			return obj;
+		}
+		return null;
+	}
+
+}
+
+/************ end Rule Float ****************/
 
 }

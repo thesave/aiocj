@@ -273,6 +273,11 @@ public class AiocAdapterFactory extends AdapterFactoryImpl
         return createIntegerAdapter();
       }
       @Override
+      public Adapter caseFloat(org.aioc.Float object)
+      {
+        return createFloatAdapter();
+      }
+      @Override
       public Adapter caseLocalAskCommand(LocalAskCommand object)
       {
         return createLocalAskCommandAdapter();
@@ -805,6 +810,21 @@ public class AiocAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createIntegerAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.aioc.Float <em>Float</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.aioc.Float
+   * @generated
+   */
+  public Adapter createFloatAdapter()
   {
     return null;
   }

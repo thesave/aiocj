@@ -2746,9 +2746,28 @@ ruleConstant returns [EObject current=null]
 )
     |(
 (
-		lv_strValue_1_0=RULE_STRING
+		{ 
+	        newCompositeNode(grammarAccess.getConstantAccess().getFloatValueFloatParserRuleCall_1_0()); 
+	    }
+		lv_floatValue_1_0=ruleFloat		{
+	        if ($current==null) {
+	            $current = createModelElementForParent(grammarAccess.getConstantRule());
+	        }
+       		set(
+       			$current, 
+       			"floatValue",
+        		lv_floatValue_1_0, 
+        		"org.Aioc.Float");
+	        afterParserOrEnumRuleCall();
+	    }
+
+)
+)
+    |(
+(
+		lv_strValue_2_0=RULE_STRING
 		{
-			newLeafNode(lv_strValue_1_0, grammarAccess.getConstantAccess().getStrValueSTRINGTerminalRuleCall_1_0()); 
+			newLeafNode(lv_strValue_2_0, grammarAccess.getConstantAccess().getStrValueSTRINGTerminalRuleCall_2_0()); 
 		}
 		{
 	        if ($current==null) {
@@ -2757,7 +2776,7 @@ ruleConstant returns [EObject current=null]
        		setWithLastConsumed(
        			$current, 
        			"strValue",
-        		lv_strValue_1_0, 
+        		lv_strValue_2_0, 
         		"org.eclipse.xtext.common.Terminals.STRING");
 	    }
 
@@ -2765,9 +2784,9 @@ ruleConstant returns [EObject current=null]
 )
     |(
 (
-		lv_true_2_0=RULE_TRUE
+		lv_true_3_0=RULE_TRUE
 		{
-			newLeafNode(lv_true_2_0, grammarAccess.getConstantAccess().getTrueTRUETerminalRuleCall_2_0()); 
+			newLeafNode(lv_true_3_0, grammarAccess.getConstantAccess().getTrueTRUETerminalRuleCall_3_0()); 
 		}
 		{
 	        if ($current==null) {
@@ -2776,7 +2795,7 @@ ruleConstant returns [EObject current=null]
        		setWithLastConsumed(
        			$current, 
        			"true",
-        		lv_true_2_0, 
+        		lv_true_3_0, 
         		"org.Aioc.TRUE");
 	    }
 
@@ -2784,9 +2803,9 @@ ruleConstant returns [EObject current=null]
 )
     |(
 (
-		lv_false_3_0=RULE_FALSE
+		lv_false_4_0=RULE_FALSE
 		{
-			newLeafNode(lv_false_3_0, grammarAccess.getConstantAccess().getFalseFALSETerminalRuleCall_3_0()); 
+			newLeafNode(lv_false_4_0, grammarAccess.getConstantAccess().getFalseFALSETerminalRuleCall_4_0()); 
 		}
 		{
 	        if ($current==null) {
@@ -2795,7 +2814,7 @@ ruleConstant returns [EObject current=null]
        		setWithLastConsumed(
        			$current, 
        			"false",
-        		lv_false_3_0, 
+        		lv_false_4_0, 
         		"org.Aioc.FALSE");
 	    }
 
@@ -3180,6 +3199,47 @@ ruleInteger returns [EObject current=null]
 
 
 
+// Entry rule entryRuleFloat
+entryRuleFloat returns [EObject current=null] 
+	:
+	{ newCompositeNode(grammarAccess.getFloatRule()); }
+	 iv_ruleFloat=ruleFloat 
+	 { $current=$iv_ruleFloat.current; } 
+	 EOF 
+;
+
+// Rule Float
+ruleFloat returns [EObject current=null] 
+    @init { enterRule(); 
+    }
+    @after { leaveRule(); }:
+(
+(
+		lv_value_0_0=RULE_DOUBLE
+		{
+			newLeafNode(lv_value_0_0, grammarAccess.getFloatAccess().getValueDOUBLETerminalRuleCall_0()); 
+		}
+		{
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getFloatRule());
+	        }
+       		setWithLastConsumed(
+       			$current, 
+       			"value",
+        		lv_value_0_0, 
+        		"org.Aioc.DOUBLE");
+	    }
+
+)
+)
+;
+
+
+
+
+
+RULE_DOUBLE : RULE_INT? RULE_DOT RULE_INT;
+
 RULE_LCURLY : '{';
 
 RULE_RCURLY : '}';
@@ -3204,7 +3264,7 @@ RULE_AT : '@';
 
 RULE_ASSIGN : '=';
 
-RULE_DOT : '.';
+fragment RULE_DOT : '.';
 
 RULE_NOT : '!';
 

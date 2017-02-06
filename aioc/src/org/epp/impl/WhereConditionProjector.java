@@ -28,6 +28,7 @@ import jolie.lang.parse.ast.NullProcessStatement;
 import jolie.lang.parse.ast.OLSyntaxNode;
 import jolie.lang.parse.ast.expression.AndConditionNode;
 import jolie.lang.parse.ast.expression.ConstantBoolExpression;
+import jolie.lang.parse.ast.expression.ConstantDoubleExpression;
 import jolie.lang.parse.ast.expression.ConstantIntegerExpression;
 import jolie.lang.parse.ast.expression.ConstantStringExpression;
 import jolie.lang.parse.ast.expression.OrConditionNode;
@@ -108,6 +109,8 @@ public class WhereConditionProjector extends AiocSwitch< OLSyntaxNode >
 				return new ConstantBoolExpression( JolieEppUtils.PARSING_CONTEXT, false );
 			} else if ( n.getConstant().getStrValue() != null ){
 				return new ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, n.getConstant().getStrValue() );
+			} else if ( n.getConstant().getFloatValue() != null ){
+				return new ConstantDoubleExpression( JolieEppUtils.PARSING_CONTEXT, Double.parseDouble( n.getConstant().getFloatValue().getValue() ) );
 			} else if ( n.getConstant().getIntValue() != null ){
 				return new ConstantIntegerExpression( JolieEppUtils.PARSING_CONTEXT, (int) n.getConstant().getIntValue().getValue() );
 			}

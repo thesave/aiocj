@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * </p>
  * <ul>
  *   <li>{@link org.aioc.impl.ConstantImpl#getIntValue <em>Int Value</em>}</li>
+ *   <li>{@link org.aioc.impl.ConstantImpl#getFloatValue <em>Float Value</em>}</li>
  *   <li>{@link org.aioc.impl.ConstantImpl#getStrValue <em>Str Value</em>}</li>
  *   <li>{@link org.aioc.impl.ConstantImpl#getTrue <em>True</em>}</li>
  *   <li>{@link org.aioc.impl.ConstantImpl#getFalse <em>False</em>}</li>
@@ -41,6 +42,16 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
    * @ordered
    */
   protected org.aioc.Integer intValue;
+
+  /**
+   * The cached value of the '{@link #getFloatValue() <em>Float Value</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getFloatValue()
+   * @generated
+   * @ordered
+   */
+  protected org.aioc.Float floatValue;
 
   /**
    * The default value of the '{@link #getStrValue() <em>Str Value</em>}' attribute.
@@ -176,6 +187,54 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
    * <!-- end-user-doc -->
    * @generated
    */
+  public org.aioc.Float getFloatValue()
+  {
+    return floatValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetFloatValue(org.aioc.Float newFloatValue, NotificationChain msgs)
+  {
+    org.aioc.Float oldFloatValue = floatValue;
+    floatValue = newFloatValue;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AiocPackage.CONSTANT__FLOAT_VALUE, oldFloatValue, newFloatValue);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setFloatValue(org.aioc.Float newFloatValue)
+  {
+    if (newFloatValue != floatValue)
+    {
+      NotificationChain msgs = null;
+      if (floatValue != null)
+        msgs = ((InternalEObject)floatValue).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AiocPackage.CONSTANT__FLOAT_VALUE, null, msgs);
+      if (newFloatValue != null)
+        msgs = ((InternalEObject)newFloatValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AiocPackage.CONSTANT__FLOAT_VALUE, null, msgs);
+      msgs = basicSetFloatValue(newFloatValue, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, AiocPackage.CONSTANT__FLOAT_VALUE, newFloatValue, newFloatValue));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public String getStrValue()
   {
     return strValue;
@@ -252,6 +311,8 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
     {
       case AiocPackage.CONSTANT__INT_VALUE:
         return basicSetIntValue(null, msgs);
+      case AiocPackage.CONSTANT__FLOAT_VALUE:
+        return basicSetFloatValue(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -268,6 +329,8 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
     {
       case AiocPackage.CONSTANT__INT_VALUE:
         return getIntValue();
+      case AiocPackage.CONSTANT__FLOAT_VALUE:
+        return getFloatValue();
       case AiocPackage.CONSTANT__STR_VALUE:
         return getStrValue();
       case AiocPackage.CONSTANT__TRUE:
@@ -290,6 +353,9 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
     {
       case AiocPackage.CONSTANT__INT_VALUE:
         setIntValue((org.aioc.Integer)newValue);
+        return;
+      case AiocPackage.CONSTANT__FLOAT_VALUE:
+        setFloatValue((org.aioc.Float)newValue);
         return;
       case AiocPackage.CONSTANT__STR_VALUE:
         setStrValue((String)newValue);
@@ -317,6 +383,9 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
       case AiocPackage.CONSTANT__INT_VALUE:
         setIntValue((org.aioc.Integer)null);
         return;
+      case AiocPackage.CONSTANT__FLOAT_VALUE:
+        setFloatValue((org.aioc.Float)null);
+        return;
       case AiocPackage.CONSTANT__STR_VALUE:
         setStrValue(STR_VALUE_EDEFAULT);
         return;
@@ -342,6 +411,8 @@ public class ConstantImpl extends MinimalEObjectImpl.Container implements Consta
     {
       case AiocPackage.CONSTANT__INT_VALUE:
         return intValue != null;
+      case AiocPackage.CONSTANT__FLOAT_VALUE:
+        return floatValue != null;
       case AiocPackage.CONSTANT__STR_VALUE:
         return STR_VALUE_EDEFAULT == null ? strValue != null : !STR_VALUE_EDEFAULT.equals(strValue);
       case AiocPackage.CONSTANT__TRUE:

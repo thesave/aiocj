@@ -135,6 +135,7 @@ public class AiocFactoryImpl extends EFactoryImpl implements AiocFactory
       case AiocPackage.CONDITION_OPERATOR: return createConditionOperator();
       case AiocPackage.FUNCTION: return createFunction();
       case AiocPackage.INTEGER: return createInteger();
+      case AiocPackage.FLOAT: return createFloat();
       case AiocPackage.LOCAL_ASK_COMMAND: return createLocalAskCommand();
       case AiocPackage.LOCAL_SHOW_COMMAND: return createLocalShowCommand();
       case AiocPackage.LOCAL_ASSIGNMENT_COMMAND: return createLocalAssignmentCommand();
@@ -497,6 +498,17 @@ public class AiocFactoryImpl extends EFactoryImpl implements AiocFactory
   {
     IntegerImpl integer = new IntegerImpl();
     return integer;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public org.aioc.Float createFloat()
+  {
+    FloatImpl float_ = new FloatImpl();
+    return float_;
   }
 
   /**

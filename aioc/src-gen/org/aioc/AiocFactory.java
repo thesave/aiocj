@@ -311,6 +311,15 @@ public interface AiocFactory extends EFactory
   Integer createInteger();
 
   /**
+   * Returns a new object of class '<em>Float</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Float</em>'.
+   * @generated
+   */
+  Float createFloat();
+
+  /**
    * Returns a new object of class '<em>Local Ask Command</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
