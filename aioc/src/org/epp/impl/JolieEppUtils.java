@@ -33,7 +33,6 @@ import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URL;
 import java.util.Enumeration;
-import java.util.UUID;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import jolie.lang.NativeType;
@@ -281,11 +280,22 @@ public class JolieEppUtils
 		return OPERATION_VARIABLE + operationCounter++;
 	}
 	
+	public static void resetOperationCounter() {
+		operationCounter = 1;
+	}
+	
+	private static long fileHash;
+	
+	public static void setFileHash(long newFileHash) {
+		fileHash = newFileHash;
+	}
+	
 	private static int operationCounter = 0;
 	private static final String OPERATION_VARIABLE = "op";
-	
+		
 	public static String getCookie(){
-		return UUID.randomUUID().toString();
+		//return UUID.randomUUID().toString();
+		return String.valueOf(fileHash);
 	}
 	
 	private static int rulesNumber = 1;

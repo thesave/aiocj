@@ -119,10 +119,13 @@ public class NameCollector extends AiocSwitch< Boolean >
 	
 	private final HashMap<IfThenElse, String> ifOperations = new HashMap< IfThenElse, String>();
 	private final HashMap<While, String> whileOperations = new HashMap< While, String>();
-
-	public void addInteraction( Interaction i ){
+	
+	private int interactionsId = 0;
+		
+	public void addInteraction( Interaction i ) {
 		if( !interactionIDs.containsKey( i ) ){
-			interactionIDs.put(	i, UUID.randomUUID().toString()	);
+			interactionIDs.put(	i, String.valueOf(interactionsId) );
+			interactionsId++;
 		}
 	}
 	
@@ -219,7 +222,7 @@ public class NameCollector extends AiocSwitch< Boolean >
 	}
 	
 	public Boolean caseIfThenElse( IfThenElse n )
-	{
+	{	
 		ifOperations.put( n, JolieEppUtils.getFreshOperation() );
 		roles.add( n.getThread() );
 		if( !isUUID( n.getKey() )){
@@ -232,7 +235,7 @@ public class NameCollector extends AiocSwitch< Boolean >
 	}
 	
 	public Boolean caseWhile( While n )
-	{
+	{	
 		whileOperations.put( n , JolieEppUtils.getFreshOperation() );
 		roles.add( n.getThread() );
 		if( !isUUID( n.getKey() )){
@@ -244,8 +247,8 @@ public class NameCollector extends AiocSwitch< Boolean >
 	}
 	
 	public void collect(Choreography choreography, Aioc aioc) 
-	{
-		if( choreography != null ){
+	{	
+		if( choreography != null ) {
 			doSwitch( choreography );
 		}
 		if( aioc != null ){
@@ -300,12 +303,11 @@ public class NameCollector extends AiocSwitch< Boolean >
 		} else { return false; }
 	}
 
-	public ThreadOperations threadOperations()
-	{
+	public ThreadOperations threadOperations(){
 		return threadOperations;
 	}
 	
-	public OutputPortInfo getFunctionOutputPort( String function ){
+	public OutputPortInfo getFunctionOutputPort( String function ) {
 		return functionCollector.getFunctionOutputPort( function );
 	}
 

@@ -152,7 +152,7 @@ public class AiocJavaValidator extends org.validation.AbstractAiocJavaValidator 
 		}
 	}
 
-	@Check
+	//@Check
 	public void checkFunctionUsage( Function n ){
 		HashSet< String > fl = getFunctionList( n );
 		if( !fl.contains( n.getName() ) ){
