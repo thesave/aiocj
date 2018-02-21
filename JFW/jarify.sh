@@ -20,7 +20,7 @@ function jarify {
 rm -rf jars
 mkdir "jars"
 
-JARLIST=( 'adaptation_manager' 'Client_JFW' 'environment' 'Server_JFW' 'role_supporter' )
+JARLIST=( 'adaptation_manager' 'Client_JFW' 'Client_JFW_noAd' 'environment' 'Server_JFW' 'role_supporter' )
 
 echo "Jarify-ing Jorba Framework"
 for folder in ${JARLIST[@]}; do

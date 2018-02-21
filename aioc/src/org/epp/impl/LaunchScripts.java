@@ -112,6 +112,19 @@ public class LaunchScripts {
 		ostream.close();
 		setPermits( launcherFile );
 	}
+	
+//	 public void writeMidLaunchScriptStateless( File targetDirectory ) throws IOException{
+//	    String s = getInit();
+//	    s += getAdapationManagerLaunchString();
+//	    s += getEnvironmentLaunchString();
+//	    File launcherFile = new File ( targetDirectory.getAbsolutePath() + File.separator + "mid_launcher.sh" );
+//	    OutputStream ostream = new FileOutputStream( launcherFile.getAbsolutePath() );
+//	    Writer fileWriter = new OutputStreamWriter( ostream );
+//	    fileWriter.write( s );
+//	    fileWriter.flush();
+//	    ostream.close();
+//	    setPermits( launcherFile );
+//	  }
 		
 	public void writeAIOCLaunchScript( Aioc aioc, File targetDirectory ) throws IOException{
 		NameCollector nc = new NameCollector();
@@ -170,6 +183,32 @@ public class LaunchScripts {
 		ostream.close();
 		setPermits( launcherFile );
 	}
+	
+	 public void writeChoreographyLauncherScriptStateless( File targetDirectory ) throws IOException{
+	    String s = "#!/bin/bash";
+	    s = appendNewLine( s ,
+	        "dir=$(cd `dirname \"${BASH_SOURCE[0]}\"` && pwd)",
+	        "cd $dir",
+	        "bash service_launcher.sh",
+	        "if [[ $rule_server == \"y\" ]]; then",
+	          "bash epp_rules/rules_launcher.sh",
+	          "if [[ -d \"default_role_supporter\" ]]; then",
+	            "bash default_role_supporter/role_supporter_launcher.sh",
+	          "fi",
+	          "if [[ -d \"role_supporter\" ]]; then",
+	            "bash role_supporter/role_supporter_launcher.sh",
+	          "fi",
+	        "fi",
+	        "bash epp_aioc/aioc_launcher.sh"
+	    );
+	    File launcherFile = new File ( targetDirectory.getAbsolutePath() + "/"+ File.separator + "choreography_launcher.sh" );
+	    OutputStream ostream = new FileOutputStream( launcherFile.getAbsolutePath() );
+	    Writer fileWriter = new OutputStreamWriter( ostream );
+	    fileWriter.write( s );
+	    fileWriter.flush();
+	    ostream.close();
+	    setPermits( launcherFile );
+	  }
 	
 	public void writeServiceLauncherScript( File targetDirectory ) throws IOException{
 		File f = new File( targetDirectory.getAbsolutePath() + File.separator + "service_launcher.sh" );

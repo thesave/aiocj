@@ -93,6 +93,7 @@ import org.epp.impl.JolieProcessPrettyPrinter;
 import org.epp.impl.LaunchScripts;
 import org.epp.impl.NameCollector;
 import org.epp.impl.RuleVarCollector;
+import org.epp.impl.StatelessThreadProjector;
 import org.epp.impl.NameCollector.ScopeStructure;
 import org.epp.impl.ThreadProjectionResult;
 import org.epp.impl.ThreadProjector;
@@ -104,6 +105,7 @@ public class JolieEpp {
 	private File targetDirectory;
 	private final Map<String, URI> rolesLocations = new HashMap<String, URI>();
 	private int threadTcpPort = 10500;
+  private boolean hasAdaptation = false;
 
 	/**
 	 * JolieEpp creator
@@ -498,29 +500,43 @@ public class JolieEpp {
 	 */
 	public void epp( AiocJ aiocJ ) throws EndpointProjectionException, IOException {
 		LaunchScripts ls = new LaunchScripts();
-		targetDirectory = new File(srcGenDirectory.getAbsolutePath());
-		try {
-			JolieEppUtils.deployAdaptationManager( targetDirectory.getAbsolutePath() );
-			JolieEppUtils.deployEnvironment( targetDirectory.getAbsolutePath() );
-			ls.writeMidLaunchScript(targetDirectory);
-			ls.writeServiceLauncherScript(targetDirectory);
-			ls.writeChoreographyLauncherScript(targetDirectory);
-		} catch (Exception e) {
-			throw new EndpointProjectionException( 
-					"EPP exception on Adaptation Manager and Environment deployment: " + e );
-		}
+	//target directory for projections
+		targetDirectory = new File(srcGenDirectory.getAbsolutePath()); 
+	//adaptationManager and environment
+		String adaptationDeploymentTargetString = srcGenDirectory.getAbsolutePath(); 
+	//target directory for writeMidLaunch,ServiceLauncher,ChoreographyLauncher
+		File targetDirectoryScript = new  File(srcGenDirectory.getAbsolutePath());  
+
 		if ( aiocJ.getAioc() != null ) {
 			targetDirectory = new File(targetDirectory + File.separator + "epp_aioc");
 			FileUtils.deleteDirectory(targetDirectory);
+			//System.out.println("AIOC target directory is " + targetDirectory);
 			targetDirectory.mkdir();
 
 			try {
 				collectLocations( aiocJ.getAioc().getPreamble().getLocDefinition() );
 				projectThreads( aiocJ.getAioc() );
+
+				if (hasAdaptation) {
+		      JolieEppUtils.deployAdaptationManager( adaptationDeploymentTargetString );
+		      JolieEppUtils.deployEnvironment( adaptationDeploymentTargetString );
+		      ls.writeMidLaunchScript(targetDirectoryScript);
+		      ls.writeServiceLauncherScript(targetDirectoryScript);
+		      ls.writeChoreographyLauncherScript(targetDirectoryScript);
+				} else {
+				  //only the scripts needed for an IOCJ
+          ls.writeServiceLauncherScript(targetDirectoryScript);
+          ls.writeChoreographyLauncherScriptStateless(targetDirectoryScript);
+				}
+				
 				ls.writeAIOCLaunchScript( aiocJ.getAioc(), targetDirectory );
 			} catch (MergingException e) {
 				throw new EndpointProjectionException(e);
 			}
+			catch (Exception e) {
+	      throw new EndpointProjectionException( 
+	          "EPP exception on Adaptation Manager and Environment deployment: " + e + " IN PROJECT" );
+	    }
 		} else if ( aiocJ.getRuleSet() != null ) {
 			System.out.println( "Found rule set, projecting...");
 			JolieEppUtils.resetRuleNumbers();
@@ -628,18 +644,25 @@ public class JolieEpp {
 		nameCollector.collect( aioc.getChoreography(), aioc );
 
 		String start_key = JolieEppUtils.getCookie();
+    //sets the adaptation flag
+    if (!nameCollector.getScopes().isEmpty()) {
+      hasAdaptation = true;
+    } 
+    
 		for ( String thread : nameCollector.getRoles( )) {
 			projectThread( thread, aioc, nameCollector, start_key );
 		}
-
-		for (ScopeStructure scope : nameCollector.getScopes()) {
-			// System.out.println( "Projecting scope " + scope.getKey() );
-			projectScope( scope.getLeader(), scope, scope.getChoreography(), true, nameCollector );
-			for (String ledRole : scope.getLedRoles()) {
-				projectScope(ledRole, scope, scope.getChoreography(), false,
-						nameCollector);
-			}
-		}
+		
+		if (hasAdaptation) {
+    	for (ScopeStructure scope : nameCollector.getScopes()) {
+    		// System.out.println( "Projecting scope " + scope.getKey() );
+    		projectScope( scope.getLeader(), scope, scope.getChoreography(), true, nameCollector );
+    		for (String ledRole : scope.getLedRoles()) {
+    			projectScope(ledRole, scope, scope.getChoreography(), false,
+    					nameCollector);
+    		}
+    	}
+  	}
 	}
 
 	private void projectRule(
@@ -1830,9 +1853,13 @@ public class JolieEpp {
 			throws EndpointProjectionException, IOException, MergingException {
 		jolie.lang.parse.ast.Program jolieProgram = new jolie.lang.parse.ast.Program( JolieEppUtils.PARSING_CONTEXT );
 		jolieProgram.addChild( new ExecutionInfo( JolieEppUtils.PARSING_CONTEXT, ExecutionMode.SINGLE ) );
-
-		ThreadProjectionResult result = ThreadProjector.projectThread( thread, aioc.getChoreography(), collector );
-
+		ThreadProjectionResult result;
+		if (hasAdaptation) {
+		   result = ThreadProjector.projectThread( thread, aioc.getChoreography(), collector );
+		}
+		else {
+      result = StatelessThreadProjector.projectThread( thread, aioc.getChoreography(), collector );
+		}
 		String starter = aioc.getPreamble().getStarter();
 
 		if ( starter.equals( thread ) ) {
@@ -1849,8 +1876,9 @@ public class JolieEpp {
 				+ File.separator + thread);
 		if (roleFolder.exists() == false) {
 			roleFolder.mkdirs();
-			JolieEppUtils.deployJorbaFramework( targetDirectory.getAbsolutePath(), roleFolder );
-		}
+			//Boolean adaptation checks if deploy the whole JFW
+			JolieEppUtils.deployJorbaFramework( targetDirectory.getAbsolutePath(), roleFolder, hasAdaptation);
+			}
 
 		String mh = embedMessageHandler(thread, jolieProgram, result,
 				starter.equals(thread), collector, null);
