@@ -105,7 +105,6 @@ public class JolieEppUtils
 	public static void deployRoleSupporter( String targetDirectory, String ruleName, String roleName, String location ) throws IOException {
 		String subDir = "role_supporter" + File.separator + ruleName + File.separator + roleName;
 		File path = new File( targetDirectory + File.separator + subDir );
-		System.out.println( path.toString() );
 		FileUtils.deleteDirectory( path );
 		deployJFWElement( targetDirectory, subDir, JolieEppUtils.JFW_ROLESUPPORTER );
 		String locationsFile = targetDirectory + File.separator + subDir + File.separator 
@@ -119,7 +118,6 @@ public class JolieEppUtils
 	
 	public static void deployRoleSupporter( String targetDirectory ) throws IOException {
 		File path = new File( targetDirectory + File.separator + "default_role_supporter" );
-		System.out.println( path.toString() );
 		FileUtils.deleteDirectory( path );
 		deployJFWElement( targetDirectory, "default_role_supporter", JolieEppUtils.JFW_ROLESUPPORTER );
 	}
@@ -226,12 +224,21 @@ public class JolieEppUtils
 	}
 	
 	
-	public static void deployJorbaFramework( String targetDirectory, File destFolder ) throws IOException {
+	public static void deployJorbaFramework( String targetDirectory, File destFolder, boolean adaptation) throws IOException {
+		Path path;
+		File jar_f;
+	  
+		if (adaptation) {
+		  path = new Path("src/org/epp/" + JolieEppUtils.JFW);
+		  jar_f = new File( targetDirectory + File.separator + JolieEppUtils.JFW );
+		} else {
+      path = new Path("src/org/epp/" + JolieEppUtils.JFW_noAd);
+      jar_f = new File( targetDirectory + File.separator + JolieEppUtils.JFW_noAd );
+		}    
+
 		Bundle bundle = Platform.getBundle("aioc");
-		Path path = new Path("src/org/epp/" + JolieEppUtils.JFW);
 		URL fileUrl = FileLocator.find(bundle, path, null);
 		InputStream jar_is = fileUrl.openStream();
-		File jar_f = new File( targetDirectory + File.separator + JolieEppUtils.JFW );
 
 		byte[] b = new byte[4096];
 		OutputStream jar_os = new FileOutputStream(jar_f);
@@ -370,6 +377,8 @@ public class JolieEppUtils
 	public final static String JOLIE_TYPE = "Jolie";
 	public final static String GET_PREFIX = "get_";
 	public final static String JFW = "Client_JFW.jar";
+	//modified
+	public final static String JFW_noAd = "Client_JFW_noAd.jar";
 	public final static String JFW_server = "Server_JFW.jar";
 	public final static String JFW_ADAPTATIONMANAGER = "adaptation_manager.jar";
 	public final static String JFW_ENVIRONMENT = "environment.jar";
