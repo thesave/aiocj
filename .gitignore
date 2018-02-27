@@ -1,2 +1,4 @@
 .metadata
 *.class
+*/bin
+*/xtend-gen

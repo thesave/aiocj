@@ -344,7 +344,7 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		//((and?=AND | or?=OR) next=Where)?
 		public Group getGroup_3() { return cGroup_3; }
 
-		//(and?=AND | or?=OR)
+		//and?=AND | or?=OR
 		public Alternatives getAlternatives_3_0() { return cAlternatives_3_0; }
 
 		//and?=AND
@@ -960,7 +960,7 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		//ASSIGN
 		public RuleCall getASSIGNTerminalRuleCall_2_4() { return cASSIGNTerminalRuleCall_2_4; }
 
-		//(expression=Expression | function=Function)
+		//expression=Expression | function=Function
 		public Alternatives getAlternatives_2_5() { return cAlternatives_2_5; }
 
 		//expression=Expression
@@ -1002,9 +1002,9 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cElseChoreographyParserRuleCall_10_2_0 = (RuleCall)cElseAssignment_10_2.eContents().get(0);
 		private final RuleCall cRCURLYTerminalRuleCall_10_3 = (RuleCall)cGroup_10.eContents().get(3);
 		
-		/// **
+		///**
 		// * if (condition)@thread { Choreography } else { Choreography }
-		// * / IfThenElse:
+		// */ IfThenElse:
 		//	(key=ID COLON)? 'if' LRND condition=Condition RRND AT thread=ID
 		//	LCURLY then=Choreography RCURLY ('else' LCURLY else=Choreography RCURLY)?;
 		@Override public ParserRule getRule() { return rule; }
@@ -1101,9 +1101,9 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cKeyIDTerminalRuleCall_9_1_0 = (RuleCall)cKeyAssignment_9_1.eContents().get(0);
 		private final RuleCall cRCURLYTerminalRuleCall_9_2 = (RuleCall)cGroup_9.eContents().get(2);
 		
-		/// *
+		///*
 		// * while (condition)@thread { Choreography }
-		// * / While:
+		// */ While:
 		//	'while' LRND condition=Condition RRND AT thread=ID
 		//	LCURLY choreography=Choreography RCURLY (LCURLY key=ID RCURLY)?;
 		@Override public ParserRule getRule() { return rule; }
@@ -1356,7 +1356,7 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cContinuationAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
 		private final RuleCall cContinuationAssignmentSetParserRuleCall_1_1_0 = (RuleCall)cContinuationAssignment_1_1.eContents().get(0);
 		
-		/// *** Assignment *** / AssignmentSet:
+		///*** Assignment ***/ AssignmentSet:
 		//	assignment=Assignment (COMMA continuation=AssignmentSet)?;
 		@Override public ParserRule getRule() { return rule; }
 
@@ -1423,7 +1423,7 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cSumExpressionAssignment = (Assignment)rule.eContents().get(1);
 		private final RuleCall cSumExpressionSumExpressionParserRuleCall_0 = (RuleCall)cSumExpressionAssignment.eContents().get(0);
 		
-		/// *** Expressions and conditions *** / Expression:
+		///*** Expressions and conditions ***/ Expression:
 		//	sumExpression=SumExpression;
 		@Override public ParserRule getRule() { return rule; }
 
@@ -2229,9 +2229,9 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		return getLocalCodeAccess().getRule();
 	}
 
-	/// **
+	///**
 	// * if (condition)@thread { Choreography } else { Choreography }
-	// * / IfThenElse:
+	// */ IfThenElse:
 	//	(key=ID COLON)? 'if' LRND condition=Condition RRND AT thread=ID
 	//	LCURLY then=Choreography RCURLY ('else' LCURLY else=Choreography RCURLY)?;
 	public IfThenElseElements getIfThenElseAccess() {
@@ -2242,9 +2242,9 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		return getIfThenElseAccess().getRule();
 	}
 
-	/// *
+	///*
 	// * while (condition)@thread { Choreography }
-	// * / While:
+	// */ While:
 	//	'while' LRND condition=Condition RRND AT thread=ID
 	//	LCURLY choreography=Choreography RCURLY (LCURLY key=ID RCURLY)?;
 	public WhileElements getWhileAccess() {
@@ -2291,7 +2291,7 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		return getNestedChoreographyAccess().getRule();
 	}
 
-	/// *** Assignment *** / AssignmentSet:
+	///*** Assignment ***/ AssignmentSet:
 	//	assignment=Assignment (COMMA continuation=AssignmentSet)?;
 	public AssignmentSetElements getAssignmentSetAccess() {
 		return pAssignmentSet;
@@ -2311,7 +2311,7 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 		return getAssignmentAccess().getRule();
 	}
 
-	/// *** Expressions and conditions *** / Expression:
+	///*** Expressions and conditions ***/ Expression:
 	//	sumExpression=SumExpression;
 	public ExpressionElements getExpressionAccess() {
 		return pExpression;
@@ -2603,7 +2603,7 @@ public class AiocGrammarAccess extends AbstractGrammarElementFinder {
 	} 
 
 	//terminal ML_COMMENT:
-	//	'/ *'->'* /';
+	//	'/*'->'*/';
 	public TerminalRule getML_COMMENTRule() {
 		return gaTerminals.getML_COMMENTRule();
 	} 

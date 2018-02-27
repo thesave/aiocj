@@ -1635,7 +1635,7 @@ protected class WhereCompareCondition_Group_3 extends GroupToken {
 
 }
 
-// (and?=AND | or?=OR)
+// and?=AND | or?=OR
 protected class WhereCompareCondition_Alternatives_3_0 extends AlternativesToken {
 
 	public WhereCompareCondition_Alternatives_3_0(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -4417,7 +4417,7 @@ protected class LocalCode_ASSIGNTerminalRuleCall_2_4 extends UnassignedTextToken
 
 }
 
-// (expression=Expression | function=Function)
+// expression=Expression | function=Function
 protected class LocalCode_Alternatives_2_5 extends AlternativesToken {
 
 	public LocalCode_Alternatives_2_5(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -4540,9 +4540,9 @@ protected class LocalCode_FunctionAssignment_2_5_1 extends AssignmentToken  {
 
 /************ begin Rule IfThenElse ****************
  *
- * / **
+ * /**
  *  * if (condition)@thread { Choreography } else { Choreography }
- *  * / IfThenElse:
+ *  */ IfThenElse:
  * 	(key=ID COLON)? 'if' LRND condition=Condition RRND AT thread=ID
  * 	LCURLY then=Choreography RCURLY ('else' LCURLY else=Choreography RCURLY)?;
  *
@@ -5056,9 +5056,9 @@ protected class IfThenElse_RCURLYTerminalRuleCall_10_3 extends UnassignedTextTok
 
 /************ begin Rule While ****************
  *
- * / *
+ * /*
  *  * while (condition)@thread { Choreography }
- *  * / While:
+ *  */ While:
  * 	'while' LRND condition=Condition RRND AT thread=ID
  * 	LCURLY choreography=Choreography RCURLY (LCURLY key=ID RCURLY)?;
  *
@@ -6332,7 +6332,7 @@ protected class NestedChoreography_RCURLYTerminalRuleCall_2 extends UnassignedTe
 
 /************ begin Rule AssignmentSet ****************
  *
- * / *** Assignment *** / AssignmentSet:
+ * /*** Assignment ***/ AssignmentSet:
  * 	assignment=Assignment (COMMA continuation=AssignmentSet)?;
  *
  **/
@@ -6672,7 +6672,7 @@ protected class Assignment_ExpressionAssignment_3 extends AssignmentToken  {
 
 /************ begin Rule Expression ****************
  *
- * / *** Expressions and conditions *** / Expression:
+ * /*** Expressions and conditions ***/ Expression:
  * 	sumExpression=SumExpression;
  *
  **/

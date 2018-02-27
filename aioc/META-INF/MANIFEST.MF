@@ -41,5 +41,11 @@ Export-Package: org; uses:="org.eclipse.xtext,  org.eclipse.xtext.service,  org.
  org.scoping;uses:="org.eclipse.xtext.scoping.impl",
  org.services;uses:="org.eclipse.xtext,org.eclipse.xtext.common.services,org.eclipse.xtext.service",
  org.validation;uses:="org.eclipse.xtext.validation"
-Bundle-ClassPath: src/org/epp/Client_JFW.jar,src/org/epp/Server_JFW.jar,src/org/epp/role_support.jar,src/org/epp/environment.jar,src/org/epp/adaptation_manager.jar,.
+Bundle-ClassPath: src/org/epp/Client_JFW.jar,
+ src/org/epp/Client_JFW_noAd.jar,
+ src/org/epp/Server_JFW.jar,
+ src/org/epp/role_support.jar,
+ src/org/epp/environment.jar,
+ src/org/epp/adaptation_manager.jar,
+ .
 Bundle-Vendor: Saverio Giallorenzo <saverio.giallorenzo@gmail.com>
