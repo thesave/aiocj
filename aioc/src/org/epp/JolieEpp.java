@@ -31,6 +31,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -88,6 +89,7 @@ import org.aioc.NewRole;
 import org.aioc.Rule;
 import org.epp.impl.ExpressionProjector;
 import org.epp.impl.FileUtils;
+import org.epp.impl.FunctionCollector;
 import org.epp.impl.JolieEppUtils;
 import org.epp.impl.JolieProcessPrettyPrinter;
 import org.epp.impl.LaunchScripts;
@@ -103,6 +105,7 @@ public class JolieEpp {
 	private final File srcGenDirectory;
 	private File targetDirectory;
 	private final Map<String, URI> rolesLocations = new HashMap<String, URI>();
+	private Object[] rolesFilter = null; // Contains the roles to compile
 	private int threadTcpPort = 10500;
 
 	/**
@@ -158,7 +161,10 @@ public class JolieEpp {
 	}
 
 	private URI getFreshInputLocation() {
-		return URI.create("socket://localhost:" + threadTcpPort++ + "/");
+		while(rolesLocations.containsValue(URI.create("socket://localhost:" + threadTcpPort + "/"))) {
+			threadTcpPort++; // This avoids that the fresh location matches with a location already set
+		}
+		return URI.create("socket://localhost:" + threadTcpPort + "/");
 	}
 
 	private String embedMessageHandler(
@@ -170,7 +176,7 @@ public class JolieEpp {
 			String key ) throws IOException {
 
 		Set<String> additionalOperations = new HashSet<String>();
-
+		
 		if ( starter ) {
 			// add also ack and get_Ack
 			additionalOperations.add( JolieEppUtils.START_OPERATION );
@@ -198,7 +204,7 @@ public class JolieEpp {
 			mh.addChild( JolieEppUtils.TYPE_OpType );
 			mh.addChild( JolieEppUtils.TYPE_CoordType );
 			mh.addChild( JolieEppUtils.TYPE_JoinType );
-
+			
 			// adds inputPort
 			InputPortInfo mhInputPort = new InputPortInfo(
 					JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.SELF_INPUT_PORT_NAME,
@@ -296,7 +302,7 @@ public class JolieEpp {
 			OLSyntaxNode jolieMainNode = new DefinitionNode(
 					JolieEppUtils.PARSING_CONTEXT, "main", choiceBlock);
 			mh.addChild(jolieMainNode);
-
+						
 			// deployMessageHandler
 			StringWriter w = new StringWriter();
 //			w.write("include \"runtime.iol\"\n");
@@ -496,7 +502,9 @@ public class JolieEpp {
 	 * @throws EndpointProjectionException
 	 * @throws IOException
 	 */
-	public void epp( AiocJ aiocJ ) throws EndpointProjectionException, IOException {
+	public void epp( AiocJ aiocJ , long fileHash) throws EndpointProjectionException, IOException {
+		JolieEppUtils.resetOperationCounter();
+		JolieEppUtils.setFileHash(fileHash);
 		LaunchScripts ls = new LaunchScripts();
 		targetDirectory = new File(srcGenDirectory.getAbsolutePath());
 		try {
@@ -509,17 +517,22 @@ public class JolieEpp {
 			throw new EndpointProjectionException( 
 					"EPP exception on Adaptation Manager and Environment deployment: " + e );
 		}
-		if ( aiocJ.getAioc() != null ) {
-			targetDirectory = new File(targetDirectory + File.separator + "epp_aioc");
-			FileUtils.deleteDirectory(targetDirectory);
-			targetDirectory.mkdir();
-
-			try {
-				collectLocations( aiocJ.getAioc().getPreamble().getLocDefinition() );
-				projectThreads( aiocJ.getAioc() );
-				ls.writeAIOCLaunchScript( aiocJ.getAioc(), targetDirectory );
-			} catch (MergingException e) {
-				throw new EndpointProjectionException(e);
+		
+		if ( aiocJ.getAioc() != null) {
+			if(rolesFilter != null) {
+				targetDirectory = new File(targetDirectory + File.separator + "epp_aioc");
+				FileUtils.deleteDirectory(targetDirectory);
+				targetDirectory.mkdir();
+				
+				try {
+					collectLocations( aiocJ.getAioc().getPreamble().getLocDefinition() );
+					projectThreads( aiocJ.getAioc() );
+					ls.writeAIOCLaunchScript( aiocJ.getAioc(), targetDirectory );
+				} catch (MergingException e) {
+					throw new EndpointProjectionException(e);
+				}
+			} else {
+				throw new EndpointProjectionException("Compilation aborted");
 			}
 		} else if ( aiocJ.getRuleSet() != null ) {
 			System.out.println( "Found rule set, projecting...");
@@ -613,6 +626,10 @@ public class JolieEpp {
 		}
 	}
 
+	public void setRolesFilter(Object[] roles) {
+		rolesFilter = roles;
+	}
+	
 	/**
 	 * Reads the threads list and calls the ProjectThread on each
 	 * 
@@ -626,20 +643,51 @@ public class JolieEpp {
 			IOException, MergingException {
 		NameCollector nameCollector = new NameCollector();
 		nameCollector.collect( aioc.getChoreography(), aioc );
-
+		System.out.println(nameCollector.getRoles().toString());
+		
+		FunctionCollector functionCollector = new FunctionCollector();
+		functionCollector.collect( aioc.getChoreography(), aioc );
+		
 		String start_key = JolieEppUtils.getCookie();
-		for ( String thread : nameCollector.getRoles( )) {
-			projectThread( thread, aioc, nameCollector, start_key );
-		}
-
-		for (ScopeStructure scope : nameCollector.getScopes()) {
-			// System.out.println( "Projecting scope " + scope.getKey() );
-			projectScope( scope.getLeader(), scope, scope.getChoreography(), true, nameCollector );
-			for (String ledRole : scope.getLedRoles()) {
-				projectScope(ledRole, scope, scope.getChoreography(), false,
-						nameCollector);
+		// Assigning a fresh location to every role that did not specified it in the preamble
+		for(String role : nameCollector.getRoles()) {
+			if (!rolesLocations.containsKey(role)) {
+				System.out.println("Fresh location to:" + role);
+				rolesLocations.put(role, getFreshInputLocation());
 			}
 		}
+		
+		ArrayList<String> rolesThrownException = new ArrayList<>();	
+		for(Object role : rolesFilter) {
+			try {
+				projectThread( role.toString(), aioc, nameCollector, start_key );
+			} catch (NullPointerException e) {
+				rolesThrownException.add((String)role);
+			}
+		}
+		
+		for (ScopeStructure scope : nameCollector.getScopes()) {
+			// Project the scope only if the leader is a compiled role
+			if(Arrays.asList(rolesFilter).contains(scope.getLeader()) && rolesThrownException.size() == 0) {
+				try {
+					projectScope( scope.getLeader(), scope, scope.getChoreography(), true, nameCollector );
+				} catch (NullPointerException e) {
+					rolesThrownException.add(scope.getLeader());
+				}
+				for (String ledRole : scope.getLedRoles()) {
+					try {
+						projectScope(ledRole, scope, scope.getChoreography(), false, nameCollector);
+					} catch (NullPointerException e) {
+						rolesThrownException.add(ledRole);
+					}
+				}
+			}
+		}
+		
+		if(rolesThrownException.size() > 0) {
+			throw new EndpointProjectionException("Functions not included by the following projected roles: " + rolesThrownException.toString());
+		}
+		
 	}
 
 	private void projectRule(
@@ -1830,7 +1878,7 @@ public class JolieEpp {
 			throws EndpointProjectionException, IOException, MergingException {
 		jolie.lang.parse.ast.Program jolieProgram = new jolie.lang.parse.ast.Program( JolieEppUtils.PARSING_CONTEXT );
 		jolieProgram.addChild( new ExecutionInfo( JolieEppUtils.PARSING_CONTEXT, ExecutionMode.SINGLE ) );
-
+			
 		ThreadProjectionResult result = ThreadProjector.projectThread( thread, aioc.getChoreography(), collector );
 
 		String starter = aioc.getPreamble().getStarter();

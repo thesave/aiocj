@@ -25,16 +25,21 @@ package org.ui.handlers;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 
 import org.aioc.AiocJ;
 import org.epp.JolieEpp;
+import org.epp.impl.NameCollector;
 import org.epp.EndpointProjectionException;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.dialogs.ListSelectionDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.editor.XtextEditor;
@@ -68,6 +73,25 @@ public class GenerateJolieHandler extends AbstractHandler {
 							
 				String message = "Projection completed successfully on " + srcGenDirectory.getAbsolutePath() ;
 				
+				// Get the name of each role in the choreography
+				AiocJ aiocj = (AiocJ) resource.getParseResult().getRootASTElement();
+				
+				if(aiocj.getRuleSet().size() == 0) {
+					NameCollector nameCollector = new NameCollector();
+					nameCollector.collect(aiocj.getAioc().getChoreography(), aiocj.getAioc());
+					ArrayList<String> rolesNames = new ArrayList<>();
+					for (String roleName : nameCollector.getRoles()) {
+						rolesNames.add(roleName);
+					}
+					
+					// Setup and show the check boxes dialog
+					ListSelectionDialog dialog = new ListSelectionDialog(window.getShell(), rolesNames, new ArrayContentProvider(), new LabelProvider(), "Roles to compile:");
+					dialog.setTitle("Compiler");
+					dialog.setInitialSelections(rolesNames.toArray());
+					dialog.open();
+					s.setRolesFilter(dialog.getResult());
+				}
+				
 				try {
 					int warnings = resource.getWarnings().size();
 					int errors = resource.getErrors().size();
@@ -82,7 +106,7 @@ public class GenerateJolieHandler extends AbstractHandler {
 						}
 						message += ", correct to compile.";
 					}
-					s.epp( (AiocJ) resource.getParseResult().getRootASTElement() );
+					s.epp( aiocj , editor.getDocument().get().hashCode());
 				} catch( EndpointProjectionException e ) {
 					message = e.getMessage();
 				} catch( Exception e ) {
