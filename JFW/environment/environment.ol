@@ -35,18 +35,18 @@ inputPort EnvironmentInput {
 
 init
 {
+	registerForInput@Console()( );
 	vtx.rootNodeName = "store";
-	store -> vtx.root;
-  wfr.filename = rfr.filename = "environmentVariables.xml";
-  // initialise environmentVariables.xml
-  store = "store";
-  writeStore
+	store -> vtx.root.store;
+  wfr.filename = rfr.filename = "environmentVariables.xml"
 }
 
 define readStore
 {
 	readFile@File( rfr )( xmlStore );
-	xmlToValue@XmlUtils( xmlStore )( store )
+	xmlToValue@XmlUtils( xmlStore )( rStore );
+	store << rStore.root.store;
+	undef( rStore )
 }
 
 define writeStore
@@ -57,9 +57,8 @@ define writeStore
 
 define get
 {
-	get( varName )( value ){
-		readStore;
-		value = store.( varName )
+	get( varName )( store.( varName ) ){
+		readStore
 	};
 	get
 }
@@ -67,14 +66,11 @@ define get
 define set
 {
 	print@Console( "Do you want to [I]nsert or [D]elete variables \n > " )();
-	registerForInput@Console()();
 	in( command );
 	if( command == "I" || command == "i" ){
 		print@Console( "Insert the name of the variable you want to set \n > " )();
-		registerForInput@Console()();
 		in( var );
 		print@Console( "Insert the value of environmental variable \"" + var + "\" \n > " )();
-		registerForInput@Console()( );
 		in( val );
 		readStore;
 		store.( var ) = val;
@@ -82,7 +78,6 @@ define set
 		writeStore
 	} else if ( command == "D" || command == "d" ){
 		print@Console( "Insert the name of the variable you want to delete \n > " )();
-		registerForInput@Console()();
 		in( var );
 		readStore;
 		undef( store.( var ) );
