@@ -24,6 +24,7 @@
 
 package org.epp.impl;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import jolie.lang.NativeType;
 import jolie.lang.parse.ast.AssignStatement;
@@ -194,9 +195,10 @@ public class ThreadProjector extends AiocSwitch<ThreadProjectionResult> {
 			String varName = JolieEppUtils.getSimpleAiocVariable( n.getSenderExpression() );
 			if ( varName != null ) {
 				// It's a simple variable
-				seq.addChild( getAtStateProcedure( varName ));
-				outVarPath = JolieEppUtils.toPath( varName );
-				roleVarPath = JolieEppUtils.toPath( varName );
+				String localName = JolieEppUtils.getFreshVariable();
+				seq.addChild( getAtStateProcedure( varName, localName ));
+				outVarPath = JolieEppUtils.toPath( localName );
+				roleVarPath = JolieEppUtils.toPath( localName );
 				JolieEppUtils.appendSubNode( roleVarPath, "msgID" );
 			} else {
 				// It's an expression
@@ -204,14 +206,16 @@ public class ThreadProjector extends AiocSwitch<ThreadProjectionResult> {
 				roleVarPath = JolieEppUtils.EXPRESSION_TID_VARPATH;
 				if ( n.getSenderExpression() != null ) {
 					VarCollector vc = new VarCollector();
+					HashMap< String, String > variableMap = new HashMap<String,String>();
 					vc.collect( n.getSenderExpression() );
 					for( String vname : vc.getVarNames() ){
-						seq.addChild( getAtStateProcedure( vname ));
+						variableMap.put( vname, JolieEppUtils.getFreshVariable() );
+						seq.addChild( getAtStateProcedure( vname, variableMap.get( vname ) ));
 					}
 					seq.addChild( new AssignStatement(
 						JolieEppUtils.PARSING_CONTEXT,
 						outVarPath,
-						ExpressionProjector.project( n.getSenderExpression() )
+						ExpressionProjector.project( n.getSenderExpression(), variableMap )
 					));
 				}
 			}
@@ -273,14 +277,15 @@ public class ThreadProjector extends AiocSwitch<ThreadProjectionResult> {
 			JolieEppUtils.appendSubNode( sStructVarPathContent, JolieEppUtils.CONTENT_VARNAME );
 			
 			// if the receiver variable is null
+			String localName = JolieEppUtils.getFreshVariable();
 			if( n.getReceiverVariable() != null ){
 				seq.addChild( new AssignStatement(
 						JolieEppUtils.PARSING_CONTEXT,
-						JolieEppUtils.toPath( n.getReceiverVariable() ),
+						JolieEppUtils.toPath( localName ),
 						sStructVarPathContent
 					));
 	
-				seq.addChild( setAtStateProcedure( n.getReceiverVariable() ));
+				seq.addChild( setAtStateProcedure( n.getReceiverVariable(), localName ));
 			}
 		}			
 		if( participates ){
@@ -379,16 +384,18 @@ public class ThreadProjector extends AiocSwitch<ThreadProjectionResult> {
 			SequenceStatement seq = new SequenceStatement( JolieEppUtils.PARSING_CONTEXT );
 			
 			VarCollector vc = new VarCollector();
+			HashMap<String,String> variableMap = new HashMap<String,String>();
 			vc.collect( n.getCondition() );
 			for( String vname : vc.getVarNames() ){
-				seq.addChild( getAtStateProcedure( vname ));
+				variableMap.put( vname, JolieEppUtils.getFreshVariable() );
+				seq.addChild( getAtStateProcedure( vname, variableMap.get( vname ) ) );
 			}
 			
 			seq.addChild(
 					new AssignStatement(
 							JolieEppUtils.PARSING_CONTEXT, 
 							bVarPath, 
-							ConditionProjector.project( n.getCondition() ))
+							ConditionProjector.project( n.getCondition(), variableMap ))
 					);
 			// adds the operation to the outputPort of each led role
 			// and sends the evaluation to all led roles
@@ -523,14 +530,16 @@ public class ThreadProjector extends AiocSwitch<ThreadProjectionResult> {
 			SequenceStatement seq = new SequenceStatement( JolieEppUtils.PARSING_CONTEXT );
 			
 			VarCollector vc = new VarCollector();
+			HashMap<String,String> variableMap = new HashMap<String,String>();
 			vc.collect( n.getCondition() );
 
 			for( String vname : vc.getVarNames() ){
-				seq.addChild( getAtStateProcedure( vname ));				
+				variableMap.put( vname, JolieEppUtils.getFreshVariable() );
+				seq.addChild( getAtStateProcedure( vname, variableMap.get( vname ) ));				
 			}
 			
 			seq.addChild(
-					new AssignStatement(JolieEppUtils.PARSING_CONTEXT, bVarPath, ConditionProjector.project( n.getCondition() ))
+					new AssignStatement(JolieEppUtils.PARSING_CONTEXT, bVarPath, ConditionProjector.project( n.getCondition(), variableMap ))
 					);
 			// adds the operation to the outputPort of each led role
 			// and send the evaluation to all led roles
@@ -605,9 +614,9 @@ public class ThreadProjector extends AiocSwitch<ThreadProjectionResult> {
 				whileNode.addChild( ackSequence );
 			}
 			for( String vname : vc.getVarNames() ){
-				whileNode.addChild( getAtStateProcedure( vname ));				
+				whileNode.addChild( getAtStateProcedure( vname, variableMap.get( vname ) ));				
 			}
-			whileNode.addChild( new AssignStatement(JolieEppUtils.PARSING_CONTEXT, bVarPath, ConditionProjector.project( n.getCondition() )));
+			whileNode.addChild( new AssignStatement(JolieEppUtils.PARSING_CONTEXT, bVarPath, ConditionProjector.project( n.getCondition(), variableMap )));
 			
 			if ( !notificationSequence.children().isEmpty() ){
 				whileNode.addChild( notificationSequence );
@@ -693,19 +702,22 @@ public class ThreadProjector extends AiocSwitch<ThreadProjectionResult> {
 				JolieEppUtils.PARSING_CONTEXT);
 		if ( n.getThread().equals(thread) ) {
 			VarCollector vc = new VarCollector();
+			HashMap<String,String> variableMap = new HashMap<String,String>();
 			vc.collect( n.getQuestion() );
 			for( String vname : vc.getVarNames() ){
-				seq.addChild( getAtStateProcedure( vname ));
+				variableMap.put( vname, JolieEppUtils.getFreshVariable() );
+				seq.addChild( getAtStateProcedure( vname, variableMap.get( vname ) ));
 			}
+			String localName = JolieEppUtils.getFreshVariable(); 
 			seq.addChild(new SolicitResponseOperationStatement(
 					JolieEppUtils.PARSING_CONTEXT, "showInputDialog",
 					"SwingUI", 
 					JolieEppUtils.getSumExpression(
 						new jolie.lang.parse.ast.expression.ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, this.thread + ": " ),
-						ExpressionProjector.project( n.getQuestion() ) 
+						ExpressionProjector.project( n.getQuestion(), variableMap ) 
 					),
-					JolieEppUtils.toPath( n.getResultVariable()), null) );
-			seq.addChild( setAtStateProcedure( n.getResultVariable() ));
+					JolieEppUtils.toPath( localName ), null) );
+			seq.addChild( setAtStateProcedure( n.getResultVariable(), localName ));
 			result.addInclude("ui/swing_ui");
 			result.setJolieNode(seq);
 		}
@@ -721,26 +733,29 @@ public class ThreadProjector extends AiocSwitch<ThreadProjectionResult> {
 			// the sequence in case it is an expression
 			if ( n.getExpression() != null ){
 				VarCollector vc = new VarCollector();
+				HashMap<String, String> variableMap = new HashMap<String,String>();
 				vc.collect( n.getExpression() );
-				for( String vname : vc.getVarNames() ){ 
-					seq.addChild( getAtStateProcedure( vname ));
+				for( String vname : vc.getVarNames() ){
+					variableMap.put( vname, JolieEppUtils.getFreshVariable() );
+					seq.addChild( getAtStateProcedure( vname, variableMap.get( vname ) ));
 				}
+				String localName = JolieEppUtils.getFreshVariable();
 				seq.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT,
-							JolieEppUtils.toPath(n
-									.getVariable()), ExpressionProjector.project(n
-											.getExpression())));
+							JolieEppUtils.toPath(localName), ExpressionProjector.project( n.getExpression(), variableMap ) ) );
 				// sets variable @State
-				seq.addChild( setAtStateProcedure( n.getVariable() ));
+				seq.addChild( setAtStateProcedure( n.getVariable(), localName ));
 				// the sequence in case it is a function
 			} else if ( n.getFunction() != null ){
 				// get all the variables in the expressions ...
 				VarCollector vc = new VarCollector();
+				HashMap<String,String> variableMap = new HashMap<String,String>();
 				for( org.aioc.Expression e : n.getFunction().getParams() ){
 					vc.collect( e );
 				}
 				// ... and get all their values from the State
 				for( String var : vc.getVarNames() ){
-					seq.addChild( getAtStateProcedure( var ));
+					variableMap.put( var, JolieEppUtils.getFreshVariable() );
+					seq.addChild( getAtStateProcedure( var, variableMap.get( var ) ));
 				}
 				// prepare the message for the external service 
 				// ( evaluates expressions of parameters )
@@ -752,21 +767,22 @@ public class ThreadProjector extends AiocSwitch<ThreadProjectionResult> {
 							JolieEppUtils.PARSING_CONTEXT,
 							JolieEppUtils.toPath(
 									funVar + ".p[" + index + "]" ), 
-									ExpressionProjector.project( e ))
+									ExpressionProjector.project( e, variableMap ))
 					);
 					}
 				// sends the request to the service
 				
+				String localName = JolieEppUtils.getFreshVariable();
 				seq.addChild( new SolicitResponseOperationStatement(
 						JolieEppUtils.PARSING_CONTEXT, 
 						n.getFunction().getName(), 
 						collector.getFunctionOutputPort( n.getFunction().getName() ).id(), 
 						JolieEppUtils.toPath( funVar ), 
-						JolieEppUtils.toPath( n.getVariable() ), 
+						JolieEppUtils.toPath( localName ), 
 						null )
 				);
 				// updates the value of the variable in State 
-				seq.addChild( setAtStateProcedure( n.getVariable() ));
+				seq.addChild( setAtStateProcedure( n.getVariable(), localName ));
 			}
 			result.setJolieNode(seq);
 	}
@@ -775,13 +791,15 @@ public class ThreadProjector extends AiocSwitch<ThreadProjectionResult> {
 
 	public ThreadProjectionResult caseLocalShowCommand(LocalShowCommand n) {
 		ThreadProjectionResult result = new ThreadProjectionResult();
+		HashMap<String,String> variableMap = new HashMap<String, String>();
 		SequenceStatement seq = new SequenceStatement(
 				JolieEppUtils.PARSING_CONTEXT);
 		if ( n.getThread().equals( thread ) ) {
 			VarCollector vc = new VarCollector();
 			vc.collect( n.getExpression() );
 			for( String vname : vc.getVarNames() ){
-				seq.addChild( getAtStateProcedure( vname ) );
+				variableMap.put( vname , JolieEppUtils.getFreshVariable() );
+				seq.addChild( getAtStateProcedure( vname, variableMap.get( vname ) ) );
 			}
 			// add name of the role
 			seq.addChild(new SolicitResponseOperationStatement(
@@ -791,10 +809,10 @@ public class ThreadProjector extends AiocSwitch<ThreadProjectionResult> {
 						new jolie.lang.parse.ast.expression.ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, this.thread + ": " ),
 						new TypeCastExpressionNode(
 							JolieEppUtils.PARSING_CONTEXT, NativeType.STRING,
-							ExpressionProjector.project( n.getExpression() ) )
+							ExpressionProjector.project( n.getExpression(), variableMap ) )
 					),
-					JolieEppUtils.toPath( n.getVariable() ), null));
-			seq.addChild( setAtStateProcedure( n.getVariable() ));
+					JolieEppUtils.toPath( variableMap.get( n.getVariable() ) ), null));
+			seq.addChild( setAtStateProcedure( variableMap.get( n.getVariable() ), JolieEppUtils.getFreshVariable() ));
 			result.addInclude("ui/swing_ui");
 			result.setJolieNode(seq);
 		}
@@ -805,9 +823,9 @@ public class ThreadProjector extends AiocSwitch<ThreadProjectionResult> {
 		return role;
 	}
 
-	private OLSyntaxNode setAtStateProcedure(String v){
+	private OLSyntaxNode setAtStateProcedure( String variableName, String localName ){
 			String tmp = JolieEppUtils.getFreshVariable();
-			VariablePathNode vPath = JolieEppUtils.toPath( v );
+			VariablePathNode vPath = JolieEppUtils.toPath( localName );
 			VariablePathNode tmpPath = JolieEppUtils.toPath( tmp );
 			VariablePathNode tmpPathValue = JolieEppUtils.toPath( tmp );
 			JolieEppUtils.appendSubNode( tmpPathValue, "value" );
@@ -817,7 +835,7 @@ public class ThreadProjector extends AiocSwitch<ThreadProjectionResult> {
 			s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, tmpPathValue, vPath));
 	//		tmp = "variable";
 			s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, tmpPath, 
-					new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, v)));
+					new ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, variableName )));
 	//		set@State( tmp )();
 			s.addChild( new SolicitResponseOperationStatement(
 					JolieEppUtils.PARSING_CONTEXT, 
@@ -827,15 +845,15 @@ public class ThreadProjector extends AiocSwitch<ThreadProjectionResult> {
 			return s;
 		}
 
-	private OLSyntaxNode getAtStateProcedure(String v){
-		VariablePathNode vPath = JolieEppUtils.toPath( v );		
+	private OLSyntaxNode getAtStateProcedure( String variableName, String localName ){
+		VariablePathNode vPath = JolieEppUtils.toPath( localName );		
 		SequenceStatement s = new SequenceStatement( JolieEppUtils.PARSING_CONTEXT );
 		
 		s.addChild( new SolicitResponseOperationStatement(
 			JolieEppUtils.PARSING_CONTEXT,
 			"get",
 			"State", 
-			new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, v ), 
+			new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, variableName ), 
 			vPath,
 			null));
 		

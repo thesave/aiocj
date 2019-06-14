@@ -27,6 +27,8 @@ import jolie.lang.parse.ast.CompareConditionNode;
 import jolie.lang.parse.ast.NullProcessStatement;
 import jolie.lang.parse.ast.OLSyntaxNode;
 
+import java.util.HashMap;
+
 import org.aioc.Condition;
 import org.aioc.ConditionOperator;
 import org.aioc.Expression;
@@ -35,11 +37,13 @@ import org.eclipse.emf.ecore.EObject;
 
 public class ConditionProjector extends AiocSwitch< OLSyntaxNode >
 {
-	private ConditionProjector() {}
+	private final HashMap<String,String> variableMap;
+	
+	private ConditionProjector( HashMap<String,String> variableMap ) { this.variableMap = variableMap; }
 
-	public static OLSyntaxNode project( Condition condition )
+	public static OLSyntaxNode project( Condition condition, HashMap<String,String> variableMap )
 	{
-		return new ConditionProjector().doSwitchIfNotNull( condition );
+		return new ConditionProjector( variableMap ).doSwitchIfNotNull( condition );
 	}
 
 	public OLSyntaxNode caseCondition( Condition n )
@@ -62,7 +66,7 @@ public class ConditionProjector extends AiocSwitch< OLSyntaxNode >
 	}
 	
 	public OLSyntaxNode caseExpression( Expression n ){
-		return ExpressionProjector.project( n );
+		return ExpressionProjector.project( n, variableMap );
 	}
 
 	private static Scanner.TokenType projectCompareOperator( ConditionOperator operator )

@@ -33,6 +33,7 @@ import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -309,6 +310,16 @@ public class JolieEppUtils
 			new Range(1, 1)), new TypeInlineDefinition(
 			JolieEppUtils.PARSING_CONTEXT, "undefined", NativeType.ANY,
 			new Range(1, 1)), null);
+	}
+	
+	public static HashMap<String,String> getIndentityVariableMap( Expression e ){
+		VarCollector vc = new VarCollector();
+		vc.collect( e );
+		HashMap<String,String> m = new HashMap<String, String>();
+		for( String v : vc.getVarNames() ) {
+			m.put( v, v );
+		}
+		return m;
 	}
 	
 	public static VariablePathNode toPath( String variable ) 

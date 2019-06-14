@@ -19,7 +19,7 @@ interface MHInterface {
 OneWay:
   initStartProcedure( CoordType )
 RequestResponse:
-  joinAck( JoinType )( void ), joinStart( JoinType )( void )
+  msg( OpType )( undefined ), get_msg( OpType )( undefined ), joinAck( JoinType )( void ), joinStart( JoinType )( void )
 }
 
 inputPort MyInputPort {
@@ -63,6 +63,20 @@ main
     if ( startRequest.hasAck ) {
       joinAck
     }
+  }
+  [ msg( c )(  ) {
+  get_msg(  )( c	 ) {
+    nullProcess	
+  }
+} ] {
+    nullProcess
+  }
+  [ get_msg( c )( c1 ) {
+  msg( c1 )( 	 ) {
+    nullProcess	
+  }
+} ] {
+    nullProcess
   }
 }
 

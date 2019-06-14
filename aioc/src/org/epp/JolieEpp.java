@@ -1440,7 +1440,8 @@ public class JolieEpp {
 						+ assignmentSet.getAssignment().getVariable() + ".value");
 		s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, v,
 				ExpressionProjector.project(assignmentSet.getAssignment()
-						.getExpression())));
+						.getExpression(), JolieEppUtils.getIndentityVariableMap( assignmentSet.getAssignment()
+						.getExpression() ))));
 		if ( assignmentSet.getContinuation() != null ) {
 			s.addChild(getSetPropertiesProcedure( assignmentSet.getContinuation() ) );
 		}

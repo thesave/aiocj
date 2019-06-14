@@ -31,6 +31,8 @@ import jolie.lang.parse.ast.expression.ConstantStringExpression;
 import jolie.lang.parse.ast.expression.SumExpressionNode;
 import jolie.util.Pair;
 
+import java.util.HashMap;
+
 import org.aioc.Constant;
 import org.aioc.Expression;
 import org.aioc.ExpressionBasicTerm;
@@ -45,11 +47,13 @@ import org.eclipse.emf.ecore.EObject;
 
 public class ExpressionProjector extends AiocSwitch< OLSyntaxNode >
 {
-	private ExpressionProjector() {}
+	private final HashMap<String, String> variableMap;
 	
-	public static OLSyntaxNode project( EObject expression )
+	private ExpressionProjector( HashMap<String,String> variableMap ) { this.variableMap = variableMap; }
+	
+	public static OLSyntaxNode project( EObject expression, HashMap<String, String> variableMap )
 	{
-		return new ExpressionProjector().doSwitchIfNotNull( expression );
+		return new ExpressionProjector( variableMap ).doSwitchIfNotNull( expression );
 	}
 	
 	public OLSyntaxNode caseExpression( Expression n )
@@ -98,14 +102,14 @@ public class ExpressionProjector extends AiocSwitch< OLSyntaxNode >
 	public OLSyntaxNode caseExpressionBasicTerm( ExpressionBasicTerm n )
 	{
 		if ( n.getVariable() != null ) {
-			String v = n.getVariable();
+			String v = variableMap.get( n.getVariable() );
 			if( n.isNot() ){ v = "!" + v; }
 			return JolieEppUtils.toPath( v );
 		} else if ( n.getConstant() != null ) {
 			return doSwitch( n.getConstant() );
 		} 
 		else if ( n.getCondition() != null ){
-			return new SubExpression().enclose( ConditionProjector.project( n.getCondition() ));
+			return new SubExpression().enclose( ConditionProjector.project( n.getCondition(), variableMap ));
 		}
 //		else if ( n.getExpression() != null ) {
 //			return doSwitch( n.getExpression() );

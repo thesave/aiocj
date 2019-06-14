@@ -7,7 +7,7 @@ osascript <<END
 	end tell
 END
 	else
-		xterm -hold -e "$1" &
+		xterm -e "$1; echo 'execution terminated, press a key to close.'; read" &
 	fi
 }
 

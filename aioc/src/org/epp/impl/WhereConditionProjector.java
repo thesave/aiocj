@@ -33,6 +33,8 @@ import jolie.lang.parse.ast.expression.ConstantIntegerExpression;
 import jolie.lang.parse.ast.expression.ConstantStringExpression;
 import jolie.lang.parse.ast.expression.OrConditionNode;
 
+import java.util.HashMap;
+
 import org.aioc.ConditionOperator;
 import org.aioc.Expression;
 import org.aioc.Where;
@@ -119,7 +121,7 @@ public class WhereConditionProjector extends AiocSwitch< OLSyntaxNode >
 	}
 	
 	public OLSyntaxNode caseExpression( Expression n ){
-		return ExpressionProjector.project( n );
+		return ExpressionProjector.project( n, JolieEppUtils.getIndentityVariableMap( n ) );
 	}
 
 	private static Scanner.TokenType projectCompareOperator( ConditionOperator operator )
