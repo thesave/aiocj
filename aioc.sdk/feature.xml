@@ -2,7 +2,7 @@
 <feature
       id="org.aioc.sdk"
       label="AIOC Language Plugin Feature"
-      version="1.3.9"
+      version="1.3.10"
       provider-name="Saverio Giallorenzo &lt;sgiallor@cs.unibo.it&gt;">
 
    <description url="http://www.cs.unibo.it/projects/jolie/aiocj.html">
@@ -60,7 +60,7 @@ and automatic endpoint generation.
          id="aioc"
          download-size="0"
          install-size="0"
-         version="1.3.9"
+         version="0.0.0"
          unpack="false"/>
 
    <data
