@@ -90,9 +90,23 @@ public class JolieEppUtils
 		return s;
 	}
 	
-	public static String getFreshVariable(){
-//		return "_" + UUID.randomUUID().toString().replace("-", "");
-		return VARIABLE_NAME + variableCounter++;
+//	public static String getFreshVariable(){
+////		return "_" + UUID.randomUUID().toString().replace("-", "");
+//		return VARIABLE_NAME + variableCounter++;
+//	}
+//	
+	public static class VariableFactory {
+		private int varCount = 0;
+		
+		public VariableFactory() {}
+		
+		public String getFreshVariable() {
+			return VARIABLE_NAME + varCount++;
+		}
+	}
+	
+	public static VariableFactory newVariableFactory() {
+		return new VariableFactory();
 	}
 	
 	public static void deployEnvironment( String targetDirectory ) throws IOException {
@@ -275,7 +289,6 @@ public class JolieEppUtils
 		}
 	}
 
-	private static int variableCounter = 0;
 	private static final String VARIABLE_NAME = "var";
 	
 	public static String getFreshOperation(){

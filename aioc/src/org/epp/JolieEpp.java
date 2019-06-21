@@ -89,6 +89,7 @@ import org.aioc.Rule;
 import org.epp.impl.ExpressionProjector;
 import org.epp.impl.FileUtils;
 import org.epp.impl.JolieEppUtils;
+import org.epp.impl.JolieEppUtils.VariableFactory;
 import org.epp.impl.JolieProcessPrettyPrinter;
 import org.epp.impl.LaunchScripts;
 import org.epp.impl.NameCollector;
@@ -849,11 +850,13 @@ public class JolieEpp {
 
 		jolie.lang.parse.ast.Program jolieProgram = new jolie.lang.parse.ast.Program(
 				JolieEppUtils.PARSING_CONTEXT);
-
+		VariableFactory vf = JolieEppUtils.newVariableFactory();
+		
 		ThreadProjectionResult result = ThreadProjector.projectThread(
 				thread,
 				rule.getChoreography(),
-				collector
+				collector,
+				vf
 		);
 
 		NameCollector nc = new NameCollector();
@@ -958,12 +961,14 @@ public class JolieEpp {
 					throws EndpointProjectionException, IOException, MergingException {
 		
 		jolie.lang.parse.ast.Program jolieProgram = new jolie.lang.parse.ast.Program( JolieEppUtils.PARSING_CONTEXT );
+		VariableFactory vf = JolieEppUtils.newVariableFactory();
 		
 		ThreadProjectionResult result = ThreadProjector.projectThread(
 				thread,
 				choreography,
 				collector,
-				scope.getKey()
+				scope.getKey(),
+				vf
 		);
 
 		NameCollector nc = new NameCollector();
@@ -992,21 +997,21 @@ public class JolieEpp {
 		if ( leader ) {
 			// add adapt procedure after the start procedure
 			jolieMainNode = getStarterProcedure(
-					getLeaderAdaptProcedure( scope, result, jolieMainNode ),
+					getLeaderAdaptProcedure( scope, result, jolieMainNode, vf ),
 					scope.getKey(), 
 					thread,
 					nc.getRoles().size(),
 					true,
-					"RPH__" + thread
+					"RPH__" + thread, vf
 			);
 		} else {
 //			result.getOutputPort( scope.getLeader() ).addOperation( JolieEppUtils.START_OPERATIONDECLARATION );
 			jolieMainNode = getLedStartProcedure(
-					getLedAdaptProcedure( jolieMainNode, thread, scope ),
+					getLedAdaptProcedure( jolieMainNode, thread, scope, vf ),
 					thread, 
 					scope.getKey(), 
 					"RPH__" + scope.getLeader(), 
-					true
+					true, vf
 			);
 			SequenceStatement s = new SequenceStatement(JolieEppUtils.PARSING_CONTEXT);
 			s.addChild(
@@ -1021,7 +1026,7 @@ public class JolieEpp {
 			s.addChild( jolieMainNode );
 
 			// add the ack procedure
-			String ackVar = JolieEppUtils.getFreshVariable();
+			String ackVar = vf.getFreshVariable();
 		      s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.toPath( ackVar + ".sid" ),
 		        new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, scope.getKey())));
 		      s.addChild(new SolicitResponseOperationStatement(
@@ -1070,7 +1075,7 @@ public class JolieEpp {
 			s.addChild(jolieMainNode);
 			// add done = true
 //			
-			String ackVar = JolieEppUtils.getFreshVariable();
+			String ackVar = vf.getFreshVariable();
 			s.addChild( new AssignStatement( JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.toPath( ackVar + ".sid" ), 
 				new ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, scope.getKey() )));
 			s.addChild( new SolicitResponseOperationStatement( JolieEppUtils.PARSING_CONTEXT, 
@@ -1151,13 +1156,15 @@ public class JolieEpp {
 	 * @throws MergingException
 	 */
 	private void projectScope(String thread, ScopeStructure scope,
-			Choreography choreography, Boolean leader, NameCollector collector)
+			Choreography choreography, Boolean leader, NameCollector collector )
 			throws EndpointProjectionException, IOException, MergingException {
 		jolie.lang.parse.ast.Program jolieProgram = new jolie.lang.parse.ast.Program(
 				JolieEppUtils.PARSING_CONTEXT);
 
+		VariableFactory vf = JolieEppUtils.newVariableFactory();
+		
 		ThreadProjectionResult result = 
-				ThreadProjector.projectThread( thread, choreography, collector, scope.getKey() );
+				ThreadProjector.projectThread( thread, choreography, collector, scope.getKey(), vf );
 
 		NameCollector nc = new NameCollector();
 		nc.collect( choreography, null );
@@ -1186,21 +1193,21 @@ public class JolieEpp {
 		if ( leader ) {
 			// add adapt procedure after the start procedure
 			jolieMainNode = getStarterProcedure(
-					getLeaderAdaptProcedure( scope, result, jolieMainNode ),
+					getLeaderAdaptProcedure( scope, result, jolieMainNode, vf ),
 					scope.getKey(), 
 					thread,
-					nc.getRoles().size(), true, getRoleLocation( thread ).toString() );
+					nc.getRoles().size(), true, getRoleLocation( thread ).toString(), vf );
 		} else {
 //			result.getOutputPort( scope.getLeader() ).addOperation( JolieEppUtils.START_OPERATIONDECLARATION );
 			jolieMainNode = getLedStartProcedure(
 					getLedAdaptProcedure( 
 							jolieMainNode, 
 							thread, 
-							scope),
+							scope, vf),
 					thread, 
 					scope.getKey(), 
 					getRoleLocation( scope.getLeader() ).toString(), 
-					true);
+					true, vf);
 
 			SequenceStatement s = new SequenceStatement(JolieEppUtils.PARSING_CONTEXT);
 
@@ -1216,7 +1223,7 @@ public class JolieEpp {
 			s.addChild(jolieMainNode);
 
 			// add the ack procedure
-			String ackVar = JolieEppUtils.getFreshVariable();
+			String ackVar = vf.getFreshVariable();
 			s.addChild(new AssignStatement(JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.toPath( ackVar + ".sid" ),
 				new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, scope.getKey())));
 			s.addChild(new SolicitResponseOperationStatement(
@@ -1266,7 +1273,7 @@ public class JolieEpp {
 			// ADAPTATION SYNTAX NODE <---------------------------------------------
 			s.addChild(jolieMainNode);
 
-			String ackVar = JolieEppUtils.getFreshVariable();
+			String ackVar = vf.getFreshVariable();
 			s.addChild( new AssignStatement( JolieEppUtils.PARSING_CONTEXT, JolieEppUtils.toPath( ackVar + ".sid" ), 
 				new ConstantStringExpression( JolieEppUtils.PARSING_CONTEXT, scope.getKey() )));
 			s.addChild(new SolicitResponseOperationStatement(
@@ -1342,10 +1349,13 @@ public class JolieEpp {
 			OLSyntaxNode jolieNode,
 			String start_key, 
 			String role,
-			int rolesNumber, boolean isScopeOrRule, String leaderAddres ) {
+			int rolesNumber, 
+			boolean isScopeOrRule, 
+			String leaderAddres,
+			VariableFactory vf ) {
 		SequenceStatement seq = new SequenceStatement(JolieEppUtils.PARSING_CONTEXT);
 		String defaultCoordinator = JolieEppUtils.MESSAGEHANDLER_NAME;
-		String sStruct = JolieEppUtils.getFreshVariable();
+		String sStruct = vf.getFreshVariable();
 		seq.addChild( new AssignStatement(
 				JolieEppUtils.PARSING_CONTEXT,
 				JolieEppUtils.toPath( sStruct + ".sid" ),
@@ -1408,11 +1418,11 @@ public class JolieEpp {
 	}
 
 	private OLSyntaxNode getLedStartProcedure(OLSyntaxNode jolieNode,
-			String thread, String start_key, String leaderNameOrAddress, boolean isRuleOrScope ) {
+			String thread, String start_key, String leaderNameOrAddress, boolean isRuleOrScope, VariableFactory vf ) {
 		SequenceStatement seq = new SequenceStatement( JolieEppUtils.PARSING_CONTEXT );
 		String defaultCoordinator = leaderNameOrAddress;
 		VariablePathNode sStructVarPath, sStructVarPathRole;
-		String sStruct = JolieEppUtils.getFreshVariable();
+		String sStruct = vf.getFreshVariable();
 		sStructVarPath = JolieEppUtils.toPath( sStruct );
 		sStructVarPathRole = JolieEppUtils.toPath( sStruct );
 		JolieEppUtils.appendSubNode(sStructVarPathRole, "sid");
@@ -1451,7 +1461,8 @@ public class JolieEpp {
 	private OLSyntaxNode getLeaderAdaptProcedure(
 			ScopeStructure scope,
 			ThreadProjectionResult result, 
-			OLSyntaxNode jolieMainProgram ) {
+			OLSyntaxNode jolieMainProgram,
+			VariableFactory vf ) {
 		SequenceStatement s = new SequenceStatement( JolieEppUtils.PARSING_CONTEXT );
 		if ( scope.getAssignmentSet() != null ) {
 			s.addChild( getSetPropertiesProcedure( scope.getAssignmentSet() ) );
@@ -1547,7 +1558,7 @@ public class JolieEpp {
 						)
 		);
 		
-		String adaptRequestVariable = JolieEppUtils.getFreshVariable();
+		String adaptRequestVariable = vf.getFreshVariable();
 		
 		ifBranch.addChild(
 				new AssignStatement(
@@ -1731,7 +1742,7 @@ public class JolieEpp {
 		return s;
 	}
 
-	private OLSyntaxNode getLedAdaptProcedure(OLSyntaxNode jolieMainProgram, String thread, ScopeStructure scope) {
+	private OLSyntaxNode getLedAdaptProcedure(OLSyntaxNode jolieMainProgram, String thread, ScopeStructure scope, VariableFactory vf) {
 		SequenceStatement adaptSequence = new SequenceStatement( JolieEppUtils.PARSING_CONTEXT );
 
 		// adapt sequence
@@ -1770,7 +1781,7 @@ public class JolieEpp {
 		NDChoiceStatement choice = new NDChoiceStatement(	JolieEppUtils.PARSING_CONTEXT );
 		
 		SequenceStatement adaptChoice = new SequenceStatement( JolieEppUtils.PARSING_CONTEXT );
-		String adaptRequestVariable = JolieEppUtils.getFreshVariable();
+		String adaptRequestVariable = vf.getFreshVariable();
 		adaptChoice.addChild( new AssignStatement( JolieEppUtils.PARSING_CONTEXT,
 				JolieEppUtils.toPath( adaptRequestVariable + ".sid" ), 
 				new ConstantStringExpression(JolieEppUtils.PARSING_CONTEXT, scope.getKey()  + "_adapt" )
@@ -1832,16 +1843,18 @@ public class JolieEpp {
 		jolie.lang.parse.ast.Program jolieProgram = new jolie.lang.parse.ast.Program( JolieEppUtils.PARSING_CONTEXT );
 		jolieProgram.addChild( new ExecutionInfo( JolieEppUtils.PARSING_CONTEXT, ExecutionMode.SINGLE ) );
 
-		ThreadProjectionResult result = ThreadProjector.projectThread( thread, aioc.getChoreography(), collector );
+		VariableFactory vf = JolieEppUtils.newVariableFactory();
+		
+		ThreadProjectionResult result = ThreadProjector.projectThread( thread, aioc.getChoreography(), collector, vf );
 
 		String starter = aioc.getPreamble().getStarter();
 
 		if ( starter.equals( thread ) ) {
-			result.setJolieNode( getStarterProcedure( result.jolieNode(), start_key, thread, collector.getRoles().size(), false, null ) );
+			result.setJolieNode( getStarterProcedure( result.jolieNode(), start_key, thread, collector.getRoles().size(), false, null, vf ) );
 		} else {
 			result.getOutputPort( starter ).addOperation( JolieEppUtils.START_OPERATIONDECLARATION );
 			result.setJolieNode( 
-				getLedStartProcedure(result.jolieNode(), thread, start_key, starter, false)
+				getLedStartProcedure(result.jolieNode(), thread, start_key, starter, false, vf )
 			);
 		}
 
