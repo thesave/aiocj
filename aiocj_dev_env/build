@@ -1,0 +1,2 @@
+echo 'This will take a lot of time...'
+docker build -t thesave/aiocj_dev_env:latest .

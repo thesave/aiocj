@@ -1,0 +1,5 @@
+docker run -ti \
+ -p 5901:5901 -p 6901:6901 \
+ -v `pwd`/workspace:/workspace \
+ -v `pwd`/eclipse_tmp:/root/.eclipse \
+ thesave/aiocj_dev_env:latest
